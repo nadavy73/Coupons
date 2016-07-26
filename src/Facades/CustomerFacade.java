@@ -30,7 +30,7 @@ public class CustomerFacade implements CouponClientFacade
 	private Customer customer;
 	private long custId;
 	private String custName;
-	private CustomerDAO custDAO;
+	private static CustomerDAO custDAO;
 	private CouponDAO coupDAO;
 	
 	/*
@@ -53,11 +53,10 @@ public class CustomerFacade implements CouponClientFacade
 					+ "Constructor error", e);
 		}
 	}
-	public CustomerFacade login(String custName, String password, ClientType clientType)
-			throws FacadeException, LoginException, CouponException 
-	{
+	
+	public static CustomerFacade login(String custName, String password) throws FacadeException, LoginException {
 		try {
-			if (custDAO.login(custName, password)&& clientType.equals(ClientType.COMPANY))
+			if (custDAO.login(custName, password))
 				{
 					return new CustomerFacade(custName, password);
 				}
@@ -70,8 +69,10 @@ public class CustomerFacade implements CouponClientFacade
 	
 	return null;
 	}	
-
-
+	
+	
+	
+	
 	
 	public void purchaseCoupon(Coupon coupon) throws CouponException 
 	{
@@ -95,7 +96,7 @@ public class CustomerFacade implements CouponClientFacade
 			}
 		}
 		
-		if (CustomerDBDAO.isPurchased(coupon, customer))
+		if (custDAO.isPurchased(coupon, customer))
 		{
 			try {
 				throw new AlreadyExistException("Coupon was Already purchased");
@@ -104,22 +105,11 @@ public class CustomerFacade implements CouponClientFacade
 			}
 		}
 	
-		custDAO.PurchaseCoupon(customer.getId(), coupon.getId());		
+		custDAO.PurchaseCustomerCouponById(customer.getId(), coupon.getId());
 		coupon.setAmount(coupon.getAmount()-1);
 		coupDAO.updateCoupon(coupon);
 		
 	}
-	
-//	public void purchaseCouponById (long coupId) throws CustomerException, SQLException, CouponException
-//	{
-//		for (Coupon coupon : getAllPurchasedCoupons()) 
-//		{
-//			if (coupon.getId() == coupId) 
-//			{
-//				purchaseCoupon(coupon);
-//			}	
-//	}
-//}
 	
 
 	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException 
@@ -163,6 +153,13 @@ public class CustomerFacade implements CouponClientFacade
 	@Override
 	public String toString() {
 		return "CustomerFacade [customer=" + customer + "]";
+	}
+
+	@Override
+	public CouponClientFacade login(String name, String password, ClientType clientType)
+			throws FacadeException, LoginException, CouponException {
+		// TODO Auto-generated method stub
+		return null;
 	}		
 		
 	

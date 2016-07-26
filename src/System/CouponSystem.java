@@ -12,6 +12,7 @@ import DBDAO.CustomerDBDAO;
 import Exceptions.AdminFacadeException;
 import Exceptions.CompanyFacadeException;
 import Exceptions.CouponException;
+import Exceptions.CustomerException;
 import Exceptions.FacadeException;
 import Exceptions.LoginException;
 import Facades.AdminFacade;
@@ -20,6 +21,7 @@ import Facades.CompanyFacade;
 import Facades.CouponClientFacade;
 import Facades.CustomerFacade;
 import JavaBeans.Company;
+import JavaBeans.Customer;
 import Threads.DailyCouponExpirationTask;
 
 public class CouponSystem 
@@ -27,9 +29,9 @@ public class CouponSystem
 	//Attributes
 	private static CouponSystem instance = new CouponSystem();
 	private DailyCouponExpirationTask CouponTask= null;
-	private CompanyDBDAO compDAO= null;
-	private CustomerDBDAO custDAO;
-	private CouponsDBDAO coupDAO;
+//	private CompanyDBDAO compDAO= null;
+//	private CustomerDBDAO custDAO;
+//	private CouponsDBDAO coupDAO;
 	private Thread CouponTaskThread;
 	//Constructors
 	
@@ -37,9 +39,9 @@ public class CouponSystem
 	{
 		CouponTask = new DailyCouponExpirationTask();
 		CouponTaskThread = new Thread(CouponTask);
-		custDAO = new CustomerDBDAO();
-		compDAO = new CompanyDBDAO();
-		coupDAO= new CouponsDBDAO();
+//		custDAO = new CustomerDBDAO();
+//		compDAO = new CompanyDBDAO();
+//		coupDAO= new CouponsDBDAO();
 		CouponTaskThread.start();
 		
 	}
@@ -56,25 +58,23 @@ public class CouponSystem
 	
 	public CompanyFacade CompanyLogin(String compName, String password) throws FacadeException, LoginException, CouponException 
 	{
+
 		
-			return compDAO;
-		
+		return CouponSystem.getInstance().CompanyLogin(compName, password);
+			
+}
+	
+	
+	public CustomerFacade CustomerLogin(String custName, String password) throws FacadeException, LoginException, CouponException, CustomerException 
+	{
+			return CustomerFacade.login(custName, password); 
 			
 	}
 	
-	public CustomerFacade CustomerLogin(String custName, String password) throws FacadeException, LoginException, CouponException 
+	public static AdminFacade AdminLogin(String name, String password) throws FacadeException, LoginException, CouponException 
 	{
 		
-			return CustomerFacade.login(custName, password, ClientType.CUSTOMER);
-		
-			
-	}
-	
-	public AdminFacade AdminLogin(String name, String password) throws FacadeException, LoginException, CouponException 
-	{
-		
-			return AdminFacade.login(name, password,ClientType.ADMIN);
-		
+		return CouponSystem.AdminLogin(name, password);
 			
 	}
 	// Shut down
@@ -85,12 +85,9 @@ public class CouponSystem
 				CouponTaskThread.interrupt();
 			}
 	
-		@Override
-		protected void finalize() throws Throwable {
-			numOfInstances--;
-		}
+
 	
 	
-	
+		
 	
 }
