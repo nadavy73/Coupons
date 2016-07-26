@@ -20,8 +20,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	//**************************************************
 	//This function gets Company Object and insert to DB
 	//**************************************************
-
-	public void createCompany(Company company) throws CouponException, AlreadyExistException {
+	public void createCompany(Company company) throws CouponException, AlreadyExistException, DoesNotExistException {
 		
 		Connection con = null;
 		ResultSet rs = null;
@@ -30,9 +29,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			Company c = getCompanyByName(company.getCompName());
 			if (c != null)
 			{
-
-				throw new AlreadyExistException("Coupon ID already exist in DB: " + company.getCompName());
-			
+				throw new AlreadyExistException("Company ID already exist in DB: " + company.getCompName());
 			}
 			
 			con = ConnectionPool.getInstance().getConnection();
@@ -63,11 +60,10 @@ public class CompanyDBDAO implements CompanyDAO {
 			ConnectionPool.getInstance().free(con);
 		}
 }
-	
 	//********************************************************
-		//This function gets Company Object and and remove from DB
-		//********************************************************
-		public void removeCompany(Company company) throws SQLException, CouponException, DoesNotExistException
+	//This function gets Company Object and and remove from DB
+	//********************************************************
+	public void removeCompany(Company company) throws SQLException, CouponException, DoesNotExistException
 		{
 			Connection con = null;
 			PreparedStatement stat = null;
@@ -94,14 +90,9 @@ public class CompanyDBDAO implements CompanyDAO {
 				ConnectionPool.getInstance().free(con);
 			}
 		}
-
-	
-	
-	
 	//******************************************************
 	//This function gets Company Name and remove from DB
 	//******************************************************
-	
 	public void removeCompany(String compName) throws CouponException, DoesNotExistException, SQLException 
 	
 	{
@@ -129,7 +120,6 @@ public class CompanyDBDAO implements CompanyDAO {
 		}
 
 	}
-	
 	//*****************************************************************
 	//This function gets Company Name and replace with new Company name.
 	//*****************************************************************
@@ -157,11 +147,9 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 
 	}
-	
 	//****************************************************************
 	//This function gets Company Object and update the Company details
 	//****************************************************************
-	
 	public void updateCompany(Company company) throws DoesNotExistException, CouponException {
 		Connection con = null;
 		
@@ -198,13 +186,11 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 
 		}
-	
 	//********************************************************************
 	//This function gets Company ID and return Company all company details
 	//********************************************************************
-	
-@Override
-	public Company getCompany(long ID) throws CouponException {
+	@Override
+	public Company getCompany(long ID) throws CouponException, DoesNotExistException {
 
 		String compName, eMail,Password;
 		Connection con = null;
@@ -212,11 +198,16 @@ public class CompanyDBDAO implements CompanyDAO {
 
 		try {
 			con = ConnectionPool.getInstance().getConnection();
+			
 			String sql = "SELECT * FROM Company WHERE ID=?";
 			PreparedStatement stat = con.prepareStatement(sql);
 			stat.setLong(1, ID);
 			ResultSet rs = stat.executeQuery();
-			rs.next();
+			if (!rs.next())
+			{
+				throw new DoesNotExistException("The Company does not found");
+			}
+			
 			ID = rs.getInt(1);
 			compName = rs.getString(2);
 			Password = rs.getString(3);
@@ -236,12 +227,10 @@ public class CompanyDBDAO implements CompanyDAO {
 		return company;
 
 	}
-
 	//*******************************************************************************
 	//This function gets Company Name (String) and return Company all company details
 	//*******************************************************************************
-
-public Company getCompanyByName(String NAME) throws CouponException {
+	public Company getCompanyByName(String NAME) throws CouponException, DoesNotExistException {
 
 	String compName, eMail,Password;
 	long Id;
@@ -256,7 +245,7 @@ public Company getCompanyByName(String NAME) throws CouponException {
 		ResultSet rs = stat.executeQuery();
 		if (!rs.next())
 		{
-			return null;
+			throw new DoesNotExistException("The Company does not found");
 		}
 		Id = rs.getLong(1);
 		compName = rs.getString(2);
@@ -277,12 +266,10 @@ public Company getCompanyByName(String NAME) throws CouponException {
 	return company;
 
 }
-
 	//*******************************************************************************************************
 	//This function gets Company Name (String) and return boolian value if this company is exist in DB or NOT
 	//*******************************************************************************************************
-
-public boolean isCompanyExist(String Name) throws CouponException {
+	public boolean isCompanyExist(String Name) throws CouponException {
 
 	Connection con = null;
 
@@ -308,11 +295,9 @@ public boolean isCompanyExist(String Name) throws CouponException {
 	return false;
 
 }
-
 	//*********************************************
 	//This function return ALL Companies in our DB.
 	//*********************************************
-	
 	public Collection<Company> getAllCompanies() throws CouponException {
 		Collection<Company> companies = new HashSet<>();
 		Connection con = null;
@@ -333,9 +318,6 @@ public boolean isCompanyExist(String Name) throws CouponException {
 				passWord = rs.getString("PASSWORD");
 				eMail = rs.getString("EMAIL");
 				Company company = new Company(ID, compName, passWord, eMail);
-//				System.out.println("Company Details: \nID: " + ID + "\nComapny Name: " + compName
-//						+ "\nPassword: *********" + "\nEmail: " + eMail);
-//				System.out.println("******************");
 				companies.add(company);
 			}
 
@@ -353,6 +335,9 @@ finally {
 
 		return companies;
 	}
+	//*********************************************
+	//This function return ALL Companies in our DB.
+	//*********************************************
 	public Collection<Coupon> getCoupons(long compID) throws CouponException {
 
 		Connection con = null;
@@ -453,16 +438,6 @@ finally {
 	}
 
 	
-
-
-
-	@Override
-	public void updateCompanyName(long Id, Company company) throws CouponException, SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	@Override
 	public void addCompanyCoupon(Company company, Coupon coupon) throws CouponException, SQLException {
 		// TODO Auto-generated method stub

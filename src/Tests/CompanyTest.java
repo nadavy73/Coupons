@@ -14,12 +14,21 @@ public class CompanyTest
 public static void main(String[] args) throws DaoException, SQLException, CouponException, AlreadyExistException, DoesNotExistException
 {
 	CompanyDAO compDAO= new CompanyDBDAO();
-//	Company comp = new Company("Effo", "blablab", "eMail");
-//	compDAO.createCompany(comp);
-	compDAO.addCompanyCoupon(1, 8);
+//	System.out.println(compDAO.getCompanyByName("N"));
+	//Company comp = new Company("Effo", "blablab", "eMail");
+	//System.out.println(compDAO.getCompanyByName("Nadav"));
+	//System.out.println(compDAO.getCompany(5));
+	System.out.println(compDAO.getAllCompanies());
+	//compDAO.createCompany(comp);
+	//compDAO.addCompanyCoupon(2, 4);
 //	CustomerDAO custDAO= new CustomerDBDAO();
 //	Customer cust = new Customer("Micro", "1234");
 //	custDAO.removeCustomer(cust);
+	//System.out.println(compDAO.getCoupons(8));
+//	CouponDAO Coup = new CouponsDBDAO();
+//	Coupon coupon = new Coupon("nnn");
+	//Coup.getCoupon(1);
+//	Coup.createCoupon(coupon);
 	
 //	custDAO.createCustomer(cust);
 	
