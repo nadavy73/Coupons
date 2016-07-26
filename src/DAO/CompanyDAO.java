@@ -1,9 +1,11 @@
 package DAO;
 
 
+import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import DBDAO.DAOException;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
 import Exceptions.DoesNotExistException;
@@ -36,8 +38,15 @@ public interface CompanyDAO
 
 	public void addCompanyCoupon(Company company, Coupon coupon) throws CouponException, SQLException;
 	
-	public void addCompanyCoupon(Company company, long couponId) throws CouponException, SQLException;
+	public void addCompanyCoupon(long compId, long couponId) throws CouponException;
 
+	public void removeCompany(Company company) throws SQLException, CouponException, DoesNotExistException;
+
+	void updateCompanyName(long Id, Company company) throws CouponException, SQLException;
+
+	
+
+	
 	
 
 	

@@ -1,5 +1,7 @@
 package DBDAO;
 
+
+
 import java.sql.*;
 import java.time.ZoneId;
 import java.util.*;
@@ -450,6 +452,17 @@ finally {
 		
 	}
 
+	
+
+
+
+	@Override
+	public void updateCompanyName(long Id, Company company) throws CouponException, SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	@Override
 	public void addCompanyCoupon(Company company, Coupon coupon) throws CouponException, SQLException {
 		// TODO Auto-generated method stub
@@ -457,15 +470,31 @@ finally {
 	}
 
 	@Override
-	public void addCompanyCoupon(Company company, long couponId) throws CouponException, SQLException {
-		// TODO Auto-generated method stub
+	//a method that gets a company's ID and coupon's ID and update the company_coupon table in the DB
+	public void addCompanyCoupon(long compId, long couponId) throws CouponException {
 		
+		// getting a connection to DB from  pool
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+			
+			// Update prepared statement
+			PreparedStatement updateStmt = myCon.prepareStatement( 	"insert into "
+							+ "company_coupon (COMP_ID, COUPON_ID) "
+							+ "values (?,?);");
+
+			// Values
+			updateStmt.setLong(1, compId);	
+			updateStmt.setLong(2, couponId);
+			
+									
+			// Execute
+			updateStmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new CouponException("CouponException", e);
+		}
+				
 	}
 
-//	@Override
-//	public void updateCompanyName(long Id, Company company) throws CouponException, SQLException {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	
 
 }

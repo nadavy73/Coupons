@@ -97,10 +97,7 @@ public class CompanyFacade implements CouponClientFacade
 					+ "createCoupon Error", e);
 			}
 		
-		long couponId= coupon.getId();
-		compId = company.getId();
-			
-			compDAO.addComapnyCoupon(company, couponId);
+	compDAO.addCompanyCoupon(company, coupon);
 			
 			
 	}
