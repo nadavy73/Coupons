@@ -10,21 +10,21 @@ import JavaBeans.*;
 
 public interface CustomerDAO 
 {
-	public void createCustomer (Customer customer)throws CouponException, AlreadyExistException, SQLException;
+	public void createCustomer (Customer customer)throws CouponException, AlreadyExistException, SQLException,DoesNotExistException;
 	
-	public void removeCustomer (Customer customer)throws CouponException,DoesNotExistException, SQLException;
+	public void removeCustomer (Customer customer)throws CouponException,DoesNotExistException, SQLException, DoesNotExistException;
 	
-	public void updateCustomerByName (String OldName, String NewName)throws CouponException, SQLException;
+	public void updateCustomerByName (String OldName, String NewName)throws CouponException, SQLException, DoesNotExistException;
 	
 	public void updateCustomer (Customer customer) throws CouponException, SQLException, DoesNotExistException;
 	
-	public Customer getCustomerById (long custId)throws CouponException, SQLException;
+	public Customer getCustomerById (long custId)throws CouponException, SQLException, DoesNotExistException;
 	
-	public Customer getCustomerByName(String custName) throws CouponException, SQLException;
+	public Customer getCustomerByName(String custName) throws CouponException, SQLException, DoesNotExistException;
 
 	public Collection<Customer> getAllCustomer ()throws CouponException, SQLException;
 	
-	public Collection<Coupon> getCoupons (long custID)throws CouponException, SQLException;
+	public Collection<Coupon> getCoupons (long custID)throws CouponException, SQLException, DoesNotExistException;
 	
 	public boolean login (String custName ,String password)throws CouponException, SQLException;
 

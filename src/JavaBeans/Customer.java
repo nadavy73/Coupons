@@ -86,9 +86,10 @@ public class Customer {
 	
 	@Override
 	public String toString() {
-		return "Customer [id=" + custId + ", custName=" + custName + ""
-				+ ", passWord=" + custPassword + ", coupons=" + custCoupons
-				+ "]";
+		return "\nCustomer: \nCustomer ID= " + custId + " \nCustomer Name= " +
+				custName + " \nCustomer password= " + custPassword + 
+				" \nCustomer coupons= " + custCoupons + "\n*************";
+		
 	}
 
 	@Override
