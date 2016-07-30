@@ -22,19 +22,19 @@ public interface CustomerDAO
 	
 	public Customer getCustomerByName(String custName) throws CouponException, SQLException, DoesNotExistException;
 
-	public Collection<Customer> getAllCustomer ()throws CouponException, SQLException;
+	public Collection<Customer> getAllCustomers ()throws CouponException, SQLException;
 	
 	public Collection<Coupon> getCoupons (long custID)throws CouponException, SQLException, DoesNotExistException;
 	
 	public boolean login (String custName ,String password)throws CouponException, SQLException;
 
-	public void removeCustomerCoupons(long couponId) throws CouponException;
+	public void removeCustomerCoupons(long couponId) throws CouponException, DoesNotExistException;
 	
-	public void PurchaseCustomerCoupon(Customer customer, Coupon coupon) throws  CouponException;
+	public void PurchaseCustomerCoupon(Customer customer, Coupon coupon) throws  CouponException, AlreadyExistException, DoesNotExistException, SQLException;
 
-	public void PurchaseCustomerCouponById(long custId, long couponId) throws CouponException;
+	public void PurchaseCustomerCouponById(long custId, long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException;
 
-	public boolean isPurchased(Coupon coupon, Customer customer) throws CouponException; 
+	public boolean isPurchased(Coupon coupon, Customer customer) throws CouponException, AlreadyExistException; 
 		
 
 }

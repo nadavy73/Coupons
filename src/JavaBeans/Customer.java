@@ -25,6 +25,11 @@ public class Customer {
 		
 	}
 	
+	public Customer(long custId)
+	{
+		this.custId = custId;
+	}
+	
 	public Customer(long custId, String custName, String custPassWord, Collection<Coupon> coupons) 
 	{
 		super();

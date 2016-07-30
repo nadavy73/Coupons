@@ -43,15 +43,18 @@ public class CustomerFacade implements CouponClientFacade
 		coupDAO= new CouponsDBDAO();
 	}	
 	
-	public CustomerFacade(String custName, String custPassword) throws CustomerException, SQLException {
-		try {
-			customer = custDAO.getCustomerByName(custName);
-			custPassword= custDAO.getCustomerByName(custName).getPassWord();
-		} catch (CouponException e){
-			// In case of a problem throw new CustomerFacadeException  
-			throw new CustomerException("CustomerFacadeException - "
-					+ "Constructor error", e);
-		}
+	public CustomerFacade(String custName, String custPassword) throws CustomerException, SQLException, DoesNotExistException {
+		
+			try {
+				customer = custDAO.getCustomerByName(custName);
+			
+			} 
+			catch (CouponException e) {
+				throw new CustomerException("CustomerFacadeException - "
+						+ "Constructor error", e);
+			}
+			
+		
 	}
 	
 	public static CustomerFacade login(String custName, String password) throws FacadeException, LoginException {
@@ -70,11 +73,7 @@ public class CustomerFacade implements CouponClientFacade
 	return null;
 	}	
 	
-	
-	
-	
-	
-	public void purchaseCoupon(Coupon coupon) throws CouponException 
+	public void purchaseCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
 		if (coupon.getAmount()<1)
 		{
@@ -112,7 +111,7 @@ public class CustomerFacade implements CouponClientFacade
 	}
 	
 
-	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException 
+	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException, DoesNotExistException 
 	{
 					
 		try {
@@ -127,25 +126,35 @@ public class CustomerFacade implements CouponClientFacade
 	}
 
 	
-	public Collection<Coupon> getAllPurchasedCouponsByType(CouponType CouponType) throws CustomerException, CouponException, SQLException 
+	public Collection<Coupon> getAllPurchasedCouponsByType(CouponType CouponType) throws CustomerException, CouponException, SQLException, DoesNotExistException 
 	{
 		Collection<Coupon> couponsType= new HashSet<>();
 		
-		for (Coupon coupon: custDAO.getCoupons(custId)){
-			if (coupon.getType().equals(CouponType)){
-				couponsType.add(coupon);
+		try {
+			for (Coupon coupon: custDAO.getCoupons(custId)){
+				if (coupon.getType().equals(CouponType)){
+					couponsType.add(coupon);
+				}
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return couponsType;
 	}	
-	public Collection<Coupon> getAllPurchasedCouponsByType(double price) throws CustomerException, CouponException, SQLException 
+	public Collection<Coupon> getAllPurchasedCouponsByType(double price) throws CustomerException, CouponException, SQLException, DoesNotExistException 
 	{
 		Collection<Coupon> couponsByPrice= new HashSet<>();
 		
-		for (Coupon coupon: custDAO.getCoupons(custId)){
-			if (coupon.getPrice()<=(price)){
-				couponsByPrice.add(coupon);
+		try {
+			for (Coupon coupon: custDAO.getCoupons(custId)){
+				if (coupon.getPrice()<=(price)){
+					couponsByPrice.add(coupon);
+				}
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return couponsByPrice;
 	}
@@ -160,7 +169,11 @@ public class CustomerFacade implements CouponClientFacade
 			throws FacadeException, LoginException, CouponException {
 		// TODO Auto-generated method stub
 		return null;
-	}		
+	}
+
+	
+
+	
 		
 	
 		

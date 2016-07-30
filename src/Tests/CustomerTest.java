@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 import DAO.CompanyDAO;
+import DAO.CouponDAO;
 import DAO.CustomerDAO;
 import DBDAO.CompanyDBDAO;
 import DBDAO.CustomerDBDAO;
@@ -15,7 +16,7 @@ import JavaBeans.Customer;
 
 public class CustomerTest {
 
-	public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException 
+	public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
 //		CreateCustomerTest();
 //		RemoveCustomerTest();
@@ -24,7 +25,12 @@ public class CustomerTest {
 //		getCustomerByIdTest();
 //		getCustomerByNameTest();
 //		getAllCustomerTest();
-		getCouponsTest();
+//		getCouponsTest();
+//		LoginTest();
+//		PurchaseCustomerCouponByIdTest();
+//		PurchaseCustomerCouponTest();
+		RemoveCustomerCouponTest();
+		
 	}
 	
 		
@@ -114,12 +120,11 @@ public class CustomerTest {
 			}
 			}
 		
-		
 		public static void getCustomerByNameTest() throws CouponException, AlreadyExistException, DoesNotExistException
 		{
 			CustomerDAO custDAO= new CustomerDBDAO();
 //			Customer cust1= new Customer("Custi", "Custi1234");
-			Customer cust2= new Customer("Cutomer2", "Custi9876");
+//			Customer cust2= new Customer("Cutomer2", "Custi9876");
 			try 
 				{
 				custDAO.getCustomerById(1);
@@ -141,7 +146,7 @@ public class CustomerTest {
 			try 
 				{
 //				custDAO.getAllCustomer();
-				Collection <Customer> customerID= custDAO.getAllCustomer();
+				Collection <Customer> customerID= custDAO.getAllCustomers();
 				System.out.println(customerID);
 //				System.out.println("The Customer with the ID "+ cust2.getId()+ " is " + cust2.getCustName());
 				
@@ -151,16 +156,40 @@ public class CustomerTest {
 			}
 			}
 			
-		public static void getCouponsTest() throws CouponException, AlreadyExistException, DoesNotExistException
+		public static void getCouponsTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
 			CustomerDAO custDAO= new CustomerDBDAO();
 			Customer cust1= new Customer("Custi", "Custi1234");
+			Customer cust2= new Customer("Cutomer2", "Custi9876");
+			
+			
+			System.out.println(custDAO.getCoupons(cust1.getId()));
+	
+			
+			Collection <Coupon> CustomerCouponID= custDAO.getCoupons(cust1.getId());
+//			System.out.println(CustomerCouponID);
+//			System.out.println("The Customer with the ID "+ cust2.getId()+ " is " + cust2.getCustName());
+			
+//			try {
+//					System.out.println(custDAO.getCoupons(4));
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+////				System.out.println("The Customer with the ID "+ cust2.getId()+ " is " + cust2.getCustName());
+//				
+				
+			}
+
+		public static void LoginTest() throws CouponException, AlreadyExistException, DoesNotExistException
+		{
+			CustomerDAO custDAO= new CustomerDBDAO();
+			Customer cust1= new Customer("Custi", "custiPass");
 //			Customer cust2= new Customer("Cutomer2", "Custi9876");
 			try 
 				{
-//				custDAO.getAllCustomer();
-				Collection <Coupon> CustomerCouponID= custDAO.getCoupons(cust1.getId());
-				System.out.println(CustomerCouponID);
+				custDAO.login(cust1.getCustName(), "custiPass");
+//				System.out.println(Customer was successfullyNewC);
 //				System.out.println("The Customer with the ID "+ cust2.getId()+ " is " + cust2.getCustName());
 				
 			} catch (SQLException e) {
@@ -169,8 +198,47 @@ public class CustomerTest {
 			}
 			}
 
+		public static void PurchaseCustomerCouponByIdTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
+		{
+			CustomerDAO custDAO= new CustomerDBDAO();
 			
+//			Customer cust1= new Customer("Custi", "custiPass");
+//			Customer cust2= new Customer("Cutomer2", "Custi9876");		
+			Coupon coup1= new Coupon(7, "New 5 Coupon");
+			
+			custDAO.PurchaseCustomerCouponById(4, coup1.getId());
+		}
+		
+		public static void PurchaseCustomerCouponTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
+		{
+			CustomerDAO custDAO= new CustomerDBDAO();
+			
+			Customer cust1= new Customer(4);
+//			Customer cust2= new Customer("Cutomer2", "Custi9876");		
+			Coupon coup1= new Coupon(5, "Burgers");
+			
+			custDAO.PurchaseCustomerCoupon(custDAO.getCustomerById(3), coup1);
+				
 
+		
+//		custDAO.isPurchased(coup1, cust1);
+		
+		}
+		
+		public static void RemoveCustomerCouponTest() throws CouponException, AlreadyExistException, DoesNotExistException
+		{
+			CustomerDAO custDAO= new CustomerDBDAO();
+			Customer cust1= new Customer("Custi", "custiPass");
+//			Customer cust2= new Customer("Cutomer2", "Custi9876");
+			
+				custDAO.removeCustomerCoupons(9);
+//				System.out.println(Customer was successfullyNewC);
+//				System.out.println("The Customer with the ID "+ cust2.getId()+ " is " + cust2.getCustName());
+				
+			
+			}
+		
+		
 }
 
 
