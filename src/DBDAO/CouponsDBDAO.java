@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,95 +15,119 @@ import java.util.Set;
 import DAO.CouponDAO;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
+import Exceptions.DoesNotExistException;
+import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
 
 public class CouponsDBDAO implements CouponDAO
 {
 	
-	@Override
-	public void createCoupon(Coupon coupon) throws CouponException, AlreadyExistException
-	{
-		
-		Connection con = null;
-		ResultSet rs = null;
+		//*************************************************
+		//This function gets Coupon Object and insert to DB
+		//*************************************************
 
-		try {
-			Coupon c = getCouponByTytle(coupon.getTitle());
-		if (c != null)
-			{
-				throw new AlreadyExistException("Coupon ID already exist in DB: " + c.getId());
+		@Override
+		public void createCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException {
+			Connection con = null;
+			
+
+			try {
+				Coupon c = getCouponByTitle(coupon.getTitle());
+				if (c != null)
+				{
+					throw new AlreadyExistException("Coupon ID already exist in DB");
+				}
+				
+				con = ConnectionPool.getInstance().getConnection();
+				String sql = "INSERT INTO Coupon (TITLE, START_DATE, END_DATE, AMOUNT,"
+									+ " TYPE, MESSAGE, PRICE, IMAGE) VALUES(?,?,?,?,?,?,?,?)";
+				PreparedStatement stat = con.prepareStatement (sql);
+				stat.setString(1, coupon.getTitle());
+				stat.setDate(2, Date.valueOf(coupon.getStartDate()));
+				stat.setDate(3, Date.valueOf(coupon.getEndDate()));
+				stat.setInt(4, coupon.getAmount());
+				stat.setString(5, coupon.getType().toString());
+				stat.setString(6, coupon.getMessage());
+				stat.setDouble(7, coupon.getPrice());
+				stat.setString(8, coupon.getImage());
+				stat.executeUpdate();
+				// Result set retrieves the SQL auto-generated ID
+				ResultSet rs = stat.getGeneratedKeys();
+				rs.next();
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
-		con = ConnectionPool.getInstance().getConnection();
-		String sql = "INSERT INTO Coupon(TITLE,START_DATE, END_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE) VALUES (?,?,?,?,?,?,?,?)";
-		PreparedStatement stat = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		
-
-		stat.setString(1, coupon.getTitle());
-		stat.setDate(2,Date.valueOf(coupon.getStartDate()));
-		stat.setDate(3,Date.valueOf(coupon.getEndDate()));
-		stat.setInt(4, coupon.getAmount());
-		stat.setString(5, coupon.getType().name());
-		stat.setString(6, coupon.getMessage());
-		stat.setDouble(7, coupon.getPrice());
-		stat.setString(8, coupon.getImage());
- 
-		stat.executeUpdate();
-	 
-		rs = stat.getGeneratedKeys();
-	 	rs.next();
-	 	coupon.setId(rs.getLong(1));
-		
-			}
-			catch (SQLException e) {
-
-				// Translate exception
-
-				throw new CouponException("Error in connection to DATA BASE", e);
-
-			} finally {
-
-		
-				// release connection to pool
-				
-				ConnectionPool.getInstance().free(con);
-			}
 		}
-	 		
+		//***************************************************
+		//This function gets Coupon Object and REMOVE from DB
+		//***************************************************		
 	
-//	private Coupon getCoupon(long id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
-
-	@Override
-	public void removeCoupon(Coupon coupon) throws CouponException, SQLException
+		@Override
+	public void removeCoupon(Coupon coupon) throws CouponException, SQLException, DoesNotExistException
 	{
 		Connection con = null;
-		PreparedStatement RemoveStat = null;
+		PreparedStatement stat = null;
 		try {
+			Coupon c = getCouponByTitle(coupon.getTitle());
+			
+			if (c == null)
+			{
+				throw new DoesNotExistException("COUPON Does Not Exist in DB");
+			}
+			
 			con = ConnectionPool.getInstance().getConnection();
 			
-			String sql =
-					"delete from Coupon "
-					+ "where ID = ?";
-			RemoveStat = con.prepareStatement(sql);
-//			
-			RemoveStat.setLong(1, coupon.getId());
-						
-			int numberOfRowsDeleted = RemoveStat.executeUpdate();
-		    if (numberOfRowsDeleted == 0) 
-		    {
-		    	System.out.println("There is no such Coupons in DB! Didn't remove!");
-		    	// No rows deleted.
-		    }
-		    else {
-		    	System.out.println("Successful Removal");
-		    }
-		 
+			String sql = "DELETE FROM COUPON WHERE TITLE = ?";
+			stat = con.prepareStatement(sql);
+			stat.setString(1, coupon.getTitle());
+			stat.executeUpdate();			
+			
+		} finally {
+
+			
+			// release connection to pool
+			
+			ConnectionPool.getInstance().free(con);
+		}
+	}
+	
+	@Override
+	public void updateCoupon(Coupon coupon) throws CouponException, DoesNotExistException {
+		Connection con = null;
 		
+		Coupon c = getCouponByTitle(coupon.getTitle());
+		
+		
+		if (c == null)
+		{
+			throw new DoesNotExistException("The Coupon Does not exist in DB");
+		}
+		
+		try {
+			con = ConnectionPool.getInstance().getConnection();
+
+			
+			String sql = "UPDATE Coupon SET TITLE=?, START_DATE=?, END_DATE=?, AMOUNT=?,"
+								+ " TYPE=?, MESSAGE=?, PRICE=?, IMAGE=? WHERE TITLE=?";
+			PreparedStatement stat = con.prepareStatement(sql);
+			stat.setString(1, coupon.getTitle());
+			stat.setDate(2, Date.valueOf(coupon.getStartDate()));
+			stat.setDate(3, Date.valueOf(coupon.getEndDate()));
+			stat.setInt(4, coupon.getAmount());
+			stat.setString(5, coupon.getType().toString());
+			stat.setString(6, coupon.getMessage());
+			stat.setDouble(7, coupon.getPrice());
+			stat.setString(8, coupon.getImage());
+			stat.setString(9, coupon.getTitle());
+			stat.executeUpdate();
+	
+	} catch (SQLException e) {
+		e.printStackTrace();
 	} finally {
 
 		
@@ -110,56 +135,16 @@ public class CouponsDBDAO implements CouponDAO
 		
 		ConnectionPool.getInstance().free(con);
 	}
-}	
-	
-	@Override
-	public void updateCoupon(Coupon coupon) throws CouponException 
-	{
-		Connection con = null;
-		try {
-			con = ConnectionPool.getInstance().getConnection();
+}
 
-			
-			String sql =
-					"UPDATE Coupon SET TITLE=?, START_DATE=?, END_DATE=?, AMOUNT=?,"
-								+ " TYPE=?, MESSAGE=?, PRICE=?, IMAGE=? WHERE ID=?";
-
-			PreparedStatement updadeStat = con.prepareStatement(sql);
-			
-			updadeStat.setString(1, coupon.getTitle());
-			updadeStat.setDate(2, Date.valueOf(coupon.getStartDate()));
-			updadeStat.setDate(3, Date.valueOf(coupon.getEndDate()));
-			updadeStat.setInt(4, coupon.getAmount());
-			updadeStat.setString(5, coupon.getType().toString());
-			updadeStat.setString(6, coupon.getMessage());
-			updadeStat.setDouble(7, coupon.getPrice());
-			updadeStat.setString(8, coupon.getImage());
-			updadeStat.setLong(9, coupon.getId());
-			updadeStat.executeUpdate();
-	        
-			
-			 con.close();
-	    
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		System.out.println("Updated Coupon");
-		
-		// release connection to pool
-		ConnectionPool.getInstance().free(con);
-		
-	 }
-	
-	
-	public Coupon getCouponByTytle (String TYTLE) throws CouponException{
+	public Coupon getCouponByTitle (String TITLE) throws CouponException{
 		Coupon coupon =null;
 		Connection con = null;
 		try {
 			con = ConnectionPool.getInstance().getConnection();
-			String sql = "SELECT * FROM Coupon WHERE TYTLE=?";
+			String sql = "SELECT * FROM Coupon WHERE TITLE=?";
 			PreparedStatement stat = con.prepareStatement (sql);
-			stat.setString(1, TYTLE);
+			stat.setString(1, TITLE);
 			ResultSet rs = stat.executeQuery();
 			if (!rs.next())
 			{
@@ -172,12 +157,12 @@ public class CouponsDBDAO implements CouponDAO
 					rs.getDate("END_DATE").toLocalDate(),
 					rs.getInt("AMOUNT"),
 					CouponType.valueOf(rs.getString("TYPE")),
-					rs.getString("MESSEGE"),
+					rs.getString("MESSAGE"),
 					rs.getDouble("PRICE"),
 					rs.getString("IMAGE"));
 			
 			
-			System.out.println(coupon);
+			
 			
 		} catch (SQLException e) {
 			
@@ -194,41 +179,51 @@ public class CouponsDBDAO implements CouponDAO
 	
 	
 	@Override
-	public Coupon getCoupon(long CouponId) throws CouponException {
+	public Coupon getCoupon(long CouponId) throws CouponException, AlreadyExistException, DoesNotExistException {
 		
-		Coupon coupon =null;
+		Long ID;
+		String TITLE,MESSAGE,IMAGE;
+		LocalDate START_DATE,END_DATE;
+		int AMOUNT;
+		CouponType TYPE;
+		double PRICE;
+		Coupon coupon = null;
+		
 		Connection con = null;
 		
 		try {
+		
 			con = ConnectionPool.getInstance().getConnection();
 
 			String sql = "SELECT * FROM Coupon WHERE ID=?";
-			PreparedStatement GetCouponstat = con.prepareStatement (sql);
-			GetCouponstat.setLong(1, CouponId);
-			ResultSet rs = GetCouponstat.executeQuery();
+			PreparedStatement stat = con.prepareStatement (sql);
+			stat.setLong(1, CouponId);
+			ResultSet rs = stat.executeQuery();
+			if (!rs.next())
+			{
+				throw new DoesNotExistException("The Coupon does not found");
+			}
 			
-			coupon = new Coupon(
-					rs.getLong("ID"),
-					rs.getString("TITLE"),
-					rs.getDate("START_DATE").toLocalDate(),
-					rs.getDate("END_DATE").toLocalDate(),
-					rs.getInt("AMOUNT"),
-					CouponType.valueOf(rs.getString("TYPE")),
-					rs.getString("MESSEGE"),
-					rs.getDouble("PRICE"),
-					rs.getString("IMAGE"));
+			ID = rs.getLong(1);
+			TITLE = rs.getString(2);
+			START_DATE = rs.getDate(3).toLocalDate();
+			END_DATE = rs.getDate(4).toLocalDate();
+			AMOUNT = rs.getInt(5);
+			TYPE = CouponType.valueOf(rs.getString(6));
+			MESSAGE = rs.getString(7);
+			PRICE = rs.getDouble(8);
+			IMAGE = rs.getString(9);
 			
+			coupon = new Coupon(ID, TITLE, START_DATE, END_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE);
 			
-			System.out.println(coupon);
-			
+					
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
-		}
-		// release connection to pool
+	} finally {
 		ConnectionPool.getInstance().free(con);
+	}	
 		
-		//return statement
 		return coupon;
 		
 		
@@ -259,13 +254,12 @@ public class CouponsDBDAO implements CouponDAO
 							rs.getDate("END_DATE").toLocalDate(),
 							rs.getInt("AMOUNT"),
 							CouponType.valueOf(rs.getString("TYPE")),
-							rs.getString("MESSEGE"),
+							rs.getString("MESSAGE"),
 							rs.getDouble("PRICE"),
 							rs.getString("IMAGE"));
 					
 //					
-					System.out.println(coupon.toString());
-					System.out.println("******************");
+					
 					AllCoupons.add(coupon);
 		
 				} // while loop
@@ -317,5 +311,8 @@ public class CouponsDBDAO implements CouponDAO
 		}
 		return customers;
 	}
+
+
+	
 	
 }

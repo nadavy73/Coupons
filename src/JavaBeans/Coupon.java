@@ -1,7 +1,6 @@
 package JavaBeans;
 
 import java.time.LocalDate;
-import java.util.*;
 
 public class Coupon {
 	
@@ -60,11 +59,11 @@ public class Coupon {
 	//
 	
 	
-	public Coupon(String title, LocalDate startDate, LocalDate endDate, int amount, CouponType type,
+	public Coupon(String title, LocalDate i, LocalDate j, int amount, CouponType type,
 			String message, double price, String image) {
 		this.title = title;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.startDate = i;
+		this.endDate = j;
 		this.amount = amount;
 		this.type = type;
 		this.message = message;

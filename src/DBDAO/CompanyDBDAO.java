@@ -3,7 +3,6 @@ package DBDAO;
 
 
 import java.sql.*;
-import java.time.ZoneId;
 import java.util.*;
 import DAO.CompanyDAO;
 import Exceptions.AlreadyExistException;
@@ -68,12 +67,12 @@ public class CompanyDBDAO implements CompanyDAO {
 			Connection con = null;
 			PreparedStatement stat = null;
 			try {
-			Company c = getCompanyByName(company.getCompName());
+				Company c = getCompanyByName(company.getCompName());
 			
-			if (c == null)
-			{
-				throw new DoesNotExistException("COMPANY Does Not Exist in DB");
-			}
+				if (c == null)
+				{
+					throw new DoesNotExistException("COMPANY Does Not Exist in DB");
+				}
 			
 			con = ConnectionPool.getInstance().getConnection();
 			
@@ -155,7 +154,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		
 		Company c = getCompanyByName(company.getCompName());
 		
-		//Check if Company is exist in DB
+		
 		if (c == null)
 		{
 			throw new DoesNotExistException("The Company Does not exist in DB");
@@ -175,7 +174,6 @@ public class CompanyDBDAO implements CompanyDAO {
 				stmt.executeUpdate();
 			}
 			} catch (SQLException e) {
-				 
 				e.printStackTrace();
 			} finally {
 
@@ -212,15 +210,12 @@ public class CompanyDBDAO implements CompanyDAO {
 			compName = rs.getString(2);
 			Password = rs.getString(3);
 			eMail = rs.getString(4);
+			
 			company = new Company(ID, compName, Password, eMail);
 		} catch (SQLException e) {
  
 			e.printStackTrace();
 		} finally {
-
-			
-			// release connection to pool
-			
 			ConnectionPool.getInstance().free(con);
 		}
 
@@ -338,55 +333,71 @@ finally {
 	//*********************************************
 	//This function return ALL Companies in our DB.
 	//*********************************************
-	public Collection<Coupon> getCoupons(long compID) throws CouponException {
-
+	public Collection<Coupon> getCoupons(long compID) throws CouponException, DoesNotExistException {
 		Connection con = null;
 		ResultSet rs = null;
 		Collection<Coupon> coupons = new ArrayList<>();
 		try {
 			con = ConnectionPool.getInstance().getConnection();
-			String sql = "SELECT * FROM Coupons " + 
-						 "JOIN Company_Coupon " +
-						 "ON Coupons.ID = Company_Coupon.COUPON_ID "+
-						 "WHERE Company_Coupon.COMP_ID = " + compID;
 
+			String sql = "SELECT * FROM Coupon "
+					+ "JOIN Company_Coupon "
+					+ "ON Coupon.ID = Company_Coupon.COUPON_ID "
+					+ "WHERE Company_Coupon.COMP_ID = " + compID;
+			
+			//statement - going to Company_Coupon table and getting the list of the coupons that relates to a company.
 			PreparedStatement stat = con.prepareStatement(sql);
-
+			
+			// Execute and get a resultSet
 			rs = stat.executeQuery();
-
+			if (!rs.next())
+			{
+				throw new DoesNotExistException("There are no Coupons for this Company");
+			}
+			
 			while (rs.next()) {
 				// Generating Coupon
-				Coupon coupon = new Coupon(rs.getLong("ID"), rs.getString("TITLE"),
-						// converting sql.Date to LocalDate
-						rs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-						// converting sql.Date to LocalDate
-						rs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-						rs.getInt("AMOUNT"), CouponType.valueOf(rs.getString("TYPE")), rs.getString("MESSAGE"),
-						rs.getDouble("PRICE"), rs.getString("IMAGE"));
-
+				Coupon coupon = new Coupon(
+						rs.getLong("ID"),
+						rs.getString("TITLE"), 
+						rs.getDate("START_DATE").toLocalDate(),
+						rs.getDate("END_DATE").toLocalDate(), 
+						rs.getInt("AMOUNT"), 
+						CouponType.valueOf(rs.getString("TYPE")),
+						rs.getString("MESSAGE"), 
+						rs.getDouble("PRICE"), 
+						rs.getString("IMAGE"));
+				
+				
+				
 				System.out.println("******************");
 				coupons.add(coupon);
-
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		finally {
-			try {
-				rs.close();
-				// release connection to pool
 				
-				ConnectionPool.getInstance().free(con);
 			}
+		
+		} catch (SQLException e) {
+		e.printStackTrace();
+		ConnectionPool.getInstance().free(con);
+		} 
+		
+	// finally
+	finally {
+		try {
+			rs.close();
+			// release connection to pool
+			ConnectionPool.getInstance().free(con);
 
-			catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
+		} 
+		// catch
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+	} 
+			
+			
+		// Return coupon
 		return coupons;
+		
 	}
 	public boolean login(String compName, String password) throws CouponException {
 
