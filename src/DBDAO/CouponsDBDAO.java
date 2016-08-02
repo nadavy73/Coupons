@@ -1,11 +1,6 @@
 package DBDAO;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,18 +11,14 @@ import DAO.CouponDAO;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
 import Exceptions.DoesNotExistException;
-import JavaBeans.Company;
-import JavaBeans.Coupon;
-import JavaBeans.CouponType;
+import JavaBeans.*;
 
 public class CouponsDBDAO implements CouponDAO
 {
 	
 		//*************************************************
-		//This function gets Coupon Object and insert to DB
+		//This function gets Coupon Object and INSERT to DB
 		//*************************************************
-
-		@Override
 		public void createCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException {
 			Connection con = null;
 			
@@ -66,9 +57,7 @@ public class CouponsDBDAO implements CouponDAO
 		//***************************************************
 		//This function gets Coupon Object and REMOVE from DB
 		//***************************************************		
-	
-		@Override
-	public void removeCoupon(Coupon coupon) throws CouponException, SQLException, DoesNotExistException
+		public void removeCoupon(Coupon coupon) throws CouponException, SQLException, DoesNotExistException
 	{
 		Connection con = null;
 		PreparedStatement stat = null;
@@ -95,9 +84,10 @@ public class CouponsDBDAO implements CouponDAO
 			ConnectionPool.getInstance().free(con);
 		}
 	}
-	
-	@Override
-	public void updateCoupon(Coupon coupon) throws CouponException, DoesNotExistException {
+		//****************************************************************
+		//This function gets Coupon Object and Update all parameters in DB
+		//****************************************************************
+		public void updateCoupon(Coupon coupon) throws CouponException, DoesNotExistException {
 		Connection con = null;
 		
 		Coupon c = getCouponByTitle(coupon.getTitle());
@@ -136,8 +126,10 @@ public class CouponsDBDAO implements CouponDAO
 		ConnectionPool.getInstance().free(con);
 	}
 }
-
-	public Coupon getCouponByTitle (String TITLE) throws CouponException{
+		//**********************************************************************************
+		//This function gets Coupon Title and Returns coupon Object that contains this title
+		//**********************************************************************************
+		public Coupon getCouponByTitle (String TITLE) throws CouponException{
 		Coupon coupon =null;
 		Connection con = null;
 		try {
@@ -176,10 +168,10 @@ public class CouponsDBDAO implements CouponDAO
 		
 		
 	}
-	
-	
-	@Override
-	public Coupon getCoupon(long CouponId) throws CouponException, AlreadyExistException, DoesNotExistException {
+		//****************************************************************************
+		//This function gets Coupon Id and Returns coupon Object that contains this Id
+		//****************************************************************************
+		public Coupon getCoupon(long CouponId) throws CouponException, AlreadyExistException, DoesNotExistException {
 		
 		Long ID;
 		String TITLE,MESSAGE,IMAGE;
@@ -228,41 +220,54 @@ public class CouponsDBDAO implements CouponDAO
 		
 		
 	}
-	
-	@Override
-	public Collection<Coupon> getAllCoupons() throws CouponException {
+		//*****************************************
+		//This function Returns All coupons from DB
+		//*****************************************
+		public Collection<Coupon> getAllCoupons() throws CouponException, DoesNotExistException {
 		
 		Collection<Coupon> AllCoupons= new ArrayList<>();
-
+		
+		
+		Long ID;
+		String TITLE,MESSAGE,IMAGE;
+		LocalDate START_DATE,END_DATE;
+		int AMOUNT;
+		CouponType TYPE;
+		double PRICE;
+		Coupon coupon = null;
+		
 		Connection con = null;
+		
 		ResultSet rs = null;
 
+
 		try {
+			
 			con = ConnectionPool.getInstance().getConnection();
 
 			String sql = "SELECT * FROM Coupon";
-			PreparedStatement GetAllCouponsStat = con.prepareStatement(sql);
-					
-			rs = GetAllCouponsStat.executeQuery();
-				
-				while(rs.next()) {
-
-					Coupon coupon = new Coupon(
-							rs.getLong("ID"),
-							rs.getString("TITLE"),
-							rs.getDate("START_DATE").toLocalDate(),
-							rs.getDate("END_DATE").toLocalDate(),
-							rs.getInt("AMOUNT"),
-							CouponType.valueOf(rs.getString("TYPE")),
-							rs.getString("MESSAGE"),
-							rs.getDouble("PRICE"),
-							rs.getString("IMAGE"));
-					
-//					
+			PreparedStatement stat = con.prepareStatement (sql);
+			
+			rs = stat.executeQuery();
+			if (!rs.next())
+			{
+				throw new DoesNotExistException("No coupons in DB");
+			}
+			
+			ID = rs.getLong(1);
+			TITLE = rs.getString(2);
+			START_DATE = rs.getDate(3).toLocalDate();
+			END_DATE = rs.getDate(4).toLocalDate();
+			AMOUNT = rs.getInt(5);
+			TYPE = CouponType.valueOf(rs.getString(6));
+			MESSAGE = rs.getString(7);
+			PRICE = rs.getDouble(8);
+			IMAGE = rs.getString(9);
+			
+			coupon = new Coupon(ID, TITLE, START_DATE, END_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE);
 					
 					AllCoupons.add(coupon);
 		
-				} // while loop
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -274,44 +279,97 @@ public class CouponsDBDAO implements CouponDAO
 					con.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
-				} // catch
-			} // finally
-			
-		// release connection to pool
+				} 
+			} 
 		ConnectionPool.getInstance().free(con);
 		
 			return AllCoupons;
-		} // getAllCompanies
-
-	@Override
-	public Collection<Coupon> getCouponByType(CouponType coupontype) throws CouponException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public Set<Long> getCustomersId(Coupon coupon) {
+		} 
+		//*****************************************
+		//This function Returns All coupons BY Type
+		//*****************************************
+		public Collection<Coupon> getCouponByType(CouponType coupontype) throws CouponException, DoesNotExistException {
+			Collection<Coupon> Coupons= new ArrayList<>();
+			Coupon coupon =null;
+			Connection con = null;
+			Long ID;
+			String TITLE,MESSAGE,IMAGE;
+			LocalDate START_DATE,END_DATE;
+			int AMOUNT;
+			CouponType TYPE;
+			double PRICE;
+			ResultSet rs = null;
+			try {
+				con = ConnectionPool.getInstance().getConnection();
+				String sql = "SELECT * FROM Coupon WHERE TYPE=?";
+				PreparedStatement stat = con.prepareStatement (sql);
+				stat.setString(1, coupontype.name());
+				rs = stat.executeQuery();
+				if (!rs.next())
+				{
+					throw new DoesNotExistException("No coupons with in DB");
+				}
+				
+				ID = rs.getLong(1);
+				TITLE = rs.getString(2);
+				START_DATE = rs.getDate(3).toLocalDate();
+				END_DATE = rs.getDate(4).toLocalDate();
+				AMOUNT = rs.getInt(5);
+				TYPE = CouponType.valueOf(rs.getString(6));
+				MESSAGE = rs.getString(7);
+				PRICE = rs.getDouble(8);
+				IMAGE = rs.getString(9);
+				
+				coupon = new Coupon(ID, TITLE, START_DATE, END_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE);
+						
+						Coupons.add(coupon);
+				
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			// release connection to pool
+			ConnectionPool.getInstance().free(con);
+			
+			//return statement
+			return Coupons;
+		}
+		//*******************************************************
+		//This function Returns All customer that have the coupon
+		//*******************************************************
+		public Set<Long> getCustomersId(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException {
 		
 		Connection con = null;
 		Set<Long> customers = new HashSet<>();
 		
+		Coupon c = getCouponByTitle(coupon.getTitle());
+		if (c == null)
+		{
+			throw new DoesNotExistException("The Coupon Does not exist in DB");
+		}
 		try {
 			con = ConnectionPool.getInstance().getConnection();
 		
-			String sqlCmdStr = "SELECT CUST_ID FROM Customer_Coupon WHERE COUPON_ID=?";
-			PreparedStatement stat = con.prepareStatement(sqlCmdStr);
-			stat.setLong(1, coupon.getId());
+			String sql = "SELECT CUST_ID FROM Customer_Coupon WHERE COUPON_ID=?";
+			PreparedStatement stat = con.prepareStatement(sql);
+			stat.setLong(1, c.getId());
 			ResultSet rs = stat.executeQuery();
+			
+		
+			
 			while (rs.next()) {
 				customers.add(rs.getLong(1));
 			}
+		
+			
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return customers;
 	}
-
 
 	
 	

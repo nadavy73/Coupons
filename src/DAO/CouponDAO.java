@@ -18,11 +18,10 @@ public interface CouponDAO
 	
 	public Coupon getCoupon (long id)throws CouponException, AlreadyExistException, DoesNotExistException;
 	
-	public Collection<Coupon> getAllCoupons ()throws CouponException;
+	public Collection<Coupon> getAllCoupons ()throws CouponException, DoesNotExistException;
 	
-	public Collection<Coupon> getCouponByType (CouponType couponType)throws CouponException;
+	public Collection<Coupon> getCouponByType (CouponType couponType)throws CouponException, DoesNotExistException;
 
-	public Set<Long> getCustomersId(Coupon coupon);
+	public Set<Long> getCustomersId(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException;
 
-	long createCoupon(Coupon coupon, long id) throws CouponException, AlreadyExistException;
 }
