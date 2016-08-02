@@ -25,11 +25,11 @@ public class CustomerTest {
 //		getCustomerByIdTest();
 //		getCustomerByNameTest();
 //		getAllCustomerTest();
-//		getCouponsTest();
+		getCouponsTest();
 //		LoginTest();
 //		PurchaseCustomerCouponByIdTest();
 //		PurchaseCustomerCouponTest();
-		RemoveCustomerCouponTest();
+//		RemoveCustomerCouponTest();
 		
 	}
 	
@@ -128,7 +128,7 @@ public class CustomerTest {
 			try 
 				{
 				custDAO.getCustomerById(1);
-				Customer customerID= custDAO.getCustomerByName("Castiel");
+				Customer customerID= custDAO.getCustomer("Castiel", "cust1234");
 				System.out.println(customerID);
 //				System.out.println("The Customer with the ID "+ cust2.getId()+ " is " + cust2.getCustName());
 				

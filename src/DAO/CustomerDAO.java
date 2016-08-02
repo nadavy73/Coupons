@@ -20,7 +20,7 @@ public interface CustomerDAO
 	
 	public Customer getCustomerById (long custId)throws CouponException, SQLException, DoesNotExistException;
 	
-	public Customer getCustomerByName(String custName) throws CouponException, SQLException, DoesNotExistException;
+	public Customer getCustomer(String custName, String password) throws CouponException, SQLException, DoesNotExistException;
 
 	public Collection<Customer> getAllCustomers ()throws CouponException, SQLException;
 	

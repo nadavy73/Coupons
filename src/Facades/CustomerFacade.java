@@ -30,8 +30,8 @@ public class CustomerFacade implements CouponClientFacade
 	private Customer customer;
 	private long custId;
 	private String custName;
-	private static CustomerDAO custDAO;
-	private CouponDAO coupDAO;
+	private CustomerDAO custDAO= null;
+	private CouponDAO coupDAO= null;
 	
 	/*
 	 * Constructors
@@ -46,7 +46,7 @@ public class CustomerFacade implements CouponClientFacade
 	public CustomerFacade(String custName, String custPassword) throws CustomerException, SQLException, DoesNotExistException {
 		
 			try {
-				customer = custDAO.getCustomerByName(custName);
+				customer = custDAO.getCustomer(customer.getCustName(), customer.getPassWord());
 			
 			} 
 			catch (CouponException e) {
@@ -57,21 +57,25 @@ public class CustomerFacade implements CouponClientFacade
 		
 	}
 	
-	public static CustomerFacade login(String custName, String password) throws FacadeException, LoginException {
+	public CustomerFacade login(String custName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException {
+			boolean LoginAsCustomer= false;
 		try {
-			if (custDAO.login(custName, password))
+			 LoginAsCustomer= custDAO.login(custName, password);
+		} catch (Exception e) {
+			throw new DoesNotExistException("Customer Login Failed.");
+		}
+			
+			if (LoginAsCustomer && clientType.equals(clientType.CUSTOMER))
 				{
-					return new CustomerFacade(custName, password);
-				}
-			} 	
-		catch (Exception e) 
+				this.custName = custName;
+				return this;
+			
+				} 
+			else 
 			{
-			throw new LoginException("Failed to login.");
+				throw new LoginException("Customer Login Failed.");
 			}
-	
-	
-	return null;
-	}	
+		}	
 	
 	public void purchaseCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
@@ -104,7 +108,7 @@ public class CustomerFacade implements CouponClientFacade
 			}
 		}
 	
-		custDAO.PurchaseCustomerCouponById(customer.getId(), coupon.getId());
+//		custDAO.PurchaseCustomerCouponById(customer.getId(), coupon.getId());
 		coupon.setAmount(coupon.getAmount()-1);
 		coupDAO.updateCoupon(coupon);
 		
@@ -164,12 +168,7 @@ public class CustomerFacade implements CouponClientFacade
 		return "CustomerFacade [customer=" + customer + "]";
 	}
 
-	@Override
-	public CouponClientFacade login(String name, String password, ClientType clientType)
-			throws FacadeException, LoginException, CouponException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	
 

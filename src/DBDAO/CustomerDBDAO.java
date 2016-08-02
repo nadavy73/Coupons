@@ -27,7 +27,7 @@ public class CustomerDBDAO implements CustomerDAO
 		
 		try {
 			
-		Customer c = getCustomerByName(customer.getCustName());
+		Customer c = getCustomer(customer.getCustName(), customer.getPassWord());
 		if (c != null)
 		{
 			throw new AlreadyExistException("CUSTOMER AlreadyExist");
@@ -70,7 +70,7 @@ public class CustomerDBDAO implements CustomerDAO
 		PreparedStatement stat = null;
 		try {
 		
-		Customer c = getCustomerByName(customer.getCustName());
+		Customer c = getCustomer(customer.getCustName(), customer.getPassWord());
 		if (c == null)
 		{
 			throw new DoesNotExistException("CUSTOMER Does Not Exist");
@@ -109,7 +109,7 @@ public class CustomerDBDAO implements CustomerDAO
 	public void updateCustomerByName(String OldName, String NewName) throws CouponException, SQLException, DoesNotExistException {
 Connection con = null;
 		
-		Customer c = getCustomerByName(OldName);
+		Customer c = getCustomer(OldName, NewName);
 		
 		//Check if Company is exist in DB
 		if (c == null)
@@ -146,7 +146,7 @@ Connection con = null;
 		
 		Connection con = null;
 		
-		Customer c = getCustomerByName(customer.getCustName());
+		Customer c = getCustomer(customer.getCustName(), customer.getPassWord());
 		
 		//Check if Company is exist in DB
 		if (c == null)
@@ -221,10 +221,9 @@ Connection con = null;
 	}
 	
 	@Override
-	public Customer getCustomerByName(String custName) throws CouponException, SQLException, DoesNotExistException{
+	public Customer getCustomer(String custName, String password) throws CouponException, SQLException, DoesNotExistException{
 		Connection con = null;
 		PreparedStatement getCustStat=null;
-		String password;
 		Customer customer = null;
 		Coupon coupon= new Coupon();
 		try {
@@ -337,7 +336,12 @@ Connection con = null;
 			
 				System.out.println("*************");
 				
-				coupons.add(couponDB.getCoupon(rs.getLong("CouponId")));
+				try {
+					coupons.add(couponDB.getCoupon(rs.getLong("CouponId")));
+				} catch (AlreadyExistException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				}
 		
 		} catch (SQLException e) {
@@ -433,7 +437,7 @@ Connection con = null;
 				PreparedStatement stat = con.prepareStatement(sql);
 	
 				
-			stat.setLong(1, customer.getId());
+//			stat.setLong(1, customer.getId());
 			stat.setLong(2, coupon.getId());
 			rs= stat.executeQuery();
 			
