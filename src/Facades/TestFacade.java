@@ -54,7 +54,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 //					40,
 //					"Image1"); 
 //				
-		Coupon coupon12= new Coupon("New Coupon"); 
+		Coupon coupon12= new Coupon("New Coupo"); 
 			
 			try {
 				CustFacade.purchaseCoupon(coupon12);
