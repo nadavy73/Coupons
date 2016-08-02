@@ -3,8 +3,6 @@ package Tests;
 import DBDAO.*;
 import Exceptions.*;
 import JavaBeans.*;
-import java.time.LocalDate;
-import java.time.Month;
 import java.sql.*;
 
 import DAO.*;
@@ -29,13 +27,16 @@ public static void main(String[] args) throws DaoException, SQLException, Coupon
 //	custDAO.removeCustomer(cust);
 	//System.out.println(compDAO.getCoupons(8));
 	CouponDAO Coup = new CouponsDBDAO();
-	Coupon coupon = new Coupon("BBB",LocalDate.of(2016, Month.AUGUST, 01),LocalDate.of(2016, Month.AUGUST, 31), 20, CouponType.Restaurants, "chip", 55, "nnn");
+	//Coupon coupon = new Coupon("BBB",LocalDate.of(2016, Month.AUGUST, 01),LocalDate.of(2016, Month.AUGUST, 31), 25, CouponType.Camping, "chipiiiiii", 55, "nnn");
+	System.out.println(Coup.getCouponByType(CouponType.Fast_Food));
 	//Coup.removeCoupon(coupon);
-	
+	//Coup.updateCoupon(coupon);
 	//Coup.createCoupon(coupon);
-	Coup.updateCoupon(coupon);
-	//Coup.getCoupon(1);
-//	Coup.createCoupon(coupon);
+	//Coup.updateCoupon(coupon);
+	//System.out.println(Coup.getCouponByType(CouponType.Travelling));
+	//System.out.println(Coup.getAllCoupons());
+	//	Coup.createCoupon(coupon);
+	//System.out.println(Coup.getCustomersId(coupon));
 	
 //	custDAO.createCustomer(cust);
 	
