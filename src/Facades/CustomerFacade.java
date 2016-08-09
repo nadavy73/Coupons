@@ -1,14 +1,11 @@
 package Facades;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
+
 import java.util.Collection;
 import java.util.HashSet;
-
-import DAO.CompanyDAO;
 import DAO.CouponDAO;
 import DAO.CustomerDAO;
-import DBDAO.CompanyDBDAO;
 import DBDAO.CouponsDBDAO;
 import DBDAO.CustomerDBDAO;
 import Exceptions.AlreadyExistException;
@@ -17,7 +14,6 @@ import Exceptions.CustomerException;
 import Exceptions.DoesNotExistException;
 import Exceptions.FacadeException;
 import Exceptions.LoginException;
-import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
 import JavaBeans.Customer;
@@ -29,7 +25,6 @@ public class CustomerFacade implements CouponClientFacade
 	 */
 	private Customer customer;
 	private long custId;
-	private String custName;
 	private CustomerDAO custDAO= null;
 	private CouponDAO coupDAO= null;
 	
@@ -65,9 +60,8 @@ public class CustomerFacade implements CouponClientFacade
 			throw new DoesNotExistException("Customer Login Failed.");
 		}
 			
-			if (LoginAsCustomer && clientType.equals(clientType.CUSTOMER))
+			if (LoginAsCustomer && clientType.equals(ClientType.CUSTOMER))
 				{
-				this.custName = custName;
 				return this;
 			
 				} 
@@ -84,22 +78,23 @@ public class CustomerFacade implements CouponClientFacade
 			try {
 				throw new CouponException("Coupon ID:" + coupon.getId() 
 				+ " (" + coupon.getTitle() + ") is not in stock");
-			} catch (CouponException e) {
+			} catch (CouponException e) 
+			{
 				
 			}
 		}
 		
-		if (LocalDate.now().isAfter(coupon.getEndDate()))
-		{
-			try {
-				throw new CouponException("Coupon ID:" + coupon.getId() + " (" + coupon.getTitle() 
-				+ ") is expired. EndDate:" + coupon.getEndDate());
-			} catch (CouponException e) {
-				
-			}
-		}
+//		if (LocalDate.now().isAfter(coupon.getEndDate()))
+//		{
+//			try {
+//				throw new CouponException("Coupon ID:" + coupon.getId() + " (" + coupon.getTitle() 
+//				+ ") is expired. EndDate:" + coupon.getEndDate());
+//			} catch (CouponException e) {
+//				
+//			}
+//		}
 		
-		if (custDAO.isPurchased(coupon, customer))
+		if (custDAO.isPurchased(customer, coupon))
 		{
 			try {
 				throw new AlreadyExistException("Coupon was Already purchased");
@@ -114,7 +109,6 @@ public class CustomerFacade implements CouponClientFacade
 		
 	}
 	
-
 	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException, DoesNotExistException 
 	{
 					
@@ -146,7 +140,7 @@ public class CustomerFacade implements CouponClientFacade
 		}
 		return couponsType;
 	}	
-	public Collection<Coupon> getAllPurchasedCouponsByType(double price) throws CustomerException, CouponException, SQLException, DoesNotExistException 
+	public Collection<Coupon> getAllPurchasedCouponsByPrice(double price) throws CustomerException, CouponException, SQLException, DoesNotExistException 
 	{
 		Collection<Coupon> couponsByPrice= new HashSet<>();
 		
@@ -157,7 +151,7 @@ public class CustomerFacade implements CouponClientFacade
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return couponsByPrice;

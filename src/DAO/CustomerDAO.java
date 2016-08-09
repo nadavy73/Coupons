@@ -34,8 +34,11 @@ public interface CustomerDAO
 
 	public void PurchaseCustomerCouponById(long custId, long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException;
 
-	public boolean isPurchased(Coupon coupon, Customer customer) throws CouponException, AlreadyExistException; 
-		
+	public boolean isPurchased(Customer customer, Coupon coupon) throws CouponException, AlreadyExistException; 
+	
+	public boolean isPurchased(long custId, long couponId) throws CouponException, AlreadyExistException;
+	
+	public boolean isCouponExist(long couponId) throws CouponException;
 
 }
 

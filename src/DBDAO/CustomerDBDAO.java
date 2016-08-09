@@ -17,13 +17,18 @@ public class CustomerDBDAO implements CustomerDAO
 {
 	
 	
+	private Customer customer;
+	private Coupon coupon;
+
+
+
 	//***************************************************
 	//This function gets Customer Object and insert to DB
 	//***************************************************
 	public void createCustomer (Customer customer) throws  CouponException, AlreadyExistException, DoesNotExistException{
 
 		Connection con = null;
-		ResultSet rs = null;
+//		ResultSet rs = null;
 		
 		try {
 			
@@ -42,7 +47,7 @@ public class CustomerDBDAO implements CustomerDAO
 		
 		stat.executeUpdate();
 	    
-	    rs = stat.getGeneratedKeys();
+		ResultSet rs = stat.getGeneratedKeys();
 		rs.next();
 		customer.setId(rs.getLong(1));
 
@@ -183,17 +188,18 @@ Connection con = null;
 	public Customer getCustomerById (long custId)throws CouponException, SQLException, DoesNotExistException
 	{
 		Connection con = null;
-		PreparedStatement getCustStat = null;
 		String custName, password;
 		Customer customer=null;
 		
 		try {
-
-		con = ConnectionPool.getInstance().getConnection();
+			con = ConnectionPool.getInstance().getConnection();
+			
 			String sql = "SELECT * FROM Customer WHERE ID=?";
-			getCustStat = con.prepareStatement (sql);
-			getCustStat.setLong(1, custId);
-			ResultSet rs = getCustStat.executeQuery();
+			PreparedStatement stat = con.prepareStatement(sql);
+			
+			stat.setLong(1, custId);
+			ResultSet rs = stat.executeQuery();
+			
 			if (!rs.next())
 			{
 				throw new DoesNotExistException("Customer does't exist");
@@ -205,32 +211,27 @@ Connection con = null;
 			
 			customer = new Customer(custId, custName, password);
 		}
-		catch (SQLException e) {
+			catch (SQLException e) {
 			
 			e.printStackTrace();
-} finally {
-
-			
-			// release connection to pool
-			
-			ConnectionPool.getInstance().free(con);
-		}
+			} finally 
+			{
+				ConnectionPool.getInstance().free(con);
+			}
 
 		return customer;
 
 	}
 	
-	@Override
 	public Customer getCustomer(String custName, String password) throws CouponException, SQLException, DoesNotExistException{
 		Connection con = null;
-		PreparedStatement getCustStat=null;
-		Customer customer = null;
+		Customer customer = new Customer();
 		Coupon coupon= new Coupon();
 		try {
 	
 			con = ConnectionPool.getInstance().getConnection();
 			String sql = "SELECT * FROM Customer WHERE CUST_NAME=?";
-			getCustStat = con.prepareStatement(sql);
+			PreparedStatement getCustStat = con.prepareStatement(sql);
 			getCustStat.setString(1, custName);
 			ResultSet rs = getCustStat.executeQuery();
 			if (rs.next())
@@ -250,7 +251,7 @@ Connection con = null;
 			long custId = rs.getLong(1);
 			custName = rs.getString(2);
 			password = rs.getString(3);
-			customer = new Customer(custId, custName, password);
+			customer = new Customer(custName,password);
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -314,44 +315,69 @@ Connection con = null;
 	@Override
 	public Collection<Coupon> getCoupons(long custId) throws CouponException, DoesNotExistException {
 		
-		CouponsDBDAO couponDB = new CouponsDBDAO();
 		Connection con = null;
 		ResultSet rs = null;
 		Collection<Coupon> coupons = new ArrayList<>();
 		try {
 			con = ConnectionPool.getInstance().getConnection();
-			String sql = "SELECT CouponId FROM Customer_Coupon WHERE CustId=?";
-
+			String sql = "SELECT * FROM Coupon "
+					+ "JOIN Customer_Coupon "
+					+ "ON Coupon.ID = Customer_Coupon.CouponId "
+					+ "WHERE Customer_Coupon.CustId = " + custId;
+			
 			PreparedStatement stat = con.prepareStatement(sql);
 
-			stat.setLong(1, custId);
-			rs = stat.executeQuery();
 			
+			rs = stat.executeQuery();
 			if (!rs.next())
 			{
 				throw new DoesNotExistException("There are no Coupons for this Customer");
 			}
 			
 			while (rs.next()) {
-			
-				System.out.println("*************");
+				// Generating Coupon
+				Coupon coupon = new Coupon(
+						rs.getLong("ID"),
+						rs.getString("TITLE"), 
+						rs.getDate("START_DATE").toLocalDate(),
+						rs.getDate("END_DATE").toLocalDate(), 
+						rs.getInt("AMOUNT"), 
+						CouponType.valueOf(rs.getString("TYPE")),
+						rs.getString("MESSAGE"), 
+						rs.getDouble("PRICE"), 
+						rs.getString("IMAGE"));
 				
-				try {
-					coupons.add(couponDB.getCoupon(rs.getLong("CouponId")));
-				} catch (AlreadyExistException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				}
+				
+				
+				System.out.println("******************");
+				coupons.add(coupon);
+				
+			}
 		
 		} catch (SQLException e) {
+		e.printStackTrace();
+		ConnectionPool.getInstance().free(con);
+		} 
 		
-			e.printStackTrace();
-			}	
+	// finally
+	finally {
+		try {
+			rs.close();
+			// release connection to pool
 			ConnectionPool.getInstance().free(con);
-		
+
+		} 
+		// catch
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+	} 
+			
+			
+		// Return coupon
 		return coupons;
-	}	
+		
+	}
 	
 	@Override
 	public boolean login(String custName, String password) throws CouponException {
@@ -422,7 +448,7 @@ Connection con = null;
 			ConnectionPool.getInstance().free(con);
 		 }
 		
-	public boolean isPurchased(Coupon coupon, Customer customer) throws CouponException, AlreadyExistException 
+	public boolean isPurchased(Customer customer, Coupon coupon) throws CouponException, AlreadyExistException 
 	{
 		boolean result = false;
 		ResultSet rs=null;
@@ -432,12 +458,11 @@ Connection con = null;
 			con = ConnectionPool.getInstance().getConnection();
 
 			String sql =
-				"SELECT * FROM Customer_Coupon WHERE CustId= ? and CouponId=? ;";
-//				+ "ON DUPLICATE KEY UPDATE CustId = CustId AND CouponId = CouponId ;"; 
+				"SELECT * FROM Customer_Coupon WHERE CustId= ? AND CouponId=?;"; 
 				PreparedStatement stat = con.prepareStatement(sql);
 	
 				
-//			stat.setLong(1, customer.getId());
+			stat.setLong(1, customer.getId());
 			stat.setLong(2, coupon.getId());
 			rs= stat.executeQuery();
 			
@@ -461,11 +486,13 @@ Connection con = null;
 	@Override
 	public void PurchaseCustomerCoupon(Customer customer, Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 	{
+		customer= new Customer();
+		coupon= new Coupon();
 		Connection con = null;
 		try {
 			con = ConnectionPool.getInstance().getConnection();
 
-			String sql =
+				String sql =
 				"INSERT INTO Customer_Coupon (CustId, CouponId) values (?,?);";
 //				+ "ON DUPLICATE KEY UPDATE CustId = CustId AND CouponId = CouponId ;"; 
 				PreparedStatement stat = con.prepareStatement(sql);
@@ -474,7 +501,7 @@ Connection con = null;
 			stat.setLong(1, customer.getId());
 			stat.setLong(2, coupon.getId());
 			
-			if (isPurchased(coupon, customer))
+			if (isPurchased(customer, coupon))
 			{
 				throw new AlreadyExistException("Coupon was already purchased for this Customer");
 
@@ -482,7 +509,7 @@ Connection con = null;
 			else
 			{
 				stat.executeUpdate();
-//				System.out.println("Coupon no." + coupon.getId()+ "(" + coupon.getTitle()+ ")" + " was added to Customer "+ customer.getCustName() + "(no."+ customer.getId()+ ")");
+				System.out.println("Coupon no." + coupon.getId()+ "(" + coupon.getTitle()+ ")" + " was added to Customer "+ customer.getCustName() + "(no."+ customer.getId()+ ")");
 			}
 		}
 			catch (SQLException e) 
@@ -493,23 +520,122 @@ Connection con = null;
 		
 		}
 
+	public boolean isPurchased(long custId, long couponId) throws CouponException, AlreadyExistException 
+	{
+		boolean result = false;
+		ResultSet rs=null;
+		Connection con = null;
+		
+		try{
+			con = ConnectionPool.getInstance().getConnection();
+
+			String sql =
+				"SELECT * FROM Customer_Coupon WHERE CustId= ? and CouponId=?;"; 
+				PreparedStatement stat = con.prepareStatement(sql);
 	
+				
+			stat.setLong(1, custId);
+			stat.setLong(2, couponId);
+			rs= stat.executeQuery();
+			
+			while (rs.next())
+			{            
+		     
+				throw new AlreadyExistException("Coupon was already purchased for this Customer");
+
+			}
+		}
+		catch (SQLException e) 
+	{
+		throw new CouponException("Coupon Exception", e);
+	}
+		ConnectionPool.getInstance().free(con);
+	
+		return result;
+
+}
 	
 	public void PurchaseCustomerCouponById(long custId, long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 	{
-//		PurchaseCustomerCouponById(customer.getId(), coupon.getId());
+		Customer customer = new Customer();
+		Coupon coupon= new Coupon();
+		Connection con = null;
+		try {
+			con = ConnectionPool.getInstance().getConnection();
+
+			String sql =
+					"INSERT INTO Customer_Coupon (CustId, CouponId) values (?,?);";
+//					+ "ON DUPLICATE KEY UPDATE CustId = CustId AND CouponId = CouponId ;"; 
+							
+			PreparedStatement stat = con.prepareStatement(sql);
+			stat.setLong(1, custId);
+			stat.setLong(2, couponId);
+			
+			if (isCouponExist(couponId))
+			{
+				throw new DoesNotExistException("Coupon doesn't Exist"); 
+			}
+			
+			else if (isPurchased(couponId, custId))
+			{
+				throw new AlreadyExistException("Coupon was already purchased for this Customer");
+
+			}
+			
+			{
+				stat.executeUpdate();
+				System.out.println("Coupon no." + couponId+ "(" + coupon.getTitle()+ ")" + " was added to Customer "+ customer.getCustName() + "(no."+ custId+ ")");
+			}
+		
+		}
+			catch (SQLException e) 
+		{
+			throw new CouponException("Coupon Exception", e);
+		}
+			ConnectionPool.getInstance().free(con);
+		
+		}
+	
+	public boolean isCouponExist(long couponId) throws CouponException 
+	{
+
+		Connection con = null;
+		ResultSet rs=null;
+		try {
+			con = ConnectionPool.getInstance().getConnection();
+			String sql = "SELECT * FROM Coupon WHERE ID= " + couponId; 
+			
+			PreparedStatement stat = con.prepareStatement(sql);
+						
+			rs = stat.executeQuery();
+			
+			// If there is even one line in the response - it means the coupon exists
+			
+			return (rs.next());
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+
+			
+			// release connection to pool
+			
+			ConnectionPool.getInstance().free(con);
+		}
+
+		return false;
+
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+

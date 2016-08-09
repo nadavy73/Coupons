@@ -30,6 +30,10 @@ public class Customer {
 		this.custId = custId;
 	}
 	
+	public Customer(String custName)
+	{
+		this.custName = custName;
+	}
 	public Customer(long custId, String custName, String custPassWord, Collection<Coupon> coupons) 
 	{
 		super();
