@@ -20,7 +20,7 @@ public interface CustomerDAO
 	
 	public Customer getCustomerById (long custId)throws CouponException, SQLException, DoesNotExistException;
 	
-	public Customer getCustomer(String custName, String password) throws CouponException, SQLException, DoesNotExistException;
+	public Customer getCustomerByName(String custName) throws CouponException, SQLException, DoesNotExistException;
 
 	public Collection<Customer> getAllCustomers ()throws CouponException, SQLException;
 	
@@ -28,18 +28,18 @@ public interface CustomerDAO
 	
 	public boolean login (String custName ,String password)throws CouponException, SQLException;
 
-	public void removeCustomerCoupons(long couponId) throws CouponException, DoesNotExistException;
-	
-	public void PurchaseCustomerCoupon(Customer customer, Coupon coupon) throws  CouponException, AlreadyExistException, DoesNotExistException, SQLException;
+	public void AddCustomerCoupon(Customer customer, Coupon coupon) throws  CouponException, AlreadyExistException, DoesNotExistException, SQLException;
 
-	public void PurchaseCustomerCouponById(long custId, long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException;
-
-	public boolean isPurchased(Customer customer, Coupon coupon) throws CouponException, AlreadyExistException; 
+	public void AddCustomerCouponById(long custId, long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException;
 	
-	public boolean isPurchased(long custId, long couponId) throws CouponException, AlreadyExistException;
+	public void removeCustomerCouponsById(long custId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException;
 	
-	public boolean isCouponExist(long couponId) throws CouponException;
-	
-	public boolean isCustomerExist(String custName) throws CouponException;
+//	public boolean isPurchased(Customer customer, Coupon coupon) throws CouponException, AlreadyExistException; 
+//	
+//	public boolean isPurchased(long custId, long couponId) throws CouponException, AlreadyExistException;
+//	
+//	public boolean isCouponExist(long couponId) throws CouponException;
+//	
+//	public boolean isCustomerExist(String custName) throws CouponException;
 }
 
