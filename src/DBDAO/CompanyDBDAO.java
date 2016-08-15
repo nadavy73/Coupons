@@ -4,6 +4,8 @@ package DBDAO;
 
 import java.sql.*;
 import java.util.*;
+
+import Checks.Checks;
 import DAO.CompanyDAO;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
@@ -115,8 +117,13 @@ public class CompanyDBDAO implements CompanyDAO {
 	//*****************************************************************
 	//This function gets Company Name and replace with new Company name.
 	//*****************************************************************
-	public void updateCompanyByName(String OldName, String NewName) throws CouponException, SQLException {
+	public void updateCompanyByName(String OldName, String NewName) throws CouponException, SQLException, DoesNotExistException {
 
+		if (!Checks.isCompanyExistByName(OldName))
+		{
+			throw new DoesNotExistException("Company Does Not Exist");
+			
+		}
 		Connection con = null;
 		try {
 			con = ConnectionPool.getInstance().getConnection();

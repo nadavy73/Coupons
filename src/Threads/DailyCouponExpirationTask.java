@@ -1,10 +1,12 @@
 package Threads;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 import DAO.CouponDAO;
 import Exceptions.CouponException;
+import Exceptions.DoesNotExistException;
 import JavaBeans.Coupon;
 
 public class DailyCouponExpirationTask implements Runnable 
@@ -32,7 +34,13 @@ public class DailyCouponExpirationTask implements Runnable
 			catch (CouponException e) 
 				{
 				e.printStackTrace();
-				}
+				} catch (DoesNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 			//Take a sleep for a day

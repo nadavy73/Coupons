@@ -16,7 +16,7 @@ public interface CompanyDAO
 	
 	public void removeCompany (String compName)throws CouponException,DoesNotExistException, SQLException;
 	
-	public void updateCompanyByName(String OldName, String NewName)throws CouponException, SQLException;
+	public void updateCompanyByName(String OldName, String NewName)throws CouponException, SQLException, DoesNotExistException;
 	
 	public void updateCompany (Company company)throws CouponException, SQLException, DoesNotExistException;
 	

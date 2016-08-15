@@ -42,6 +42,34 @@ public class Checks {
 		return false;
 
 	}
+	
+	public static boolean isCompanyExistByName(String compName) throws CouponException 
+	{
+
+		Connection con = null;
+		ResultSet rs=null;
+		try {
+			con = ConnectionPool.getInstance().getConnection();
+			
+			String sql = "SELECT * FROM Company WHERE COMP_NAME=?;"; 
+			
+			PreparedStatement stat = con.prepareStatement(sql);
+			stat.setString(1, compName);			
+			rs = stat.executeQuery();
+			
+			// If there is even one line in the response - it means the coupon exists
+			
+			return (rs.next());
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} // release connection to pool
+		finally {
+			ConnectionPool.getInstance().free(con);
+		}
+		return false;
+
+	}
 	public static boolean isCustomerExistById(Long custId) throws CouponException, SQLException 
 	{
 		ResultSet rs=null;
@@ -95,16 +123,16 @@ public class Checks {
 		}return false;
 
 	}
-	public static boolean isCouponExistByName(String coupName) throws CouponException, SQLException 
+	public static boolean isCouponExistByName(String TITLE) throws CouponException, SQLException 
 	{
 		Connection con = null;
 		ResultSet rs=null;
 		try {
 			con = ConnectionPool.getInstance().getConnection();
-			String sql = "SELECT * FROM Coupon WHERE ID= ?;"; 
+			String sql = "SELECT * FROM Coupon WHERE TITLE= ?;"; 
 			
 			PreparedStatement stat = con.prepareStatement(sql);
-			stat.setString(1, coupName);			
+			stat.setString(1, TITLE);			
 			rs = stat.executeQuery();
 			
 			// If there is even one line in the response - it means the coupon exists

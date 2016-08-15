@@ -14,7 +14,7 @@ public interface CouponDAO
 
 	public void removeCoupon(Coupon coupon)throws CouponException, SQLException, DoesNotExistException;
 	
-	public void updateCoupon(Coupon coupon)throws CouponException, DoesNotExistException;
+	public void updateCoupon(Coupon coupon)throws CouponException, DoesNotExistException, SQLException;
 	
 	public Coupon getCoupon (long id)throws CouponException, AlreadyExistException, DoesNotExistException;
 	
@@ -22,6 +22,7 @@ public interface CouponDAO
 	
 	public Collection<Coupon> getCouponByType (CouponType couponType)throws CouponException, DoesNotExistException;
 
-	public Set<Long> getCustomersId(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException;
+	public Set<Long> getCustomersWhoHaveCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException;
 
+	public Coupon getCouponByTitle (String TITLE) throws CouponException, DoesNotExistException;
 }

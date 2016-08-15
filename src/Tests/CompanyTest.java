@@ -17,7 +17,7 @@ public class CompanyTest {
 	{
 //			createCompanyTest();
 //			removeCompanyTest ();
-//			updateCompanyByNameTest();
+			updateCompanyByNameTest();
 //			updateCompanyTest ();
 //			getCompanyTest();
 //			getCompanyByNameTest();
@@ -61,9 +61,10 @@ public class CompanyTest {
 			
 		}
 		
-		public static void updateCompanyByNameTest()throws CouponException, SQLException 
+		public static void updateCompanyByNameTest()throws CouponException, SQLException, DoesNotExistException 
 		{
-			
+			CompanyDAO compDao = new CompanyDBDAO();
+			compDao.updateCompanyByName("Ofer1", "Nadav1");
 		}
 		
 		public static void updateCompanyTest ()throws CouponException, SQLException, DoesNotExistException
