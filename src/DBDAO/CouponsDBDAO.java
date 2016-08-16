@@ -339,39 +339,50 @@ public class CouponsDBDAO implements CouponDAO
 		//*******************************************************
 		//This function Returns All customer that have the coupon
 		//*******************************************************
-		public Set<Long> getCustomersWhoHaveCoupon(Long CouponId) throws CouponException, AlreadyExistException, DoesNotExistException {
+		public Collection<Customer> getCustomersWhoHaveCoupon(Long couponId) throws CouponException, AlreadyExistException, DoesNotExistException {
 		
 		Connection con = null;
-		Set<Long> customers = new HashSet<>();
+//		Set<Long> customers = new HashSet<>();
 		ResultSet rs;
-		Long custId;
-		Collection <Coupon> custCoupons = null;
+		long custId;
+		Collection <Customer> custCoupons = new ArrayList<>();
 		try {
 			con = ConnectionPool.getInstance().getConnection();
 		
-			String sql = "SELECT * FROM Customer_Coupon WHERE COUPON_ID=?";
+			String sql = "SELECT * FROM Customer_Coupon WHERE CouponId=?";
 			PreparedStatement stat = con.prepareStatement(sql);
-			stat.setLong(1,CouponId);
+			
+			stat.setLong(1,couponId);
 			rs = stat.executeQuery();
+			 if (!Checks.isCouponExistById(couponId))
+			 {
+				 throw new DoesNotExistException("Coupon Does not exist");
+			 }
+			 {
+				 do {
+						Customer customer = new Customer(
+						 rs.getLong("ID"),
+						 rs.getString("CUST_NAME"),
+						 rs.getString("PASSWORD"));
 			
-			
-			while(rs.next()) 
-			{
-			
-			custId = rs.getLong(1);
-			CouponId = rs.getLong(2);
-			
-			Customer customer = new Customer
-			customers.add(e)
+			custCoupons.add(customer);
 			}
+			while(rs.next());
+			 }
 			
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
-		}
-		return customers;
-	}
+			
 
+			}
+			// release connection to pool
+			finally {
+				ConnectionPool.getInstance().free(con);
+				}
+			return custCoupons; 
+			
+		}
+		
 	
 	
 }

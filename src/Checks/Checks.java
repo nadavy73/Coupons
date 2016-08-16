@@ -10,7 +10,7 @@ import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
-import DAO.*;
+
 
 public class Checks {
 

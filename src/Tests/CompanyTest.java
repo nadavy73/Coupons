@@ -15,9 +15,9 @@ public class CompanyTest {
 
 		public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
-//			createCompanyTest();
+			createCompanyTest();
 //			removeCompanyTest ();
-			updateCompanyByNameTest();
+//			updateCompanyByNameTest();
 //			updateCompanyTest ();
 //			getCompanyTest();
 //			getCompanyByNameTest();
@@ -35,11 +35,11 @@ public class CompanyTest {
 		{
 			CompanyDAO compDao = new CompanyDBDAO();
 			
-			Company comp1 = new Company("Nadav1", "Nadav123", "Nadavy1@gmail.com");
+//			Company comp1 = new Company("Nadav1", "Nadav123", "Nadavy1@gmail.com");
 			Company comp2 = new Company("Nadav2", "Nadav123", "Nadavy2@gmail.com");
 			Company comp3 = new Company("Nadav3", "Nadav123", "Nadavy3@gmail.com");
 			
-			compDao.createCompany(comp1);
+//			compDao.createCompany(comp1);
 			compDao.createCompany(comp2);
 			compDao.createCompany(comp3);
 			

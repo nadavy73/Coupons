@@ -17,24 +17,24 @@ import JavaBeans.*;
 //***********************************************
 
 public class CompanyDBDAO implements CompanyDAO {
-
+	//V
 	//**************************************************
 	//This function gets Company Object and insert to DB
 	//**************************************************
 	public void createCompany(Company company) throws CouponException, AlreadyExistException, DoesNotExistException {
+		
 		Connection con = null;
 		
-
 		try {
 			
-			con = ConnectionPool.getInstance().getConnection();
-			String sql = "INSERT INTO Company(COMP_NAME,PASSWORD,EMAIL) VALUES (?,?,?)";
-			PreparedStatement stat = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-			stat.setString(1, company.getCompName());
-			stat.setString(2, company.getPassWord());
-			stat.setString(3, company.geteMail());
-			if (isCompanyExist(company.getCompName()))
+		con = ConnectionPool.getInstance().getConnection();
+		String sql = "INSERT INTO Company(COMP_NAME,PASSWORD,EMAIL) VALUES (?,?,?)";
+		PreparedStatement stat = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		stat.setString(1, company.getCompName());
+		stat.setString(2, company.getPassWord());
+		stat.setString(3, company.geteMail());
+			
+		if (Checks.isCompanyExistByName(company.getCompName()))
 			{
 				throw new AlreadyExistException("COMPANY AlreadyExist");
 			}
@@ -54,6 +54,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			ConnectionPool.getInstance().free(con);
 		}
 }
+	//V
 	//********************************************************
 	//This function gets Company Object and and remove from DB
 	//********************************************************

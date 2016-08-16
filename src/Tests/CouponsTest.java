@@ -22,7 +22,8 @@ public class CouponsTest {
 //		getCouponByTitleTest();
 //		getCouponTest();
 //		getAllCouponsTest();
-		getCouponByTypeTest();
+//		getCouponByTypeTest();
+		
 	}
 	
 		public static void CreateCouponsTest() throws CouponException, AlreadyExistException, DoesNotExistException
@@ -89,6 +90,13 @@ public class CouponsTest {
 			CouponDAO coupDao = new CouponsDBDAO();
 			System.out.println(coupDao.getCouponByType(CouponType.Restaurants));
 		}
+		
+		public static void getCustomersWhoHaveCouponTest() throws CouponException, DoesNotExistException
+		{
+			CouponDAO coupDao = new CouponsDBDAO();
+			coupDao.getCustomersWhoHaveCoupon(couponId)
+		}
+
 }
 
 
