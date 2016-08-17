@@ -129,6 +129,34 @@ public class CouponsDBDAO implements CouponDAO
 			ConnectionPool.getInstance().free(con);
 				}
 	}
+	
+	//**********************************************************************************
+	//This function gets Coupon Object and Update his amount in DB after purchase coupon
+	//**********************************************************************************
+	public void updateAmountOfCoupon(long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
+		{
+			Connection con = null;
+			
+			if (!Checks.isCouponExistById(couponId))
+			{
+				throw new DoesNotExistException("Coupon Does not exist");
+			}
+			
+			try {
+				con = ConnectionPool.getInstance().getConnection();
+				String sql =
+						"UPDATE Coupon SET AMOUNT= AMOUNT +(-1) WHERE ID=?";
+				PreparedStatement stmt = con.prepareStatement(sql);
+			
+				stmt.setLong(1, couponId);
+				stmt.executeUpdate();
+			} catch (SQLException e) 
+			{
+			throw new CouponException("Amount Balagan", e);
+			}
+			ConnectionPool.getInstance().free(con);
+			}
+		
 		//V	
 		//**********************************************************************************
 		//This function gets Coupon Title and Returns coupon Object that contains this title
