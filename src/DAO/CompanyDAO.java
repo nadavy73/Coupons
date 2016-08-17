@@ -14,13 +14,13 @@ public interface CompanyDAO
 {
 	public void createCompany (Company company) throws CouponException, AlreadyExistException, DoesNotExistException;
 	
-	public void removeCompany (String compName)throws CouponException,DoesNotExistException, SQLException;
+	public void removeCompanyByName (String compName)throws CouponException,DoesNotExistException, SQLException;
 	
 	public void updateCompanyByName(String OldName, String NewName)throws CouponException, SQLException, DoesNotExistException;
 	
 	public void updateCompany (Company company)throws CouponException, SQLException, DoesNotExistException;
 	
-	public Company getCompany(long ID) throws CouponException, SQLException, DoesNotExistException;
+	public Company getCompanyById(long ID) throws CouponException, SQLException, DoesNotExistException;
 	
 	public Company getCompanyByName(String compName) throws CouponException, DoesNotExistException;
 	
@@ -34,7 +34,7 @@ public interface CompanyDAO
 	
 	public void addCompanyCouponById(long compId, long couponId) throws CouponException;
 	
-	public boolean isCompanyExist(String compName) throws CouponException;
+//	public boolean isCompanyExist(String compName) throws CouponException;
 	
 	public void removeCompanyCouponsById(long couponId) throws CouponException, DoesNotExistException;
 		

@@ -1,5 +1,5 @@
 package JavaBeans;
 
-public enum CouponType {Restaurants,Electronics,Home_and_Styling,
+public enum CouponType {Restaurants,Clothes,Electronics,Home_and_Styling,
 	Garden,Fast_Food,Health,Camping,Travelling}
 

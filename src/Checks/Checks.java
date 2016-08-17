@@ -98,6 +98,36 @@ public class Checks {
 		return false;
 
 	}
+	
+	public static boolean isCompanyExistById(Long compId) throws CouponException, SQLException 
+	{
+		ResultSet rs=null;
+		Connection con = null;
+		
+		try {
+			con = ConnectionPool.getInstance().getConnection();
+			
+			String sql = "SELECT * FROM Company WHERE ID=?;"; 
+			
+			PreparedStatement stat = con.prepareStatement(sql);
+			stat.setLong(1, compId);			
+			rs = stat.executeQuery();
+			
+			// If there is even one line in the response - it means the coupon exists
+			
+			return (rs.next());
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} // release connection to pool
+		finally {
+			ConnectionPool.getInstance().free(con);
+			rs.close();
+		}
+		return false;
+
+	}
+	
 	public static boolean isCouponExistById(long couponId) throws CouponException, SQLException 
 	{
 		Connection con = null;

@@ -22,7 +22,7 @@ public interface CouponDAO
 	
 	public Collection<Coupon> getCouponByType (CouponType couponType)throws CouponException, DoesNotExistException;
 
-	public Collection<Customer> getCustomersWhoHaveCoupon(Long couponId) throws CouponException, AlreadyExistException, DoesNotExistException;
+	public Collection<Customer> getCustomersWhoHaveCoupon(long couponId) throws CouponException, AlreadyExistException, DoesNotExistException;
 
 	public Coupon getCouponByTitle (String TITLE) throws CouponException, DoesNotExistException;
 }

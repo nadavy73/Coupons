@@ -1,6 +1,8 @@
 package Tests;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Collection;
 
 import DAO.CompanyDAO;
@@ -9,22 +11,24 @@ import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
 import Exceptions.DoesNotExistException;
 import JavaBeans.Coupon;
+import JavaBeans.CouponType;
 import JavaBeans.Company;
 
 public class CompanyTest {
 
 		public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
-			createCompanyTest();
-//			removeCompanyTest ();
-//			updateCompanyByNameTest();
-//			updateCompanyTest ();
-//			getCompanyTest();
-//			getCompanyByNameTest();
-//			getAllCompaniesTest();
-//			getCouponsTest();
-//			loginTest ();
-//			addCompanyCouponTest();
+//V			createCompanyTest();
+//V			removeCompanyTest ();
+//V			removeCompanyByNameTest();
+//V			updateCompanyByNameTest();
+//V			updateCompanyTest ();
+//V			getCompanyByIdTest();
+//V			getCompanyByNameTest();
+//V 		getAllCompaniesTest();
+//V 		getCouponsTest();
+//V			loginTest ();
+			addCompanyCouponTest();
 //			addCompanyCouponByIdTest();
 //			isCompanyExistTest();
 //			removeCompanyCouponsByIdTest();
@@ -36,11 +40,11 @@ public class CompanyTest {
 			CompanyDAO compDao = new CompanyDBDAO();
 			
 //			Company comp1 = new Company("Nadav1", "Nadav123", "Nadavy1@gmail.com");
-			Company comp2 = new Company("Nadav2", "Nadav123", "Nadavy2@gmail.com");
+//			Company comp2 = new Company("Nadav2", "Nadav123", "Nadavy2@gmail.com");
 			Company comp3 = new Company("Nadav3", "Nadav123", "Nadavy3@gmail.com");
 			
 //			compDao.createCompany(comp1);
-			compDao.createCompany(comp2);
+//			compDao.createCompany(comp2);
 			compDao.createCompany(comp3);
 			
 			
@@ -61,45 +65,67 @@ public class CompanyTest {
 			
 		}
 		
+		public static void removeCompanyByNameTest() throws CouponException, DoesNotExistException, SQLException
+		{
+			CompanyDAO compDao = new CompanyDBDAO();
+			compDao.removeCompanyByName("Nadav3");
+		}
+		
 		public static void updateCompanyByNameTest()throws CouponException, SQLException, DoesNotExistException 
 		{
 			CompanyDAO compDao = new CompanyDBDAO();
-			compDao.updateCompanyByName("Ofer1", "Nadav1");
+			compDao.updateCompanyByName("Nadav1", "Ofer1");
 		}
 		
 		public static void updateCompanyTest ()throws CouponException, SQLException, DoesNotExistException
 		{
+			CompanyDAO compDao = new CompanyDBDAO();
+			
+			Company comp1 = new Company("Nadav1", "nadav123456", "nadavy73@gmail.com");
+			
+			compDao.updateCompany(comp1);
 			
 		}
 		
-		public static void getCompanyTest() throws CouponException, SQLException, DoesNotExistException
+		public static void getCompanyByIdTest() throws CouponException, SQLException, DoesNotExistException
 		{
-			
+			CompanyDAO compDao = new CompanyDBDAO();
+			System.out.println(compDao.getCompanyById(4));
 		}
 		
 		public static void getCompanyByNameTest() throws CouponException, DoesNotExistException
 		{
-			
+			CompanyDAO compDao = new CompanyDBDAO();
+			System.out.println(compDao.getCompanyByName("Nadav1"));
 		}
 		
 		public static void getAllCompaniesTest() throws CouponException, SQLException
 		{
-			
+			CompanyDAO compDao = new CompanyDBDAO();
+			System.out.println(compDao.getAllCompanies());
 		}
 
 		public static void getCouponsTest() throws CouponException, SQLException, DoesNotExistException
 		{
-			
+			CompanyDAO compDao = new CompanyDBDAO();
+			System.out.println(compDao.getCoupons(3));
 		}
 		
 		public static void loginTest ()throws CouponException, SQLException
 		{
-			
+			CompanyDAO compDao= new CompanyDBDAO();
+			compDao.login("Nadav1", "nadav123456");
 		}
 		
 		public static void addCompanyCouponTest() throws CouponException, SQLException
 		{
+			CompanyDAO compDao= new CompanyDBDAO();
 			
+			Company comp1 = new Company("Delta", "Delta123456", "nadavy73@delta.com");
+			
+			//Coupon coup1 = new Coupon("T-SHIRT", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
+			Coupon coup2 = new Coupon(25,"T-SHIRT", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
+			compDao.addCompanyCoupon(comp1, coup2);
 		}
 		
 		public static void addCompanyCouponByIdTest() throws CouponException

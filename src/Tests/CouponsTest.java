@@ -21,9 +21,11 @@ public class CouponsTest {
 //		UpdateCouponsTest();
 //		getCouponByTitleTest();
 //		getCouponTest();
-//		getAllCouponsTest();
+		getAllCouponsTest();
 //		getCouponByTypeTest();
-		
+//		getCustomersWhoHaveCouponTest();
+//		CustomerDAO custDao = new CustomerDBDAO();
+//		custDao.AddCustomerCouponById(21, 22);
 	}
 	
 		public static void CreateCouponsTest() throws CouponException, AlreadyExistException, DoesNotExistException
@@ -91,10 +93,11 @@ public class CouponsTest {
 			System.out.println(coupDao.getCouponByType(CouponType.Restaurants));
 		}
 		
-		public static void getCustomersWhoHaveCouponTest() throws CouponException, DoesNotExistException
+		public static void getCustomersWhoHaveCouponTest() throws CouponException, DoesNotExistException, AlreadyExistException
 		{
 			CouponDAO coupDao = new CouponsDBDAO();
-			coupDao.getCustomersWhoHaveCoupon(couponId)
+			System.out.println(coupDao.getCustomersWhoHaveCoupon(22));
+			
 		}
 
 }

@@ -21,9 +21,14 @@ public class Company {
 	//Constructors
 	//
 	
+	public Company()
+	{
+		
+	}
+	
 	public Company(String compName,String passWord,String eMail)
 	{
-//		this.ID=ID;
+
 		this.compName=compName;
 		this.passWord=passWord;
 		this.eMail=eMail;

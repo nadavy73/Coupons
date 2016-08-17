@@ -339,7 +339,7 @@ public class CouponsDBDAO implements CouponDAO
 		//*******************************************************
 		//This function Returns All customer that have the coupon
 		//*******************************************************
-		public Collection<Customer> getCustomersWhoHaveCoupon(Long couponId) throws CouponException, AlreadyExistException, DoesNotExistException {
+		public Collection<Customer> getCustomersWhoHaveCoupon(long couponId) throws CouponException, AlreadyExistException, DoesNotExistException {
 		
 		Connection con = null;
 //		Set<Long> customers = new HashSet<>();
@@ -349,7 +349,10 @@ public class CouponsDBDAO implements CouponDAO
 		try {
 			con = ConnectionPool.getInstance().getConnection();
 		
-			String sql = "SELECT * FROM Customer_Coupon WHERE CouponId=?";
+			String sql = "SELECT * FROM Customer "
+					+ "JOIN Customer_Coupon "
+					+ "ON Customer.ID = Customer_Coupon.CustId "
+					+ "WHERE Customer_Coupon.CouponId = ?";
 			PreparedStatement stat = con.prepareStatement(sql);
 			
 			stat.setLong(1,couponId);
