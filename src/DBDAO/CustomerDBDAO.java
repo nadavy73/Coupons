@@ -1,7 +1,7 @@
 package DBDAO;
 
 
-import java.awt.List;
+//import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,20 +9,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.TreeSet;
+//import java.util.Collections;
+//import java.util.Comparator;
+//import java.util.HashSet;
+//import java.util.TreeSet;
 
 
 import Checks.Checks;
 import DAO.CustomerDAO;
 import Exceptions.*;
+//import Facades.ClientType;
 import JavaBeans.*;
 
 public class CustomerDBDAO implements CustomerDAO 
 {
-	private Coupon coupon= new Coupon();
 	//V
 	//***************************************************
 	//This function gets Customer Object and insert to DB
@@ -226,15 +226,6 @@ public class CustomerDBDAO implements CustomerDAO
 				throw new DoesNotExistException("Customer Does Not Exist");
 			}
 			
-			if (coupon.getAmount()<1)
-			{
-				try {
-					throw new CouponException("Coupon ID:" + coupon.getId() 
-					+ " (" + coupon.getTitle() + ") is not in stock");
-				} catch (CouponException e) {
-					
-				}
-			}
 			 {
 				Id= rs.getLong(1);
 				custName = rs.getString(2);
@@ -253,7 +244,7 @@ public class CustomerDBDAO implements CustomerDAO
 		return customer;
 		
 	}
-
+	//V
 	@Override
 	public Collection<Customer> getAllCustomers() throws CouponException {
 		Collection <Customer> customers = new  ArrayList<>();
@@ -291,11 +282,12 @@ public class CustomerDBDAO implements CustomerDAO
 			}
 			return customers;
 	}
-
+	//V
 	@Override
-	public Collection<Coupon> getCoupons(long custId) throws CouponException, DoesNotExistException 
+	public Collection<Coupon> getCoupons(long custId) throws CouponException, DoesNotExistException, SQLException 
 	{
 		Connection con = null;
+		ResultSet rs=null;
 		Collection<Coupon> coupons = new ArrayList<>();
 		try {
 			con = ConnectionPool.getInstance().getConnection();
@@ -307,7 +299,7 @@ public class CustomerDBDAO implements CustomerDAO
 			PreparedStatement stat = con.prepareStatement(sql);
 			stat.setLong(1, custId);
 			
-			ResultSet rs = stat.executeQuery();
+			rs = stat.executeQuery();
 			
 			// Check customer by id
 			
@@ -347,11 +339,12 @@ public class CustomerDBDAO implements CustomerDAO
 		// release connection to pool
 		finally {
 			ConnectionPool.getInstance().free(con);
+//			rs.close();
 			}
 		return coupons; 
 		
 	}
-	
+	//V
 	@Override
 	public boolean login(String custName, String password) throws CouponException {
 		Connection con = null;
@@ -379,9 +372,9 @@ public class CustomerDBDAO implements CustomerDAO
 				}
 						
 				
-			String message = (hasRows) ? "Successful Customer Login ": "Failed to login as Customer ";
-			System.out.println(message);
-			
+//			String message = (hasRows) ? "Successful Customer Login ": "Failed to login as Customer ";
+//			System.out.println(message);
+//			
 			// catch
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -394,7 +387,7 @@ public class CustomerDBDAO implements CustomerDAO
 
 		return hasRows;
 	}
-	
+	//V
 	public void AddCustomerCouponById(long custId, long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 	{
 		Connection con=null;
@@ -442,13 +435,14 @@ public class CustomerDBDAO implements CustomerDAO
 			}
 	}
 	
-	@Override
-	public void AddCustomerCoupon(Customer customer, Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
-	{
-		AddCustomerCouponById(customer.getId(), coupon.getId());
-		
-	}
-
+	//V	
+//	@Override
+//	public void AddCustomerCoupon(Customer customer, Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
+//	{
+//		AddCustomerCouponById(customer.getId(), coupon.getId());
+//		
+//	}
+	//V
 	@Override
 	public void removeCustomerCouponsById(long custId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {
 		Connection con = null;
@@ -478,8 +472,45 @@ public class CustomerDBDAO implements CustomerDAO
 			
 			 {
 				ConnectionPool.getInstance().free(con);
-			}
+			 }
+		}
+	
+		//V//
+		@Override
+		public void removeCustomerCouponsByCouponId(long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {
+			Connection con = null;
+					
+				if (!Checks.isCouponExistById(couponId))
+				{
+					throw new DoesNotExistException("This Coupon is not purchased for this Customer");
+				}
+					
+				try {
+					con = ConnectionPool.getInstance().getConnection();
+					String sql =
+						"DELETE FROM Customer_Coupon WHERE CouponId = ?;";
+					PreparedStatement stmt = con.prepareStatement(sql);
+					
+					//Delete coupons
+					stmt.setLong(1, couponId);
+					stmt.executeUpdate();
+						
+					} catch (SQLException e) 
+					{
+					throw new CouponException("CouponException", e);
+					}
+						
+					System.out.println("Coupon no." + couponId+ "  was removed");
+						
+					 {
+						ConnectionPool.getInstance().free(con);
+					}		 
+	
+	
+	
 	}
+
+	
 
 	
 	

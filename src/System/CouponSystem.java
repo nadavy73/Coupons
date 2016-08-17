@@ -67,14 +67,14 @@ public class CouponSystem
 	
 	public CustomerFacade CustomerLogin(String custName, String password) throws FacadeException, LoginException, CouponException, CustomerException 
 	{
-			return CustomerFacade.login(custName, password); 
+			return CouponSystem.getInstance().CustomerLogin(custName, password);
 			
 	}
 	
 	public static AdminFacade AdminLogin(String name, String password) throws FacadeException, LoginException, CouponException 
 	{
 		
-		return CouponSystem.AdminLogin(name, password);
+		return CouponSystem.getInstance().AdminLogin(name, password);
 			
 	}
 	// Shut down

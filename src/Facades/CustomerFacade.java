@@ -1,7 +1,7 @@
 package Facades;
 
 import java.sql.SQLException;
-
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import DAO.CouponDAO;
@@ -25,87 +25,54 @@ public class CustomerFacade implements CouponClientFacade
 	 */
 	private Customer customer;
 	private long custId;
-	private CustomerDAO custDAO= null;
-	private CouponDAO coupDAO= null;
+	private String custName;
+	private CustomerDAO custDAO = new CustomerDBDAO();
+	private CouponDAO couponDAO = new CouponsDBDAO();
+	private ClientType clientType;
 	
 	/*
 	 * Constructors
 	 */
 		
-	public CustomerFacade() 
-	{
-		custDAO = new CustomerDBDAO();
-		coupDAO= new CouponsDBDAO();
-	}	
-	
-	public CustomerFacade(String custName, String custPassword) throws CustomerException, SQLException, DoesNotExistException {
 		
-			try {
-				customer = custDAO.getCustomer(customer.getCustName(), customer.getPassWord());
-			
-			} 
-			catch (CouponException e) {
-				throw new CustomerException("CustomerFacadeException - "
-						+ "Constructor error", e);
-			}
-			
-		
-	}
-	
+	@Override
 	public CustomerFacade login(String custName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException {
 			boolean LoginAsCustomer= false;
 		try {
 			 LoginAsCustomer= custDAO.login(custName, password);
 		} catch (Exception e) {
-			throw new DoesNotExistException("Customer Login Failed.");
+			throw new DoesNotExistException("Customer failed to login");
 		}
 			
 			if (LoginAsCustomer && clientType.equals(ClientType.CUSTOMER))
 				{
+				System.out.println("Successful Customer Login");
 				return this;
 			
 				} 
 			else 
 			{
-				throw new LoginException("Customer Login Failed.");
+				throw new LoginException("Customer Login Failed");
 			}
 		}	
 	
 	public void purchaseCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
-		if (coupon.getAmount()<1)
+		if (LocalDate.now().isAfter(coupon.getEndDate())) {
+				throw new CouponException("Coupon Id no."+ coupon.getId() + " (" + coupon.getTitle() 
+				+ ") was expired. Coupon End Date:" + coupon.getEndDate());
+		}
+		if (coupon.getAmount() < 1) 
 		{
-			try {
-				throw new CouponException("Coupon ID:" + coupon.getId() 
-				+ " (" + coupon.getTitle() + ") is not in stock");
-			} catch (CouponException e) 
-			{
-				
-			}
+			throw new DoesNotExistException("Coupon is out of stock");
 		}
 		
-//		if (LocalDate.now().isAfter(coupon.getEndDate()))
-//		{
-//			try {
-//				throw new CouponException("Coupon ID:" + coupon.getId() + " (" + coupon.getTitle() 
-//				+ ") is expired. EndDate:" + coupon.getEndDate());
-//			} catch (CouponException e) {
-//				
-//			}
-//		}
+		else {
 		
-		if (custDAO.isPurchased(customer, coupon))
-		{
-			try {
-				throw new AlreadyExistException("Coupon was Already purchased");
-			} catch (AlreadyExistException e) {
-				
-			}
+		custDAO.AddCustomerCouponById(customer.getId(), coupon.getId());
+		couponDAO.updateAmountOfCoupon(coupon.getId());
+		
 		}
-	
-//		custDAO.PurchaseCustomerCouponById(customer.getId(), coupon.getId());
-		coupon.setAmount(coupon.getAmount()-1);
-		coupDAO.updateCoupon(coupon);
 		
 	}
 	
@@ -135,7 +102,6 @@ public class CustomerFacade implements CouponClientFacade
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return couponsType;
@@ -163,7 +129,7 @@ public class CustomerFacade implements CouponClientFacade
 	}
 
 	
-
+	
 	
 
 	
