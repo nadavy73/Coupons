@@ -37,9 +37,6 @@ public interface CustomerDAO
 	public boolean login (String custName ,String password)
 			throws CouponException, SQLException;
 
-//	public void AddCustomerCoupon(Customer customer, Coupon coupon) 
-//			throws  CouponException, AlreadyExistException, DoesNotExistException, SQLException;
-
 	public void AddCustomerCouponById(long custId, long couponId) 
 			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException;
 	

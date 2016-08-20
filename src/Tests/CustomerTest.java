@@ -3,19 +3,11 @@ package Tests;
 import java.sql.SQLException;
 import java.util.Collection;
 
-import Checks.Checks;
-import DAO.CouponDAO;
-//import DAO.CompanyDAO;
-//import DAO.CouponDAO;
-import DAO.CustomerDAO;
-import DBDAO.CouponsDBDAO;
-//import DBDAO.CompanyDBDAO;
-import DBDAO.CustomerDBDAO;
-import Exceptions.AlreadyExistException;
-import Exceptions.CouponException;
-import Exceptions.DoesNotExistException;
-import JavaBeans.Coupon;
-import JavaBeans.Customer;
+
+import DAO.*;
+import DBDAO.*;
+import Exceptions.*;
+import JavaBeans.*;
 
 public class CustomerTest {
 
@@ -204,21 +196,6 @@ public class CustomerTest {
 			custDAO.AddCustomerCouponById (4,33);
 //			System.out.println(Checks.isPurchased(3,30));
 //			System.out.println("**************");
-		}
-		
-		public static void AddCustomerCouponTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
-		{
-			CustomerDAO custDAO= new CustomerDBDAO();
-
-//			Customer cust2= new Customer("Cutomer2", "Custi9876");		
-			Coupon coup1= new Coupon(35,"New Coupon");
-			
-			custDAO.AddCustomerCoupon(custDAO.getCustomerByName("Customer23"),coup1);
-//			System.out.println(custDAO.isCouponExist(10));
-
-		
-//		custDAO.isPurchased(coup1, cust1);
-		
 		}
 		
 		public static void RemoveCustomerCouponByIdTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException

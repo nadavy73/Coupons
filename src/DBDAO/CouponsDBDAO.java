@@ -1,17 +1,12 @@
 package DBDAO;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import Checks.Checks;
-import DAO.CouponDAO;
-import Exceptions.AlreadyExistException;
-import Exceptions.CouponException;
-import Exceptions.DoesNotExistException;
+import java.sql.Date;
+import java.time.*;
+import java.util.*;
+import Checks.*;
+import DAO.*;
+import Exceptions.*;
 import JavaBeans.*;
 
 public class CouponsDBDAO implements CouponDAO
@@ -372,7 +367,6 @@ public class CouponsDBDAO implements CouponDAO
 		Connection con = null;
 //		Set<Long> customers = new HashSet<>();
 		ResultSet rs;
-		long custId;
 		Collection <Customer> custCoupons = new ArrayList<>();
 		try {
 			con = ConnectionPool.getInstance().getConnection();

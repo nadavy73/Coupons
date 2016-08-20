@@ -1,13 +1,8 @@
 package DAO;
 
-import DBDAO.CompanyDBDAO;
-import Exceptions.CouponException;
-import Exceptions.DaoException;
-import JavaBeans.Company;
-
+import DBDAO.*;
+import Exceptions.*;
 import java.sql.SQLException;
-
-import DAO.CompanyDAO;
 
 
 public class TestDAO 
@@ -16,11 +11,7 @@ public static void main(String[] args) throws DaoException, SQLException, Coupon
 {
 	CompanyDAO compDAO= new CompanyDBDAO();
 	for (int i = 0; i < 25; i++) {
-		// Company instance
-		Company company = new Company(
-				"company " + (i + 100), 
-				"password " + (i + 100),
-				(i + 100) + "@coupons.com");
+		
 	
 //	Company comp= new Company("Nadav","Nadavi", "effffff@hotbail.com");
 	

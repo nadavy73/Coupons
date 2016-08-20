@@ -503,7 +503,7 @@ finally {
 			}
 	}
 	
-	public static void removeCompanyCouponsById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {
+	public void removeCompanyCouponsById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {
 		Connection con = null;
 		
 		if (!Checks.isCompanyPurchased(compId, couponId))

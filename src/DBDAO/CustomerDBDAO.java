@@ -371,10 +371,7 @@ public class CustomerDBDAO implements CustomerDAO
 				hasRows=false;
 				}
 						
-				
-//			String message = (hasRows) ? "Successful Customer Login ": "Failed to login as Customer ";
-//			System.out.println(message);
-//			
+					
 			// catch
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -435,13 +432,7 @@ public class CustomerDBDAO implements CustomerDAO
 			}
 	}
 	
-	//V	
-//	@Override
-//	public void AddCustomerCoupon(Customer customer, Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
-//	{
-//		AddCustomerCouponById(customer.getId(), coupon.getId());
-//		
-//	}
+
 	//V
 	@Override
 	public void removeCustomerCouponsById(long custId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {

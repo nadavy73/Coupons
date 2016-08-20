@@ -1,18 +1,13 @@
 package Tests;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.Collection;
 
-import DAO.CompanyDAO;
-import DBDAO.CompanyDBDAO;
-import Exceptions.AlreadyExistException;
-import Exceptions.CouponException;
-import Exceptions.DoesNotExistException;
-import JavaBeans.Coupon;
-import JavaBeans.CouponType;
-import JavaBeans.Company;
+
+
+import DAO.*;
+import DBDAO.*;
+import Exceptions.*;
+import JavaBeans.*;
 
 public class CompanyTest {
 
