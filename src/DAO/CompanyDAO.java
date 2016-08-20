@@ -14,6 +14,8 @@ public interface CompanyDAO
 {
 	public void createCompany (Company company) throws CouponException, AlreadyExistException, DoesNotExistException;
 	
+	public void removeCompany(Company company) throws SQLException, CouponException, DoesNotExistException;
+	
 	public void removeCompanyByName (String compName)throws CouponException,DoesNotExistException, SQLException;
 	
 	public void updateCompanyByName(String OldName, String NewName)throws CouponException, SQLException, DoesNotExistException;
@@ -30,16 +32,11 @@ public interface CompanyDAO
 	
 	public boolean login (String compName ,String password)throws CouponException, SQLException;
 	
-	public void addCompanyCoupon(Company company, Coupon coupon) throws CouponException, SQLException;
+	public void addCompanyCouponById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException;
 	
-	public void addCompanyCouponById(long compId, long couponId) throws CouponException;
-	
-//	public boolean isCompanyExist(String compName) throws CouponException;
-	
-	public void removeCompanyCouponsById(long couponId) throws CouponException, DoesNotExistException;
-		
-	//public void removeCompanyCoupon(Coupon coupon, Company company) throws CouponException, SQLException;
+	public void removeCompanyCouponsById(long couponId) throws CouponException, DoesNotExistException, SQLException;
 
-	public void removeCompany(Company company) throws SQLException, CouponException, DoesNotExistException;
+	public void removeCompanyCouponsById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException;
+	
 }
 

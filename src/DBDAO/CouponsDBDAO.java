@@ -413,6 +413,10 @@ public class CouponsDBDAO implements CouponDAO
 			return custCoupons; 
 			
 		}
+		public static Object getCustomersId(Coupon coupon) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
 	
 	

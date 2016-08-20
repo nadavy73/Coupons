@@ -63,11 +63,10 @@ public class CompanyDBDAO implements CompanyDAO {
 			Connection con = null;
 			PreparedStatement stat = null;
 			try {
-				Company c = getCompanyByName(company.getCompName());
-			
-				if (c == null)
+				if (!Checks.isCompanyExistByName(company.getCompName()))
 				{
-					throw new DoesNotExistException("COMPANY Does Not Exist in DB");
+					throw new DoesNotExistException("Company Does Not Exist");
+					
 				}
 			
 			con = ConnectionPool.getInstance().getConnection();
@@ -457,31 +456,91 @@ finally {
 
 		return hasRows;
 	}
-	public void addCompanyCouponById(long compId, long couponId) throws CouponException {
+	public void addCompanyCouponById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException {
 		
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+		Connection con=null;
+		try {
+			con = ConnectionPool.getInstance().getConnection();
 			
-			// Update prepared statement
-			PreparedStatement updateStmt = myCon.prepareStatement( 	"insert into "
-							+ "company_coupon (COMP_ID, COUPON_ID) "
-							+ "values (?,?);");
-
-			// Values
-			updateStmt.setLong(1, compId);	
-			updateStmt.setLong(2, couponId);
+			if (!Checks.isCouponExistById(couponId))
+			{
+				throw new DoesNotExistException
+				("Coupon Does Not Exist"); 
+			}
 			
-									
-			// Execute
-			updateStmt.executeUpdate();
+			if (!Checks.isCompanyExistById(compId))
+			{
+				throw new DoesNotExistException
+				("Company Does Not Exist");
+			}
 			
-		} catch (SQLException e) {
-			throw new CouponException("CouponException", e);
-		}
+			if (Checks.isPurchased(compId, couponId))
+			{
+				throw new AlreadyExistException
+				("Coupon was already purchased for this Company");
+			}
+			
+			else
+			{
+				String sql =
+						"INSERT INTO Company_Coupon (COMP_ID, COUPON_ID) values (?,?);";
+								
+				PreparedStatement stat = con.prepareStatement(sql);
+				stat.setLong(1, compId);
+				stat.setLong(2, couponId);
 				
+				stat.executeUpdate();
+				System.out.println("Coupon no." + couponId+  " was added to Company "+  "no."+ compId);
+			}
+		}
+		catch (SQLException e) 
+			{
+			throw new CouponException("Error in connection to DATA BASE", e);
+			}
+			
+		finally {
+				ConnectionPool.getInstance().free(con);
+			}
 	}
-	public void removeCompanyCouponsById(long couponId) throws CouponException, DoesNotExistException {
-Connection con = null;
+	
+	public static void removeCompanyCouponsById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {
+		Connection con = null;
+		
+		if (!Checks.isCompanyPurchased(compId, couponId))
+		{
+			throw new DoesNotExistException("This Coupon is not purchased for this Company");
+		}
+		
+		try {
+			con = ConnectionPool.getInstance().getConnection();
+			String sql =
+					"DELETE FROM Company_Coupon WHERE COMP_ID=? AND COUPON_ID = ?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+		
+			//Delete coupons
+			stmt.setLong(1, compId);
+			stmt.setLong(2, couponId);
+			stmt.executeUpdate();
+			
+			} catch (SQLException e) 
+			{
+			throw new CouponException("CouponException", e);
+			}
+			
+			System.out.println("Coupon no." + couponId+ "  was removed from Company no." +compId);
+			
+			 {
+				ConnectionPool.getInstance().free(con);
+			 }
+		}
+
+	public void removeCompanyCouponsById(long couponId) throws CouponException, DoesNotExistException, SQLException {
+			Connection con = null;
+
+				if (!Checks.isCouponExistById(couponId))
+				{
+					throw new DoesNotExistException("This Coupon is not purchased for this Customer");
+				}
 		
 		try {
 			con = ConnectionPool.getInstance().getConnection();
@@ -492,22 +551,18 @@ Connection con = null;
 			//Delete coupons
 			stmt.setLong(1, couponId);
 			stmt.executeUpdate();
-			} catch (SQLException e) {
+			
+			} catch (SQLException e) 
+			{
 			throw new CouponException("CouponException", e);
-		}
+			}
+			
 			System.out.println("Company Coupon no." + couponId+ "  was removed");
+			{
 			ConnectionPool.getInstance().free(con);
-		 }
-//	@Override
-//	public void removeCompanyCoupon(Coupon coupon, Company company) throws CouponException, SQLException {
-//		// TODO Auto-generated method stub
-//		
-//	}
-	@Override
-	public void addCompanyCoupon(Company company, Coupon coupon) throws CouponException, SQLException {
-		{
-			addCompanyCouponById(company.getId(), coupon.getId());
-		}
-}
+			}
+
+
 	
+	}
 }

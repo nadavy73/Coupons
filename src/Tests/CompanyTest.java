@@ -28,10 +28,9 @@ public class CompanyTest {
 //V 		getAllCompaniesTest();
 //V 		getCouponsTest();
 //V			loginTest ();
-			addCompanyCouponTest();
-//			addCompanyCouponByIdTest();
-//			isCompanyExistTest();
-//			removeCompanyCouponsByIdTest();
+//V			addCompanyCouponByIdTest();
+			removeCompanyCouponsByIdTest();
+			
 			
 	}
 	
@@ -117,30 +116,18 @@ public class CompanyTest {
 			compDao.login("Nadav1", "nadav123456");
 		}
 		
-		public static void addCompanyCouponTest() throws CouponException, SQLException
+		
+		public static void addCompanyCouponByIdTest() throws CouponException, DoesNotExistException, AlreadyExistException
 		{
 			CompanyDAO compDao= new CompanyDBDAO();
-			
-			Company comp1 = new Company("Delta", "Delta123456", "nadavy73@delta.com");
-			
-			//Coupon coup1 = new Coupon("T-SHIRT", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
-			Coupon coup2 = new Coupon(25,"T-SHIRT", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
-			compDao.addCompanyCoupon(comp1, coup2);
+			compDao.addCompanyCouponById(3, 25);
 		}
 		
-		public static void addCompanyCouponByIdTest() throws CouponException
-		{
-			
-		}
 		
-		public static void isCompanyExistTest() throws CouponException
+		public static void removeCompanyCouponsByIdTest() throws CouponException, DoesNotExistException, AlreadyExistException, SQLException
 		{
-			
-		}
-		
-		public static void removeCompanyCouponsByIdTest() throws CouponException, DoesNotExistException
-		{
-			
+			CompanyDAO compDao= new CompanyDBDAO();
+			compDao.removeCompanyCouponsById(3, 25);
 		}
 		
 		

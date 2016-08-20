@@ -216,6 +216,41 @@ public class Checks {
 	{
 		return isPurchased(customer.getId(), coupon.getId());
 	}
+	
+	public static boolean isCompanyPurchased(long compId, long couponId) throws CouponException, AlreadyExistException, SQLException 
+	{
+		Connection con = null;
+		ResultSet rs = null;
+		try{
+			con = ConnectionPool.getInstance().getConnection();
+
+			String sql =
+				"SELECT * FROM Company_Coupon WHERE COMP_ID= ? and COUPON_ID=?;"; 
+				PreparedStatement stat = con.prepareStatement(sql);
+	
+				
+			stat.setLong(1, compId);
+			stat.setLong(2, couponId);
+			rs= stat.executeQuery();
+			
+			return (rs.next());
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+
+			
+			// release connection to pool
+			
+			ConnectionPool.getInstance().free(con);		
+			rs.close();
+			
+		}
+
+		return false;
+
+	}
 
 
 }
