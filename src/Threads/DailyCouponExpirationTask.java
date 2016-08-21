@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
-import DBDAO.CouponsDBDAO;
+import DBDAO.CouponDBDAO;
 import Exceptions.CouponException;
 import Exceptions.DoesNotExistException;
 import JavaBeans.Coupon;
@@ -14,7 +14,7 @@ public class DailyCouponExpirationTask implements Runnable
 	
 	private boolean run=true;
 	//	private CustomerDBDAO custDBDAO = new CustomerDBDAO();
-	private CouponsDBDAO couponDBDAO= new CouponsDBDAO();
+	private CouponDBDAO couponDBDAO= new CouponDBDAO();
 	
 	//Remove Coupon if their end date has already gone
 		public void run() 

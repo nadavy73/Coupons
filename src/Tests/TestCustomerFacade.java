@@ -7,7 +7,7 @@ import java.sql.SQLException;
 //import java.time.LocalDate;
 //import java.time.Month;
 //import java.time.Year;
-import DBDAO.CouponsDBDAO;
+import DBDAO.CouponDBDAO;
 //import DAO.CouponDAO;
 //import DAO.CustomerDAO;
 //import DBDAO.CouponsDBDAO;
@@ -35,10 +35,10 @@ public class TestCustomerFacade {
 //	private Coupon coupon;
 public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException 
 {
-		TestLoginCustomer();
+//		TestLoginCustomer();
 //		TestAddCoupon();
 //	V	TestupdateAmount();
-//	X	TestGetAllPurchasedCoupons();
+	TestGetAllPurchasedCoupons();
 //	X	TestgetAllPurchasedCouponsByType();
 //	X	TestgetAllPurchasedCouponsByPrice();
 }
@@ -57,11 +57,11 @@ public static void main(String[] args) throws LoginException, CustomerException,
 	
 	public static void TestAddCoupon() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 	{
-		CustomerDBDAO c = new CustomerDBDAO();
-		CouponsDBDAO Coup = new CouponsDBDAO();
+//		CustomerDBDAO c = new CustomerDBDAO();
+		CouponDBDAO Coup = new CouponDBDAO();
 		
 		Coupon coup1= Coup.getCoupon(34);
-		Customer cust1= c.getCustomerById(6);
+	
 		
 //		Coupon coup2= new Coupon("Coupon2",
 //				LocalDate.now(), 
@@ -83,7 +83,6 @@ public static void main(String[] args) throws LoginException, CustomerException,
 	public static void  TestGetAllPurchasedCoupons()throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, CustomerException
 	{
 	
-//		custFacade.getAllPurchasedCoupons(3);
 		System.out.println(custFacade.getAllPurchasedCoupons());
 	}
 	

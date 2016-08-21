@@ -3,8 +3,14 @@ package System;
 
 
 
- import DBDAO.ConnectionPool;
- import Exceptions.CouponException;
+ import DAO.CompanyDAO;
+import DAO.CouponDAO;
+import DAO.CustomerDAO;
+import DBDAO.CompanyDBDAO;
+import DBDAO.ConnectionPool;
+import DBDAO.CouponDBDAO;
+import DBDAO.CustomerDBDAO;
+import Exceptions.CouponException;
  import Exceptions.CustomerException;
  import Exceptions.FacadeException;
  import Exceptions.LoginException;
@@ -16,22 +22,27 @@ package System;
  public class CouponSystem 
  {
  	//Attributes
- 	private static CouponSystem instance = new CouponSystem();
+ 	private static CouponSystem instance = null;
  	private DailyCouponExpirationTask CouponTask= null;
- //	private CompanyDBDAO compDAO= null;
- //	private CustomerDBDAO custDAO;
- //	private CouponsDBDAO coupDAO;
- 	private Thread CouponTaskThread;
- 	//Constructors
+  	private Thread CouponTaskThread;
+ 	
+  	private CompanyDAO compDAO = null;
+	private CustomerDAO custDAO = null;
+	private CouponDAO couponDAO = null;
+  	//Constructors
 
  	private CouponSystem() 
  	{
+ 		compDAO = new CompanyDBDAO();
+		custDAO = new CustomerDBDAO();
+		couponDAO = new CouponDBDAO();
+ 		
+ 		
  		CouponTask = new DailyCouponExpirationTask();
  		CouponTaskThread = new Thread(CouponTask);
- //		custDAO = new CustomerDBDAO();
- //		compDAO = new CompanyDBDAO();
- //		coupDAO= new CouponsDBDAO();
- 		CouponTaskThread.start();
+  		CouponTaskThread.start();
+ 		
+ 		
  		
  	}
  	
@@ -73,4 +84,18 @@ package System;
  				CouponTask.stopTask();
  				CouponTaskThread.interrupt();
  			}
-}
+
+ 		public CompanyDAO getCompDAO() {
+			return compDAO;
+		} // getCompDao
+	
+		public CustomerDAO getCustDAO() {
+			return custDAO;
+		} // getCustDao
+	
+		public CouponDAO getCouponDAO() {
+			return couponDAO;
+		} // getCouponDao
+ 
+ }
+ 

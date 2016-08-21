@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import DAO.CouponDAO;
 import DAO.CustomerDAO;
-import DBDAO.CouponsDBDAO;
+import DBDAO.CouponDBDAO;
 import DBDAO.CustomerDBDAO;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
@@ -17,6 +17,7 @@ import Exceptions.LoginException;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
 import JavaBeans.Customer;
+import System.CouponSystem;
 
 public class CustomerFacade implements CouponClientFacade 
 {
@@ -25,15 +26,24 @@ public class CustomerFacade implements CouponClientFacade
 	 */
 	private Customer customer;
 	private long custId;
-	private String custName;
-	private CustomerDAO custDAO = new CustomerDBDAO();
-	private CouponDAO couponDAO = new CouponsDBDAO();
-	private ClientType clientType;
+	private CustomerDAO custDAO = null;
+	private CouponDAO couponDAO = null;
+	
 	
 	/*
 	 * Constructors
 	 */
+		public CustomerFacade() 
+		{
 		
+//		compDao = CouponSystem.getInstance().getCompDao();
+		custDAO = CouponSystem.getInstance().getCustDAO();
+		couponDAO = CouponSystem.getInstance().getCouponDAO();
+	}
+	
+	
+	
+	
 		
 	@Override
 	public CustomerFacade login(String custName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException {
@@ -58,6 +68,8 @@ public class CustomerFacade implements CouponClientFacade
 	
 	public void purchaseCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
+		coupon = couponDAO.getCoupon(coupon.getId());
+		
 		if (LocalDate.now().isAfter(coupon.getEndDate())) {
 				throw new CouponException("Coupon Id no."+ coupon.getId() + " (" + coupon.getTitle() 
 				+ ") was expired. Coupon End Date:" + coupon.getEndDate());
@@ -76,19 +88,11 @@ public class CustomerFacade implements CouponClientFacade
 		
 	}
 	
-	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException, DoesNotExistException 
+	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException, DoesNotExistException, CouponException 
 	{
-					
-		try {
-		return custDAO.getCoupons(custId);
-	
-			}
-		catch (CouponException e)
-			{
-			
-			throw new CustomerException("CustomerException - getAllPurchasedCoupons Error");
-			}
-	}
+				Collection<Coupon> coupons = custDAO.getCoupons(customer.getId());
+				return coupons;
+		}
 
 	
 	public Collection<Coupon> getAllPurchasedCouponsByType(CouponType CouponType) throws CustomerException, CouponException, SQLException, DoesNotExistException 
