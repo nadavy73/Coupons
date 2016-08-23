@@ -12,7 +12,7 @@ import JavaBeans.*;
 public class CustomerTest {
 
 		public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
-	{
+		{
 //	V	CreateCustomerTest();
 //	V	RemoveCustomerTest();
 //	V	updateCustomerTest();
@@ -22,12 +22,9 @@ public class CustomerTest {
 //	V	getAllCustomerTest();
 //	V	getCouponsTest();
 //	V	LoginTest();
-//	V	AddCustomerCouponByIdTest();
-//	Need getCouponByName - AddCustomerCouponTest();
-		RemoveCustomerCouponByIdTest();
-		
-	}
-	
+		AddCustomerCouponByIdTest();
+//		AddCustomerCouponTest();
+		}
 		public static void CreateCustomerTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
 		
@@ -185,26 +182,27 @@ public class CustomerTest {
 		public static void AddCustomerCouponByIdTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
 			CustomerDAO custDAO= new CustomerDBDAO();
-			
+//			CouponDAO coupoDAO= new CouponDBDAO();
 //			Customer cust1= new Customer("Custi", "custiPass");
 //			Customer cust2= new Customer("Cutomer2", "Custi9876");		
-//			Coupon coup1= new Coupon(8, "New 5 Coupon");
+//			Coupon coup1= coupoDAO.getCoupon(39);
 			
 //			System.out.println(Checks.isCouponExist(77));
 //			System.out.println(custDAO.isCouponExist(35));
 //			System.out.println("**************");
-			custDAO.AddCustomerCouponById (4,33);
+			custDAO.AddCustomerCouponById (7,39);
 //			System.out.println(Checks.isPurchased(3,30));
 //			System.out.println("**************");
-		}
 		
-		public static void RemoveCustomerCouponByIdTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
+		}
+//		
+//		public static void RemoveCustomerCouponByIdTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
-			CustomerDAO custDAO= new CustomerDBDAO();
+//			CustomerDAO custDAO= new CustomerDBDAO();
 //			Customer cust1= new Customer("Custi", "custiPass");
 //			Customer cust2= new Customer("Cutomer2", "Custi9876");
 			
-				custDAO.removeCustomerCouponsById(4, 34);
+//				custDAO.removeCustomerCouponsById(4, 34);
 //				System.out.println(Customer was successfullyNewC);
 //				System.out.println("The Customer with the ID "+ cust2.getId()+ " is " + cust2.getCustName());
 				

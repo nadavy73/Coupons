@@ -10,7 +10,7 @@ import DAO.CompanyDAO;
 import DAO.CouponDAO;
 import DAO.CustomerDAO;
 import DBDAO.CompanyDBDAO;
-import DBDAO.CouponsDBDAO;
+import DBDAO.CouponDBDAO;
 import DBDAO.CustomerDBDAO;
 import Exceptions.AlreadyExistException;
 import Exceptions.CompanyFacadeException;
@@ -47,7 +47,7 @@ public CompanyFacade()
  //		
  		custDAO = new CustomerDBDAO();
  		compDAO = new CompanyDBDAO();
- 		coupDAO= new CouponsDBDAO();
+ 		coupDAO= new CouponDBDAO();
  	}
  	
  	public CompanyFacade (String compName, String password) throws CouponException, DoesNotExistException

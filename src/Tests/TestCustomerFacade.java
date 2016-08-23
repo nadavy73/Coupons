@@ -30,21 +30,21 @@ import JavaBeans.Customer;
 
 
 public class TestCustomerFacade {
-	private static CustomerFacade custFacade= new CustomerFacade();
-//	private  Customer customer;
-//	private Coupon coupon;
+	
+	private static CustomerFacade custFacade;
+
 public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException 
 {
 //		TestLoginCustomer();
-//		TestAddCoupon();
+		TestAddCoupon();
 //	V	TestupdateAmount();
-	TestGetAllPurchasedCoupons();
+//	TestGetAllPurchasedCoupons();
 //	X	TestgetAllPurchasedCouponsByType();
 //	X	TestgetAllPurchasedCouponsByPrice();
 }
 	public static void TestLoginCustomer() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException
 	{
-		
+			
 			try {
 				custFacade.login("Cutomer4","Custi9876", ClientType.CUSTOMER);
 			
@@ -55,12 +55,22 @@ public static void main(String[] args) throws LoginException, CustomerException,
 		
 	}
 	
-	public static void TestAddCoupon() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
+	public static void TestAddCoupon() throws 
+	CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException
 	{
+		
 //		CustomerDBDAO c = new CustomerDBDAO();
 		CouponDBDAO Coup = new CouponDBDAO();
 		
-		Coupon coup1= Coup.getCoupon(34);
+		try {
+			custFacade.login("Cutomer4","Custi9876", ClientType.CUSTOMER);
+		
+		} catch (FacadeException e) {
+			
+			e.printStackTrace();
+		}
+		
+		Coupon coup1= Coup.getCoupon(40);
 	
 		
 //		Coupon coup2= new Coupon("Coupon2",

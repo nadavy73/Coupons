@@ -42,9 +42,6 @@ public class CustomerFacade implements CouponClientFacade
 	}
 	
 	
-	
-	
-		
 	@Override
 	public CustomerFacade login(String custName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException {
 			boolean LoginAsCustomer= false;
@@ -84,9 +81,11 @@ public class CustomerFacade implements CouponClientFacade
 		custDAO.AddCustomerCouponById(customer.getId(), coupon.getId());
 		couponDAO.updateAmountOfCoupon(coupon.getId());
 		
+		
 		}
 		
 	}
+	
 	
 	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException, DoesNotExistException, CouponException 
 	{
