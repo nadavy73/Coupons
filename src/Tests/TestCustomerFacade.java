@@ -3,11 +3,14 @@ package Tests;
 import java.sql.SQLException;
 //import java.time.LocalDate;
 
+import DAO.CouponDAO;
+import DBDAO.CouponDBDAO;
+
 //import java.time.DayOfWeek;
 //import java.time.LocalDate;
 //import java.time.Month;
 //import java.time.Year;
-import DBDAO.CouponDBDAO;
+
 //import DAO.CouponDAO;
 //import DAO.CustomerDAO;
 //import DBDAO.CouponsDBDAO;
@@ -31,12 +34,12 @@ import JavaBeans.Customer;
 
 public class TestCustomerFacade {
 	
-	private static CustomerFacade custFacade;
+	private static CustomerFacade custFacade = new CustomerFacade();
 
 public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException 
 {
-//		TestLoginCustomer();
-		TestAddCoupon();
+		TestLoginCustomer();
+//		TestAddCoupon();
 //	V	TestupdateAmount();
 //	TestGetAllPurchasedCoupons();
 //	X	TestgetAllPurchasedCouponsByType();
@@ -46,8 +49,12 @@ public static void main(String[] args) throws LoginException, CustomerException,
 	{
 			
 			try {
-				custFacade.login("Cutomer4","Custi9876", ClientType.CUSTOMER);
-			
+				Customer customer= new Customer("Cutomer4", "Custi9876");
+				custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
+				// customer logged in successfully
+				
+				custFacade.purchaseCoupon(38);
+				
 			} catch (FacadeException e) {
 				
 				e.printStackTrace();
@@ -60,7 +67,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 	{
 		
 //		CustomerDBDAO c = new CustomerDBDAO();
-		CouponDBDAO Coup = new CouponDBDAO();
+		CouponDAO Coup = new CouponDBDAO();
 		
 		try {
 			custFacade.login("Cutomer4","Custi9876", ClientType.CUSTOMER);
@@ -81,7 +88,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 		
 		
 //		Coup.createCoupon(coup2);
-		custFacade.purchaseCoupon(coup1);
+		//custFacade.purchaseCoupon(coup1);
 //		System.out.println(coup1);
 }	
 	

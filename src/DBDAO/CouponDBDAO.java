@@ -9,7 +9,7 @@ import DAO.*;
 import Exceptions.*;
 import JavaBeans.*;
 
-public class CouponsDBDAO implements CouponDAO
+public class CouponDBDAO implements CouponDAO
 {
 		//V
 		//*************************************************

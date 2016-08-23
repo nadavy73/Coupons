@@ -43,7 +43,7 @@ public class CustomerFacade implements CouponClientFacade
 	
 	
 	@Override
-	public CustomerFacade login(String custName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException {
+	public CustomerFacade login(String custName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException {
 			boolean LoginAsCustomer= false;
 		try {
 			 LoginAsCustomer= custDAO.login(custName, password);
@@ -54,6 +54,7 @@ public class CustomerFacade implements CouponClientFacade
 			if (LoginAsCustomer && clientType.equals(ClientType.CUSTOMER))
 				{
 				System.out.println("Successful Customer Login");
+				customer= custDAO.getCustomerByName(custName);
 				return this;
 			
 				} 
@@ -63,9 +64,9 @@ public class CustomerFacade implements CouponClientFacade
 			}
 		}	
 	
-	public void purchaseCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
+	public void purchaseCoupon(long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
-		coupon = couponDAO.getCoupon(coupon.getId());
+		Coupon coupon = couponDAO.getCoupon(couponId);
 		
 		if (LocalDate.now().isAfter(coupon.getEndDate())) {
 				throw new CouponException("Coupon Id no."+ coupon.getId() + " (" + coupon.getTitle() 
@@ -78,7 +79,7 @@ public class CustomerFacade implements CouponClientFacade
 		
 		else {
 		
-		custDAO.AddCustomerCouponById(customer.getId(), coupon.getId());
+		custDAO.AddCustomerCouponById(customer.getId(), couponId);
 		couponDAO.updateAmountOfCoupon(coupon.getId());
 		
 		

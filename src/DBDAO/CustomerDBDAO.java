@@ -286,6 +286,7 @@ public class CustomerDBDAO implements CustomerDAO
 	@Override
 	public Collection<Coupon> getCoupons(long custId) throws CouponException, DoesNotExistException, SQLException 
 	{
+		Coupon coupon= new Coupon();
 		Connection con = null;
 		ResultSet rs=null;
 		Collection<Coupon> coupons = new ArrayList<>();
@@ -298,7 +299,7 @@ public class CustomerDBDAO implements CustomerDAO
 			
 			PreparedStatement stat = con.prepareStatement(sql);
 			stat.setLong(1, custId);
-			
+			// Execute and get a resultSet
 			rs = stat.executeQuery();
 			
 			// Check customer by id
@@ -307,14 +308,20 @@ public class CustomerDBDAO implements CustomerDAO
 			{
 				throw new DoesNotExistException("Customer Does Not Exist");	
 			}
-			if (!rs.next())
+			
+			if (!Checks.isCouponExistById(coupon.getId()))
 			{
-				throw new DoesNotExistException("There are no Coupons for this Customer");
+				throw new DoesNotExistException("Coupon doesn't exist");	
+
 			}
+//			else if (!rs.next())
+////			{
+////				throw new DoesNotExistException("There are no Coupons for this Customer");
+////			}
 			{
 				do {
 				// Generating Coupon
-				Coupon coupon = new Coupon(
+				coupon = new Coupon(
 						rs.getLong("ID"),
 						rs.getString("TITLE"), 
 						rs.getDate("START_DATE").toLocalDate(),
@@ -339,7 +346,7 @@ public class CustomerDBDAO implements CustomerDAO
 		// release connection to pool
 		finally {
 			ConnectionPool.getInstance().free(con);
-//			rs.close();
+			rs.close();
 			}
 		return coupons; 
 		
