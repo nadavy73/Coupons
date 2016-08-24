@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import DAO.CouponDAO;
 import DAO.CustomerDAO;
-import DBDAO.CouponDBDAO;
-import DBDAO.CustomerDBDAO;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
 import Exceptions.CustomerException;
@@ -25,7 +23,6 @@ public class CustomerFacade implements CouponClientFacade
 	 * Attributes
 	 */
 	private Customer customer;
-	private long custId;
 	private CustomerDAO custDAO = null;
 	private CouponDAO couponDAO = null;
 	
@@ -43,7 +40,9 @@ public class CustomerFacade implements CouponClientFacade
 	
 	
 	@Override
-	public CustomerFacade login(String custName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException {
+	public CustomerFacade login(String custName, String password, ClientType clientType) 
+			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException 
+	{
 			boolean LoginAsCustomer= false;
 		try {
 			 LoginAsCustomer= custDAO.login(custName, password);
@@ -64,14 +63,8 @@ public class CustomerFacade implements CouponClientFacade
 			}
 		}	
 	
-	/**
-	 * @param couponId
-	 * @throws CouponException
-	 * @throws AlreadyExistException
-	 * @throws DoesNotExistException
-	 * @throws SQLException
-	 */
-	public void purchaseCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
+	public void purchaseCoupon(Coupon coupon) 
+			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
 		coupon = couponDAO.getCoupon(coupon.getId());
 		
@@ -94,7 +87,6 @@ public class CustomerFacade implements CouponClientFacade
 		
 	}
 	
-	
 	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException, DoesNotExistException, CouponException 
 	{
 				Collection<Coupon> coupons = custDAO.getCoupons(customer.getId());
@@ -107,7 +99,7 @@ public class CustomerFacade implements CouponClientFacade
 		Collection<Coupon> couponsType= new HashSet<>();
 		
 		try {
-			for (Coupon coupon: custDAO.getCoupons(custId)){
+			for (Coupon coupon: custDAO.getCoupons(customer.getId())){
 				if (coupon.getType().equals(CouponType)){
 					couponsType.add(coupon);
 				}
@@ -117,12 +109,12 @@ public class CustomerFacade implements CouponClientFacade
 		}
 		return couponsType;
 	}	
-	public Collection<Coupon> getAllPurchasedCouponsByPrice(double price) throws CustomerException, CouponException, SQLException, DoesNotExistException 
+	public Collection<Coupon> getAllPurchasedCouponsByMaxPrice(double price) throws CustomerException, CouponException, SQLException, DoesNotExistException 
 	{
 		Collection<Coupon> couponsByPrice= new HashSet<>();
 		
 		try {
-			for (Coupon coupon: custDAO.getCoupons(custId)){
+			for (Coupon coupon: custDAO.getCoupons(customer.getId())){
 				if (coupon.getPrice()<=(price)){
 					couponsByPrice.add(coupon);
 				}

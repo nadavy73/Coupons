@@ -8,7 +8,7 @@ import DAO.CompanyDAO;
 import DAO.CouponDAO;
 import DAO.CustomerDAO;
 import DBDAO.CompanyDBDAO;
-import DBDAO.CouponsDBDAO;
+import DBDAO.CouponDBDAO;
 import DBDAO.CustomerDBDAO;
 import Exceptions.AdminFacadeException;
 import Exceptions.AlreadyExistException;
@@ -19,6 +19,7 @@ import Exceptions.LoginException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
+import System.CouponSystem;
 
 public class AdminFacade implements CouponClientFacade
 {
@@ -26,9 +27,9 @@ public class AdminFacade implements CouponClientFacade
 	/*
 	 * Attributes
 	 */
-	private CustomerDAO custDAO;
-	private CompanyDBDAO compDAO;
-	private CouponDAO coupDAO;
+	
+	private CompanyDAO compDAO=null;
+	private CouponDAO couponDAO= null;
 	
 	/*
 	 * Constructors
@@ -36,30 +37,29 @@ public class AdminFacade implements CouponClientFacade
 		
 	public AdminFacade() 
 	{
-		custDAO = new CustomerDBDAO();
-		compDAO = new CompanyDBDAO();
-		coupDAO= new CouponsDBDAO();
+		compDAO = CouponSystem.getInstance().getCompDAO();
+		couponDAO = CouponSystem.getInstance().getCouponDAO();
 	}
 	
 	
 	/*
 	 * Functions
 	 */
-	public AdminFacade login(String name, String password, ClientType clientType) throws FacadeException{
-		if (name.equals("admin") && password.equals("1234") && clientType.equals(ClientType.ADMIN)) 
-		{
+	public AdminFacade login(String name, String password, ClientType clientType) throws FacadeException, LoginException{
+		if (name.equals("admin") && password.equals("1234")) {
 			return new AdminFacade();
+		}
+			else {
+				throw new LoginException ("Incorrect username and/or password");
+			}
 		
 		}
-	
-		return null;
-	
-}
 
-	public void createCompany(Company company) throws AdminFacadeException, LoginException, AlreadyExistException, CouponException {
+	public void createCompany(Company company) throws AdminFacadeException, LoginException, AlreadyExistException, CouponException, DoesNotExistException {
 		try {
 			// Call the createCompany method from CompanyDBDAO
-			compDAO.createCompany(company);
+			CouponSystem.getInstance().getCompDAO().createCompany(company);
+			
 
 			// If candidate already exist
 		} catch (AlreadyExistException e) {
