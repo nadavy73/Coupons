@@ -64,9 +64,16 @@ public class CustomerFacade implements CouponClientFacade
 			}
 		}	
 	
-	public void purchaseCoupon(long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
+	/**
+	 * @param couponId
+	 * @throws CouponException
+	 * @throws AlreadyExistException
+	 * @throws DoesNotExistException
+	 * @throws SQLException
+	 */
+	public void purchaseCoupon(Coupon coupon) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
-		Coupon coupon = couponDAO.getCoupon(couponId);
+		coupon = couponDAO.getCoupon(coupon.getId());
 		
 		if (LocalDate.now().isAfter(coupon.getEndDate())) {
 				throw new CouponException("Coupon Id no."+ coupon.getId() + " (" + coupon.getTitle() 
@@ -79,7 +86,7 @@ public class CustomerFacade implements CouponClientFacade
 		
 		else {
 		
-		custDAO.AddCustomerCouponById(customer.getId(), couponId);
+		custDAO.AddCustomerCouponById(customer.getId(), coupon.getId());
 		couponDAO.updateAmountOfCoupon(coupon.getId());
 		
 		

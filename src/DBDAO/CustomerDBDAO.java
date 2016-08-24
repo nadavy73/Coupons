@@ -303,7 +303,6 @@ public class CustomerDBDAO implements CustomerDAO
 			rs = stat.executeQuery();
 			
 			// Check customer by id
-			
 			if (!Checks.isCustomerExistById(custId))
 			{
 				throw new DoesNotExistException("Customer Does Not Exist");	
