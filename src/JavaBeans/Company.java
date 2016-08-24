@@ -48,6 +48,11 @@ public class Company {
 	}
 
 
+	public Company(String compName, String passWord) {
+		this.compName = compName;
+		this.passWord = passWord;
+	}
+
 	public long getId() {
 		return ID;
 	}
