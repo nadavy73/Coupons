@@ -286,7 +286,7 @@ public class CustomerDBDAO implements CustomerDAO
 	@Override
 	public Collection<Coupon> getCoupons(long custId) throws CouponException, DoesNotExistException, SQLException 
 	{
-		Coupon coupon= new Coupon();
+		Coupon coupon=new Coupon();
 		Connection con = null;
 		ResultSet rs=null;
 		Collection<Coupon> coupons = new ArrayList<>();
@@ -308,15 +308,10 @@ public class CustomerDBDAO implements CustomerDAO
 				throw new DoesNotExistException("Customer Does Not Exist");	
 			}
 			
-			if (!Checks.isCouponExistById(coupon.getId()))
+			if (!rs.next())
 			{
-				throw new DoesNotExistException("Coupon doesn't exist");	
-
+				throw new DoesNotExistException("There are no Coupons for this Customer");
 			}
-//			else if (!rs.next())
-////			{
-////				throw new DoesNotExistException("There are no Coupons for this Customer");
-////			}
 			{
 				do {
 				// Generating Coupon

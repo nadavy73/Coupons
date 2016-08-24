@@ -40,10 +40,9 @@ public static void main(String[] args) throws LoginException, CustomerException,
 {
 //	TestLoginCustomer();
 //	TestAddCoupon();
-
-	TestGetAllPurchasedCoupons();
-//	X	TestgetAllPurchasedCouponsByType();
-//	X	TestgetAllPurchasedCouponsByPrice();
+//	TestGetAllPurchasedCoupons();
+//	TestgetAllPurchasedCouponsByType();
+//	TestgetAllPurchasedCouponsByPrice();
 }
 	public static void TestLoginCustomer() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException
 	{
@@ -68,11 +67,11 @@ public static void main(String[] args) throws LoginException, CustomerException,
 		
 		try {
 			CouponDAO Coup = new CouponDBDAO();
-			Customer customer= new Customer("Cutomer1", "Custi1234");
+			Customer customer= new Customer("Customer23", "Custielel");
 			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
-			Coupon coup1= Coup.getCoupon(39);
+			Coupon coup1= Coup.getCoupon(41);
 			custFacade.purchaseCoupon(coup1);
 			
 			} catch (FacadeException e) 
@@ -86,7 +85,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 	{
 		try {
 			
-			Customer customer= new Customer("Cutomer1", "Custi1234");
+			Customer customer= new Customer("Customer23", "Custielel");
 			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
@@ -97,18 +96,41 @@ public static void main(String[] args) throws LoginException, CustomerException,
 		}
 	}	
 	
-	
-	
-	public static void  TestgetAllPurchasedCouponsByType()throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, CustomerException
+	public static void  TestgetAllPurchasedCouponsByType()
+			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, CustomerException, LoginException
 	{
-//		custFacade.getAllPurchasedCouponsByType(CouponType.Camping);
-		System.out.println(custFacade.getAllPurchasedCouponsByType(CouponType.Camping));
-
+		try {
+			
+			Customer customer= new Customer("Customer23", "Custielel");
+			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
+			// customer logged in successfully
+			
+			System.out.println(custFacade.getAllPurchasedCouponsByType(CouponType.Clothes));
+			
+			} 
+		catch (FacadeException e) 
+			{
+			e.printStackTrace();
+			}
 	}
 
-	public static void  TestgetAllPurchasedCouponsByPrice()throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, CustomerException
+	public static void  TestgetAllPurchasedCouponsByMaxPrice()throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, CustomerException, LoginException
 	{
-		System.out.println(custFacade.getAllPurchasedCouponsByPrice(55));
+try {
+			
+			Customer customer= new Customer("Customer23", "Custielel");
+			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
+			// customer logged in successfully
+			
+			System.out.println(custFacade.getAllPurchasedCouponsByMaxPrice(90));
+			
+			} 
+		catch (FacadeException e) 
+			{
+			e.printStackTrace();
+			}
+		
+		
 	}
 
 
