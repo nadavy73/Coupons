@@ -36,7 +36,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			
 		if (Checks.isCompanyExistByName(company.getCompName()))
 			{
-				throw new AlreadyExistException("COMPANY AlreadyExist");
+				throw new AlreadyExistException("Company Already Exist");
 			}
 			else
 			{
@@ -199,12 +199,13 @@ public class CompanyDBDAO implements CompanyDAO {
 	//This function gets Company ID and return Company all company details
 	//********************************************************************
 	@Override
-	public Company getCompanyById(long ID) throws CouponException, DoesNotExistException {
+	public Company getCompanyById(long ID) 
+			throws CouponException, DoesNotExistException, SQLException {
 
 		Connection con = null;
 		String compName, eMail,Password;
 		Company company=new Company();
-		
+		ResultSet rs=null;
 		try {
 			con = ConnectionPool.getInstance().getConnection();
 			
@@ -212,7 +213,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			PreparedStatement stat = con.prepareStatement(sql);
 			
 			stat.setLong(1, ID);
-			ResultSet rs = stat.executeQuery();
+			rs = stat.executeQuery();
 			
 			
 			if (!rs.next())
@@ -231,6 +232,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().free(con);
+			rs.close();
 		}
 
 		return company;
@@ -240,23 +242,25 @@ public class CompanyDBDAO implements CompanyDAO {
 	//*******************************************************************************
 	//This function gets Company Name (String) and return Company all company details
 	//*******************************************************************************
-	public Company getCompanyByName(String compName) throws CouponException, DoesNotExistException {
+	public Company getCompanyByName(String compName) throws CouponException, DoesNotExistException, SQLException {
 
+		
 	String eMail,Password;
 	long Id;
 	Connection con = null;
 	Company company=null;
-
+	ResultSet rs=null;
 	try {
 		con = ConnectionPool.getInstance().getConnection();
 		String sql = "SELECT * FROM Company WHERE COMP_NAME=?";
 		PreparedStatement stat = con.prepareStatement(sql);
 		stat.setString(1, compName);
-		ResultSet rs = stat.executeQuery();
+		rs = stat.executeQuery();
 		if (!rs.next())
 		{
 		throw new DoesNotExistException("The company does not exist in db");
 		}
+		
 		Id = rs.getLong(1);
 		compName = rs.getString(2);
 		Password = rs.getString(3);
@@ -273,6 +277,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		// release connection to pool
 		
 		ConnectionPool.getInstance().free(con);
+		rs.close();
 	}
 
 	return company;
@@ -357,8 +362,9 @@ finally {
 	//*********************************************
 	//This function return ALL Companies in our DB.
 	//*********************************************
-	public Collection<Coupon> getCoupons(long compID) throws CouponException, DoesNotExistException
+	public Collection<Coupon> getCoupons(long compID) throws CouponException, DoesNotExistException, SQLException
 	{
+		ResultSet rs=null;
 		Connection con = null;
 		Collection<Coupon> coupons = new ArrayList<>();
 		try {
@@ -372,18 +378,19 @@ finally {
 			PreparedStatement stat = con.prepareStatement(sql);
 			stat.setLong(1, compID);
 			// Execute and get a resultSet
-			ResultSet rs = stat.executeQuery();
+			rs = stat.executeQuery();
 			
 			if (!Checks.isCompanyExistById(compID))
 			{
 				throw new DoesNotExistException("Company Does Not Exist");	
 			}
-			if (!rs.next())
+//			if (!rs.next())
+//			{
+//				throw new DoesNotExistException("There are no Coupons for this Company");
+//			}
+			while (rs.next())
 			{
-				throw new DoesNotExistException("There are no Coupons for this Company");
-			}
-			{
-			do {
+//			do {
 				// Generating Coupon
 				Coupon coupon = new Coupon(
 						rs.getLong("ID"),
@@ -397,8 +404,8 @@ finally {
 						rs.getString("IMAGE"));
 				
 				coupons.add(coupon);
-				}
-				while (rs.next());	
+//				}
+//				while (rs.next());	
 			}
 			 
 		
@@ -410,7 +417,9 @@ finally {
 		
 	// release connection to pool
 	finally {
-			ConnectionPool.getInstance().free(con);
+		rs.close();	
+		ConnectionPool.getInstance().free(con);
+			
 			} 
 		return coupons; 
 	} 

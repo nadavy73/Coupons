@@ -30,6 +30,7 @@ public class AdminFacade implements CouponClientFacade
 	
 	private CompanyDAO compDAO=null;
 	private CouponDAO couponDAO= null;
+	private CustomerDAO custDAO=null;
 	
 	/*
 	 * Constructors
@@ -38,6 +39,7 @@ public class AdminFacade implements CouponClientFacade
 	public AdminFacade() 
 	{
 		compDAO = CouponSystem.getInstance().getCompDAO();
+		custDAO= CouponSystem.getInstance().getCustDAO();
 		couponDAO = CouponSystem.getInstance().getCouponDAO();
 	}
 	
@@ -70,22 +72,19 @@ public class AdminFacade implements CouponClientFacade
 		}
 	}
 //TODO:
-	public void removeCompany (Company company) throws AdminFacadeException, FacadeException, DoesNotExistException {
-		for (Coupon coupon : company.getCoupons()) 
+	public void removeCompany(Company company) 
+			throws AdminFacadeException, FacadeException, DoesNotExistException, CouponException, AlreadyExistException, SQLException {
+		for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId()))
 		{
 			// Remove coupon from company
-			compDBDAO.removeCompanyCoupon(coupon.getId(), company.getId());
-				
+			CouponSystem.getInstance().getCompDAO().removeCompanyCouponsById(company.getId(), coupon.getId());				
 			//Remove coupon from all customers
-			for (long custId : coupDBDAO.getCustomersId(coupon))
-			{
-				
-			}
+			CouponSystem.getInstance().getCustDAO().removeCustomerCouponsByCouponId(coupon.getId());
 			// Remove coupons
-			coupDBDAO.removeCoupon(coupon);
-			}
-			// Remove company
-			compDAO.
+			CouponSystem.getInstance().getCouponDAO().removeCoupon(coupon);
+		}
+			// Remove company from DB
+			CouponSystem.getInstance().getCompDAO().removeCompany(company);
 	}
 	
 	public void UpdateCompany(Company company) throws DoesNotExistException, CouponException, SQLException 

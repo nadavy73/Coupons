@@ -24,7 +24,7 @@ public interface CompanyDAO
 	
 	public Company getCompanyById(long ID) throws CouponException, SQLException, DoesNotExistException;
 	
-	public Company getCompanyByName(String compName) throws CouponException, DoesNotExistException;
+	public Company getCompanyByName(String compName) throws CouponException, DoesNotExistException, SQLException;
 	
 	public Collection <Company> getAllCompanies() throws CouponException, SQLException;
 	

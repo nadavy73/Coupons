@@ -86,7 +86,8 @@ public class CustomerDBDAO implements CustomerDAO
 		String sql = "DELETE FROM CUSTOMER WHERE CUST_NAME = ?";
 		stat = con.prepareStatement(sql);
 		stat.setString(1, customer.getCustName());
-			
+		
+		stat.executeUpdate();
 		} // release connection to pool
 		finally {
 			ConnectionPool.getInstance().free(con);

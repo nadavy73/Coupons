@@ -2,7 +2,9 @@ package Tests;
 
 import java.sql.SQLException;
 
+import DAO.CompanyDAO;
 import DAO.CouponDAO;
+import DBDAO.CompanyDBDAO;
 import DBDAO.CouponDBDAO;
 import Exceptions.AdminFacadeException;
 import Exceptions.AlreadyExistException;
@@ -25,8 +27,9 @@ public class TestAdminFacade {
 
 	public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException, AdminFacadeException 
 	{
-//		TestLoginAdmin();
-		TestCreateCompany();
+//	V	TestLoginAdmin();
+//	V	TestCreateCompany();
+		TestremoveCompany();
 //		TestGetAllPurchasedCoupons();
 //		TestgetAllPurchasedCouponsByType();
 //		TestgetAllPurchasedCouponsByPrice();
@@ -58,7 +61,7 @@ public class TestAdminFacade {
 					System.out.println("Admin was logged suceessfully");
 					// customer logged in successfully
 					
-					adminFacade.createCompany(new Company("Mazdak","Mazdak12345" , "Mazdak@coupons.co.il"));
+					adminFacade.createCompany(new Company("Mazdamm","Mazdak12345" , "Mazdak@coupons.co.il"));
 					System.out.println("Company was added");
 				} catch (FacadeException e) {
 					
@@ -66,6 +69,25 @@ public class TestAdminFacade {
 				}
 		}	
 		
+		public static void TestremoveCompany() throws LoginException, CouponException, DoesNotExistException, AdminFacadeException, AlreadyExistException, SQLException 
+		{
+			CompanyDAO comp = new CompanyDBDAO();					
+			try
+			{
+				adminFacade.login("admin", "1234", ClientType.ADMIN) ;
+				System.out.println("Admin was logged suceessfully");
+				// customer logged in successfully
+				Company company= comp.getCompanyById(30);
+					
+				adminFacade.removeCompany(company);
+				
+				
+			} catch (FacadeException e) 
+			{
+			e.printStackTrace();
+			}
+			}
+			
 		public static void  TestGetAllPurchasedCoupons()
 				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, CustomerException, LoginException
 		{
