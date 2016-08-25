@@ -31,9 +31,9 @@ public class CompanyFacade implements CouponClientFacade
  	 */
  	private Company company;
  	private long compId;
- 	private CustomerDAO custDAO;
- 	private CompanyDAO compDAO;
- 	private CouponDAO coupDAO;
+ 	private CustomerDAO custDAO = null;
+ 	private CompanyDAO compDAO = null;
+ 	private CouponDAO coupDAO = null;
 	
  	/*
  	 * Constructors
@@ -41,49 +41,48 @@ public class CompanyFacade implements CouponClientFacade
 
 public CompanyFacade() 
  	{
- //		compDAO = CouponSystem.getInstance().getCompDAO();
- //		custDao = CouponSystem.getInstance().getCustDao();
- //		couponDao = CouponSystem.getInstance().getCouponDao();
- //		
- 		custDAO = new CustomerDBDAO();
- 		compDAO = new CompanyDBDAO();
- 		coupDAO= new CouponDBDAO();
+ 		compDAO = CouponSystem.getInstance().getCompDAO();
+ 		custDAO = CouponSystem.getInstance().getCustDAO();
+ 		coupDAO = CouponSystem.getInstance().getCouponDAO();
+ 		
+ 	
  	}
  	
- 	public CompanyFacade (String compName, String password) throws CouponException, DoesNotExistException
- 	{
- 		compName= compDAO.getCompanyByName(compName).getCompName();
- 		password= compDAO.getCompanyByName(compName).getPassWord();
- 	}
+// 	public CompanyFacade (String compName, String password) throws CouponException, DoesNotExistException
+// 	{
+// 		compName= compDAO.getCompanyByName(compName).getCompName();
+// 		password= compDAO.getCompanyByName(compName).getPassWord();
+// 	}
 
-//company = compDAO.getCompanyByName(compName);
- ////		// Catching couponSystemException
- ////	} catch (CouponSystemException e) {
- ////		// In case of a problem throw new CompanyFacadeException
- ////		throw new CompanyFacadeException("CompanyFacadeException   " 
- ////				+ "constructor Error", e);
- //	}
+
  	
+ 	//V
+ 	
+ 	//
  	@Override
- 	public CompanyFacade login(String compName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException 
- 	{
+ 	public CompanyFacade login(String compName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException 
+ 	{boolean LoginAsCompany= false;
  		try {
- 			if (compDAO.login(compName, password)&& clientType.equals(ClientType.COMPANY))
+ 			LoginAsCompany=compDAO.login(compName, password);
+ 		} catch (Exception e) {
+			throw new DoesNotExistException("Company failed to login");
+		}
+ 			if (LoginAsCompany && clientType.equals(ClientType.COMPANY))
  				{
- 					return new CompanyFacade(compName, password);
-
+ 				System.out.println("Successful Company Login");
+ 				company= compDAO.getCompanyByName(compName);
+ 				return this;
+	
+		} 
+	else 
+	{
+		throw new LoginException("Customer Login Failed");
+	}
 }
- 			} 	
- 		catch (Exception e) 
- 			{
- 			throw new LoginException("Failed to login.");
- 			}
+
  	
  	
- 	return null;
- 	
- 	}	
- 
+
  
  	public void createCoupon(Coupon coupon) throws CouponException, AlreadyExistException, CompanyFacadeException, SQLException, DoesNotExistException
  	{
@@ -154,7 +153,7 @@ public CompanyFacade()
 		  	{ 
 		  	
 		  	try {
-		  		return compDAO.getCoupons(compId);
+		  		return compDAO.getCoupons(company.getId());
 		  		}
 		  		catch (CouponException e) 
 		  		{
@@ -166,19 +165,23 @@ public CompanyFacade()
 		  	
 		  	public Collection <Coupon> getCouponByType (CouponType couponType) throws CompanyFacadeException, CouponException, SQLException, DoesNotExistException
 		  	{
-		  		Collection<Coupon> Allcoupons = null;
-		  		try {
-		  			Allcoupons = compDAO.getCoupons(company.getId());
-		  		} catch (CouponException e) {
-		  			throw new CompanyFacadeException("CompanyFacadeException   "
-		  					+ "getAllCoupons Error", e);
-		 }
+		  	
+//		  		Collection<Coupon> Allcoupons=new HashSet<>();
+//		  		
+//		  		try {
+//		  			Allcoupons = compDAO.getCoupons(company.getId());
+//		  		} catch (CouponException e) {
+//		  			throw new CompanyFacadeException("CompanyFacadeException   "
+//		  					+ "getAllCoupons Error", e);
+		 
 		  		Collection<Coupon> couponsByType = new HashSet<>();
 		  		
-		  		for (Coupon coupon : Allcoupons){
-		  			if (coupon.getType().equals(couponType)){
+		  		for (Coupon coupon : compDAO.getCoupons(company.getId()))
+		  		{
+		  			if (coupon.getType().equals(couponType))
+		  			{
 		  				couponsByType.add(coupon);
-			}
+		  			}
 		  			
 		  		}
 		  		return couponsByType;
@@ -189,7 +192,7 @@ public CompanyFacade()
 		  		Collection <Coupon> Allcoupons = new HashSet<>();
 
 		  		try {
-		  			for (Coupon coupon : compDAO.getCoupons(compId)) {
+		  			for (Coupon coupon : compDAO.getCoupons(company.getId())) {
 		  				
 		  				if (coupon.getStartDate().isBefore(Date) || coupon.getEndDate().equals(Date))  
 		  				{
@@ -207,7 +210,7 @@ public CompanyFacade()
 			 Collection <Coupon> Allcoupons = new HashSet<>();
 
 			  		try {
-			  			for (Coupon coupon : compDAO.getCoupons(compId)) {
+			  			for (Coupon coupon : compDAO.getCoupons(company.getId())) {
 			  				
 			  				if (coupon.getPrice() <= price){
 			  					Allcoupons.add(coupon);

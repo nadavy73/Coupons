@@ -363,7 +363,9 @@ finally {
 	//This function return ALL Companies in our DB.
 	//*********************************************
 	public Collection<Coupon> getCoupons(long compID) throws CouponException, DoesNotExistException, SQLException
-	{
+
+	{	Coupon coupon = new Coupon();
+
 		ResultSet rs=null;
 		Connection con = null;
 		Collection<Coupon> coupons = new ArrayList<>();
@@ -392,7 +394,7 @@ finally {
 			{
 //			do {
 				// Generating Coupon
-				Coupon coupon = new Coupon(
+				coupon = new Coupon(
 						rs.getLong("ID"),
 						rs.getString("TITLE"), 
 						rs.getDate("START_DATE").toLocalDate(),
@@ -415,12 +417,14 @@ finally {
 		
 		} 
 		
-	// release connection to pool
 	finally {
+
 		rs.close();	
 		ConnectionPool.getInstance().free(con);
 			
 			} 
+
+			
 		return coupons; 
 	} 
 			

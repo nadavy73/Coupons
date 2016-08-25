@@ -8,11 +8,12 @@ import java.util.*;
  * connections.
  * 
  */
+
 // a singleton connection pool
 public class ConnectionPool implements Runnable {
 	
 	private static final String DRIVER = "org.sqlite.JDBC";
-	private static final String URL = "jdbc:sqlite:C:/Users/Moran/Desktop/Java/SQL/Coupon_System.db";
+	private static final String URL = "jdbc:sqlite:C:/Users/Ofer/Desktop/John Bryce/Coupon_System.db";
 	private static final String USER = "root";
 	private static final String PASSWORD = "password";
 	
@@ -54,7 +55,7 @@ public class ConnectionPool implements Runnable {
 				instance = new ConnectionPool(DRIVER, URL,  USER, 
 						PASSWORD, 
 						5, // initial connections
-						15, // max connections
+						25, // max connections
 						true);
 			} catch (SQLException e) {
 				// If pool is not working. Exit the program
