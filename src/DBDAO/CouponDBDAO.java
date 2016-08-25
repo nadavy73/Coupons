@@ -65,13 +65,13 @@ public class CouponDBDAO implements CouponDAO
 	{
 		Connection con = null;
 		PreparedStatement stat = null;
-		try {
+		
 			if (!Checks.isCouponExistByName(coupon.getTitle()))
 			{
 				throw new DoesNotExistException("Coupon Does Not Exist");
 			}
 			
-			
+			try {
 			
 			con = ConnectionPool.getInstance().getConnection();
 			
@@ -80,8 +80,13 @@ public class CouponDBDAO implements CouponDAO
 			stat.setString(1, coupon.getTitle());
 			stat.executeUpdate();			
 			
-			// release connection to pool
-		} finally {
+			} catch (SQLException e) {
+				 
+				e.printStackTrace();
+			}
+			
+		// release connection to pool
+		finally {
 			ConnectionPool.getInstance().free(con);
 		}
 	}
@@ -124,33 +129,43 @@ public class CouponDBDAO implements CouponDAO
 			ConnectionPool.getInstance().free(con);
 				}
 	}
-	
+	//V
 	//**********************************************************************************
 	//This function gets Coupon Object and Update his amount in DB after purchase coupon
 	//**********************************************************************************
 	public void updateAmountOfCoupon(long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
+		{	
+		Connection con = null;
+		
+		if (!Checks.isCouponExistById(couponId))
 		{
-			Connection con = null;
-			
-			if (!Checks.isCouponExistById(couponId))
-			{
-				throw new DoesNotExistException("Coupon Does not exist");
-			}
-			
-			try {
-				con = ConnectionPool.getInstance().getConnection();
-				String sql =
-						"UPDATE Coupon SET AMOUNT= AMOUNT +(-1) WHERE ID=?";
-				PreparedStatement stmt = con.prepareStatement(sql);
-			
-				stmt.setLong(1, couponId);
-				stmt.executeUpdate();
-			} catch (SQLException e) 
-			{
-			throw new CouponException("Amount Balagan", e);
-			}
-			ConnectionPool.getInstance().free(con);
-			}
+			throw new DoesNotExistException("Coupon Does not exist");
+		}
+	int amount = getCoupon(couponId).getAmount();
+
+	if(!(amount>0))
+		throw new DoesNotExistException("Coupon was sold out");
+		{
+		try {
+			con = ConnectionPool.getInstance().getConnection();
+			String sql =
+					"UPDATE Coupon SET AMOUNT= AMOUNT +(-1) WHERE ID=?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+		
+			stmt.setLong(1, couponId);
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) 
+		{
+		throw new CouponException();
+		}
+		ConnectionPool.getInstance().free(con);
+		}
+		}
+
+		
+		
+		
 		
 		//V	
 		//**********************************************************************************
@@ -347,6 +362,10 @@ public class CouponDBDAO implements CouponDAO
 					Coupons.add(coupon);
 				
 				}
+				if(Coupons.isEmpty())
+				{
+					throw new DoesNotExistException("We don't have this couponType");
+				}
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -358,7 +377,7 @@ public class CouponDBDAO implements CouponDAO
 			}
 			return Coupons;
 		}
-		
+		//V
 		//*******************************************************
 		//This function Returns All customer that have the coupon
 		//*******************************************************
@@ -384,7 +403,8 @@ public class CouponDBDAO implements CouponDAO
 				 throw new DoesNotExistException("Coupon Does not exist");
 			 }
 			 {
-				 do {
+				 while(rs.next())
+				 {
 						Customer customer = new Customer(
 						 rs.getLong("ID"),
 						 rs.getString("CUST_NAME"),
@@ -407,10 +427,7 @@ public class CouponDBDAO implements CouponDAO
 			return custCoupons; 
 			
 		}
-		public static Object getCustomersId(Coupon coupon) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+		
 		
 	
 	

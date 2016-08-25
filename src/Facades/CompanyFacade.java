@@ -21,6 +21,7 @@ import Exceptions.LoginException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
+import JavaBeans.Customer;
 import System.CouponSystem;
 
 public class CompanyFacade implements CouponClientFacade
@@ -47,43 +48,34 @@ public CompanyFacade()
  		
  	
  	}
- 	
-// 	public CompanyFacade (String compName, String password) throws CouponException, DoesNotExistException
-// 	{
-// 		compName= compDAO.getCompanyByName(compName).getCompName();
-// 		password= compDAO.getCompanyByName(compName).getPassWord();
-// 	}
-
 
  	
- 	//V
- 	
+	//V
  	//
- 	@Override
- 	public CompanyFacade login(String compName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException 
+ 	//
+ 	//
+ 	public CompanyFacade login(String compName, String password, ClientType clientType) throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException 
  	{boolean LoginAsCompany= false;
  		try {
  			LoginAsCompany=compDAO.login(compName, password);
  		} catch (Exception e) {
-			throw new DoesNotExistException("Company failed to login");
+			throw new LoginException("Company failed to login");
 		}
  			if (LoginAsCompany && clientType.equals(ClientType.COMPANY))
  				{
- 				System.out.println("Successful Company Login");
  				company= compDAO.getCompanyByName(compName);
  				return this;
-	
-		} 
-	else 
-	{
-		throw new LoginException("Customer Login Failed");
-	}
+ 				} 
+ 			else 
+ 				{
+ 				throw new DoesNotExistException("Company "+compName+" does not exist in our DB");
+ 				}
 }
 
- 	
- 	
-
- 
+ 	//V
+ 	//
+ 	//
+ 	//
  	public void createCoupon(Coupon coupon) throws CouponException, AlreadyExistException, CompanyFacadeException, SQLException, DoesNotExistException
  	{
  		try {
@@ -100,8 +92,15 @@ public CompanyFacade()
  			
  	}
 
- 	public void removeCoupon(Coupon coupon) throws CouponException, DoesNotExistException, SQLException
+ 	public void removeCoupon(Coupon coupon) throws CouponException, DoesNotExistException, SQLException, AlreadyExistException
  	{
+ 			long couponId=coupon.getId();
+ 			
+ 			CouponSystem.getInstance().getCompDAO().removeCompanyCouponsById(couponId);
+ 			CouponSystem.getInstance().getCustDAO().removeCustomerCouponsByCouponId(couponId);
+ 			CouponSystem.getInstance().getCouponDAO().removeCoupon(coupon);
+ 			
+ 		
  		//Remove Coupon		
  		try {
  			coupDAO.removeCoupon(coupon);
@@ -121,7 +120,7 @@ public CompanyFacade()
  	
  		//Remove Coupon from Customer
  	
- 			for (long custId: coupDAO.getCustomersWhoHaveCoupon(coupon.getId()))
+ 			for (long custId: coupDAO.getCustomersWhoHaveCoupon(coupon.getId())
  			{
 	try {
 		  				custDAO.removeCustomerCouponsById(custId, coupon.getId());

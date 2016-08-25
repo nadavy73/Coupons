@@ -24,7 +24,8 @@ public class CompanyTest {
 //V 		getCouponsTest();
 //V			loginTest ();
 //V			addCompanyCouponByIdTest();
-			removeCompanyCouponsByIdTest();
+//V			removeCompanyCouponsByIdTest2PARAMS();
+			removeCompanyCouponsByIdTest1PARAM();
 			
 			
 	}
@@ -119,12 +120,17 @@ public class CompanyTest {
 		}
 		
 		
-		public static void removeCompanyCouponsByIdTest() throws CouponException, DoesNotExistException, AlreadyExistException, SQLException
+		public static void removeCompanyCouponsByIdTest2PARAMS() throws CouponException, DoesNotExistException, AlreadyExistException, SQLException
 		{
 			CompanyDAO compDao= new CompanyDBDAO();
 			compDao.removeCompanyCouponsById(3, 25);
 		}
 		
+		public static void removeCompanyCouponsByIdTest1PARAM() throws CouponException, DoesNotExistException, AlreadyExistException, SQLException
+		{
+			CompanyDAO compDao= new CompanyDBDAO();
+			compDao.removeCompanyCouponsById(couponId);
+		}
 		
 		
 		

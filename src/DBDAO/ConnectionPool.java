@@ -54,7 +54,7 @@ public class ConnectionPool implements Runnable {
 				instance = new ConnectionPool(DRIVER, URL,  USER, 
 						PASSWORD, 
 						5, // initial connections
-						15, // max connections
+						30, // max connections
 						true);
 			} catch (SQLException e) {
 				// If pool is not working. Exit the program
