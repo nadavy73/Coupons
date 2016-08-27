@@ -34,6 +34,13 @@ public class Company {
 		this.eMail=eMail;
 		this.coupons=coupons;
 	}
+	public Company(String compName,String passWord,String eMail)
+	{
+
+		this.compName=compName;
+		this.passWord=passWord;
+		this.eMail=eMail;
+	}
 	
 	public Company(long ID, String compName,String passWord,String eMail, Collection <Coupon> coupons) {
 		this.ID=ID;
@@ -103,7 +110,7 @@ public class Company {
 	@Override
 
 	public String toString() {
-		return "Company: \nCompany ID=" + ID + "\nCompany Name=" + compName + "\nPassword=" + passWord 
+		return "\nCompany: \nCompany ID=" + ID + "\nCompany Name=" + compName + "\nPassword=" + passWord 
 				+ "\nEmail=" + eMail + "\nCoupons=" + coupons+ "\n***********" ;
 	}
 

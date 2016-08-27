@@ -3,9 +3,11 @@ package Tests;
 import java.sql.SQLException;
 
 import DAO.CompanyDAO;
-import DAO.CouponDAO;
+
+import DAO.CustomerDAO;
 import DBDAO.CompanyDBDAO;
-import DBDAO.CouponDBDAO;
+
+import DBDAO.CustomerDBDAO;
 import Exceptions.AdminFacadeException;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
@@ -15,43 +17,44 @@ import Exceptions.FacadeException;
 import Exceptions.LoginException;
 import Facades.AdminFacade;
 import Facades.ClientType;
-import Facades.CustomerFacade;
 import JavaBeans.Company;
-import JavaBeans.Coupon;
-import JavaBeans.CouponType;
 import JavaBeans.Customer;
 
-public class TestAdminFacade {
+public class TestAdminFacade 
+{
 
 	private static AdminFacade adminFacade = new AdminFacade();
 
 	public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException, AdminFacadeException, FacadeException 
 	{
 //	V	TestLoginAdmin();
-//		TestCreateCompany();
-//	V	TestremoveCompany();
-//	X	TestUpdateCompany();
-		TestGetCompany();
-//		TestGetAllCompanies();
+//	V	TestCreateCompany();
+//	V	TestRemoveCompany();
+//	X				TestUpdateCompany();
+//	V	TestGetCompany();
+//	V	TestGetAllCompanies();
+//	V	TestCreateCustomer();
+//	V	TestRemoveCustomer();
+//	X				TestUpdateCustomer();
+//	V	TestGetCustomer();
+//	V	TestGetAllCustomers();
+		
+		
+		
 //		TestGetAllPurchasedCoupons();
 		
 //		TestgetAllPurchasedCouponsByType();
 //		TestgetAllPurchasedCouponsByPrice();
 	}
-		public static void TestLoginAdmin() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, AdminFacadeException
+		public static void TestLoginAdmin() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, AdminFacadeException, FacadeException
 		{
-				
-				try {
+						
+		AdminFacade af= adminFacade.login("admin", "1234", ClientType.ADMIN) ;
+		System.out.println("Admin was logged suceessfully");
+		// customer logged in successfully
 					
-					AdminFacade af= adminFacade.login("admin", "1234", ClientType.ADMIN) ;
-					System.out.println("Admin was logged suceessfully");
-					// customer logged in successfully
-					
-					adminFacade.createCompany(new Company("Altair2","Altair123456" , "Altair@coupons.co.il"));
-				} catch (FacadeException e) {
-					
-					e.printStackTrace();
-				}
+		adminFacade.createCompany(new Company("Altair2","Altair123456" , "Altair@coupons.co.il"));
+		
 			
 		}
 		
@@ -73,7 +76,7 @@ public class TestAdminFacade {
 				}
 		}	
 		
-		public static void TestremoveCompany() throws LoginException, CouponException, DoesNotExistException, AdminFacadeException, AlreadyExistException, SQLException 
+		public static void TestRemoveCompany() throws LoginException, CouponException, DoesNotExistException, AdminFacadeException, AlreadyExistException, SQLException 
 		{
 			CompanyDAO comp = new CompanyDBDAO();					
 			try
@@ -93,7 +96,7 @@ public class TestAdminFacade {
 			}
 			
 		
-		public static void TestUpdateCompany() throws CouponException, DoesNotExistException, SQLException, FacadeException, LoginException
+		public static void TestUpdateCompany() throws CouponException, DoesNotExistException, SQLException, FacadeException, LoginException, AlreadyExistException
 		{
 			adminFacade.login("admin", "1234", ClientType.ADMIN) ;
 			System.out.println("Admin was logged suceessfully");
@@ -127,77 +130,36 @@ public class TestAdminFacade {
 		
 		public static void TestGetAllCompanies() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException, FacadeException, LoginException
 		{
-			adminFacade.login("admin", "1234", ClientType.ADMIN) ;
-			System.out.println("Admin was logged suceessfully");
-			// customer logged in successfully
-			
-//			CompanyDAO compDAO= new CompanyDBDAO();
 			System.out.println(adminFacade.getAllCompanies());
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		public static void  TestGetAllPurchasedCoupons()
-				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, CustomerException, LoginException
+		public static void TestCreateCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException, FacadeException, LoginException, AdminFacadeException
 		{
-			try {
-				
-				Customer customer= new Customer("Customer23", "Custielel");
-				custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
-				// customer logged in successfully
-				
-				System.out.println(custFacade.getAllPurchasedCoupons());
-			} catch (FacadeException e) 
-			{
-			e.printStackTrace();
-			}
-		}	
-		
-		public static void  TestgetAllPurchasedCouponsByType()
-				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, CustomerException, LoginException
-		{
-			try {
-				
-				Customer customer= new Customer("Customer23", "Custielel");
-				custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
-				// customer logged in successfully
-				
-				System.out.println(custFacade.getAllPurchasedCouponsByType(CouponType.Clothes));
-				
-				} 
-			catch (FacadeException e) 
-				{
-				e.printStackTrace();
-				}
+			adminFacade.createCustomer(new Customer("Yeela", "Yeelabnbnb"));
 		}
-
-		public static void  TestgetAllPurchasedCouponsByMaxPrice()throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, CustomerException, LoginException
+		
+		public static void TestRemoveCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException, FacadeException, LoginException, AdminFacadeException
 		{
-	try {
-				
-				Customer customer= new Customer("Customer23", "Custielel");
-				custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
-				// customer logged in successfully
-				
-				System.out.println(custFacade.getAllPurchasedCouponsByMaxPrice(90));
-				
-				} 
-			catch (FacadeException e) 
-				{
-				e.printStackTrace();
-				}
+			CustomerDAO cust = new CustomerDBDAO();	
+			Customer customer= cust.getCustomerById(13);
 			
-			
+			adminFacade.RemoveCustomer(customer);
 		}
-
-
+		
+		public static void TestUpdateCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException
+		{
+			CustomerDAO cust = new CustomerDBDAO();	
+			
+			adminFacade.UpdateCustomer(cust.getCustomerById(14));
+		}
+		public static void TestGetCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException
+		{
+			adminFacade.GetCustomer(14);
+		}
+		
+		public static void TestGetAllCustomers() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException
+		{
+			System.out.println(adminFacade.getAllCustomers());
+		}
+		
 }

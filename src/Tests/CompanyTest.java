@@ -30,7 +30,7 @@ public class CompanyTest {
 			
 	}
 	
-		public static void createCompanyTest() throws CouponException, AlreadyExistException, DoesNotExistException
+		public static void createCompanyTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
 			CompanyDAO compDao = new CompanyDBDAO();
 			
