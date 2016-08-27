@@ -40,7 +40,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 {
 //	TestLoginCustomer();
 //	TestAddCoupon();
-//	TestGetAllPurchasedCoupons();
+	TestGetAllPurchasedCoupons();
 //	TestgetAllPurchasedCouponsByType();
 //	TestgetAllPurchasedCouponsByPrice();
 }
@@ -85,11 +85,11 @@ public static void main(String[] args) throws LoginException, CustomerException,
 	{
 		try {
 			
-			Customer customer= new Customer("Customer23", "Custielel");
+			Customer customer= new Customer("Customer99", "BLA");
 			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
-			System.out.println(custFacade.getAllPurchasedCoupons());
+			System.out.println(customer.toString()+ "\n"+ custFacade.getAllPurchasedCoupons());
 		} catch (FacadeException e) 
 		{
 		e.printStackTrace();

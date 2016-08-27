@@ -3,9 +3,6 @@ package Facades;
 
 import java.sql.SQLException;
 import java.util.Collection;
-//import DAO.CompanyDAO;
-//import DAO.CouponDAO;
-//import DAO.CustomerDAO;
 import Exceptions.AdminFacadeException;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
@@ -21,28 +18,7 @@ public class AdminFacade implements CouponClientFacade
 {
 
 	/*
-	 * Attributes
-	 */
-	
-//	private CompanyDAO compDAO=null;
-//	private CouponDAO couponDAO= null;
-//	private CustomerDAO custDAO=null;
-	
-	
-	/*
-	 * Constructors
-	 */
-		
-	public AdminFacade() 
-	{
-//		compDAO = CouponSystem.getInstance().getCompDAO();
-//		custDAO= CouponSystem.getInstance().getCustDAO();
-//		couponDAO = CouponSystem.getInstance().getCouponDAO();
-	}
-	
-	
-	/*
-	 * Functions
+	 * Methods
 	 */
 	public AdminFacade login(String name, String password, ClientType clientType) throws FacadeException, LoginException{
 		if (name.equals("admin") && password.equals("1234")) {

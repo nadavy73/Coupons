@@ -41,7 +41,7 @@ public class CustomerFacade implements CouponClientFacade
 	
 	@Override
 	public CustomerFacade login(String custName, String password, ClientType clientType) 
-			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException 
+			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException 
 	{
 			boolean LoginAsCustomer= false;
 		try {
@@ -53,7 +53,7 @@ public class CustomerFacade implements CouponClientFacade
 			if (LoginAsCustomer && clientType.equals(ClientType.CUSTOMER))
 				{
 				System.out.println("Successful Customer Login");
-				customer= custDAO.getCustomerByName(custName);
+				customer= CouponSystem.getInstance().getCustDAO().getCustomerByName(custName);
 				return this;
 			
 				} 
@@ -66,7 +66,7 @@ public class CustomerFacade implements CouponClientFacade
 	public void purchaseCoupon(Coupon coupon) 
 			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
-		coupon = couponDAO.getCoupon(coupon.getId());
+		coupon = CouponSystem.getInstance().getCouponDAO().getCoupon(coupon.getId());
 		
 		if (LocalDate.now().isAfter(coupon.getEndDate())) {
 				throw new CouponException("Coupon Id no."+ coupon.getId() + " (" + coupon.getTitle() 
@@ -79,18 +79,18 @@ public class CustomerFacade implements CouponClientFacade
 		
 		else {
 		
-		custDAO.AddCustomerCouponById(customer.getId(), coupon.getId());
-		couponDAO.updateAmountOfCoupon(coupon.getId());
+		CouponSystem.getInstance().getCustDAO().AddCustomerCouponById(customer.getId(), coupon.getId());
+		CouponSystem.getInstance().getCouponDAO().updateAmountOfCoupon(coupon.getId());
 		
 		
 		}
 		
 	}
 	
-	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException, DoesNotExistException, CouponException 
+	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerException, SQLException, DoesNotExistException, CouponException, AlreadyExistException 
 	{
-				Collection<Coupon> coupons = custDAO.getCoupons(customer.getId());
-				return coupons;
+			Collection<Coupon> coupons = CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId());
+			return coupons;
 		}
 
 	
@@ -99,7 +99,7 @@ public class CustomerFacade implements CouponClientFacade
 		Collection<Coupon> couponsType= new HashSet<>();
 		
 		try {
-			for (Coupon coupon: custDAO.getCoupons(customer.getId())){
+			for (Coupon coupon: CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId())){
 				if (coupon.getType().equals(CouponType)){
 					couponsType.add(coupon);
 				}
