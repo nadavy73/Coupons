@@ -18,7 +18,7 @@ public interface CouponDAO
 	
 	public void updateAmountOfCoupon(long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException; 
 
-	public Coupon getCoupon (long id)throws CouponException, AlreadyExistException, DoesNotExistException;
+	public Coupon getCoupon (long id)throws CouponException, AlreadyExistException, DoesNotExistException, SQLException;
 	
 	public Collection<Coupon> getAllCoupons ()throws CouponException, DoesNotExistException;
 	

@@ -43,7 +43,7 @@ public class Checks {
 
 	}
 	
-	public static boolean isCompanyExistByName(String compName) throws CouponException 
+	public static boolean isCompanyExistByName(String compName) throws CouponException, SQLException 
 	{
 
 		Connection con = null;
@@ -65,6 +65,7 @@ public class Checks {
 			e.printStackTrace();
 		} // release connection to pool
 		finally {
+			rs.close();
 			ConnectionPool.getInstance().free(con);
 		}
 		return false;

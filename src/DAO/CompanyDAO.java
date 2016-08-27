@@ -22,13 +22,13 @@ public interface CompanyDAO
 	
 	public void updateCompany (Company company)throws CouponException, SQLException, DoesNotExistException;
 	
-	public Company getCompanyById(long ID) throws CouponException, SQLException, DoesNotExistException;
+	public Company getCompanyById(long ID) throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
 	
-	public Company getCompanyByName(String compName) throws CouponException, DoesNotExistException, SQLException;
+	public Company getCompanyByName(String compName) throws CouponException, DoesNotExistException, SQLException, AlreadyExistException;
 	
-	public Collection <Company> getAllCompanies() throws CouponException, SQLException;
+	public Collection <Company> getAllCompanies() throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
 	
-	public Collection<Coupon> getCoupons(long compID) throws CouponException, SQLException, DoesNotExistException;
+	public Collection<Coupon> getCoupons(long compID) throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
 	
 	public boolean login (String compName ,String password)throws CouponException, SQLException;
 	

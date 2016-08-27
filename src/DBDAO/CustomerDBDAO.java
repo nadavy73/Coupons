@@ -210,7 +210,7 @@ public class CustomerDBDAO implements CustomerDAO
 	//V
 	public Customer getCustomerByName(String custName) throws CouponException, SQLException, DoesNotExistException{
 		Connection con = null;
-		Customer customer = new Customer();
+		Customer customer = null;
 		ResultSet rs;
 		String password;
 		Long Id;
@@ -493,34 +493,13 @@ public class CustomerDBDAO implements CustomerDAO
 					throw new CouponException("CouponException", e);
 					}
 						
-					System.out.println("Coupon no." + couponId+ "  was removed");
+					System.out.println("Coupon no." + couponId+ "  was removed from All Customers");
 						
 					 {
 						ConnectionPool.getInstance().free(con);
 					}		 
-	
-	
-	
 	}
 
-	
-
-	
-	
-	
-	
-	
-	
-	
 }
-
-
-
-
-
-
-
-
-
 
 

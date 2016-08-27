@@ -203,51 +203,50 @@ public class CouponDBDAO implements CouponDAO
 		//****************************************************************************
 		//This function gets Coupon Id and Returns coupon Object that contains this Id
 		//****************************************************************************
-		public Coupon getCoupon(long CouponId) throws CouponException, AlreadyExistException, DoesNotExistException {
+		public Coupon getCoupon(long couponId) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException {
 		
+		if (!Checks.isCouponExistById(couponId))
+		{
+			throw new DoesNotExistException("The Coupon does not found");
+		}
+			
+		Coupon coupon = null;
 		Long ID;
 		String TITLE,MESSAGE,IMAGE;
 		LocalDate START_DATE,END_DATE;
 		int AMOUNT;
 		CouponType TYPE;
 		double PRICE;
-		Coupon coupon = null;
 		
-		Connection con = null;
 		
-		try {
+//		Connection con = null;
 		
-			con = ConnectionPool.getInstance().getConnection();
+		try (Connection con=ConnectionPool.getInstance().getConnection() ) {
+		
+//			con = ConnectionPool.getInstance().getConnection();
 
 			String sql = "SELECT * FROM Coupon WHERE ID=?";
 			PreparedStatement stat = con.prepareStatement (sql);
-			stat.setLong(1, CouponId);
+			stat.setLong(1, couponId);
 			ResultSet rs = stat.executeQuery();
-			if (!rs.next())
-			{
-				throw new DoesNotExistException("The Coupon does not found");
-			}
+			rs.next();
 			
 			ID = rs.getLong(1);
-			TITLE = rs.getString(2);
-			START_DATE = rs.getDate(3).toLocalDate();
-			END_DATE = rs.getDate(4).toLocalDate();
-			AMOUNT = rs.getInt(5);
-			TYPE = CouponType.valueOf(rs.getString(6));
-			MESSAGE = rs.getString(7);
-			PRICE = rs.getDouble(8);
-			IMAGE = rs.getString(9);
+			TITLE = rs.getString("TITLE");
+			START_DATE = rs.getDate("START_DATE").toLocalDate();
+			END_DATE = rs.getDate("END_DATE").toLocalDate();
+			AMOUNT = rs.getInt("AMOUNT");
+			TYPE = CouponType.valueOf(rs.getString("TYPE"));
+			MESSAGE = rs.getString("MESSAGE");
+			PRICE = rs.getDouble("PRICE");
+			IMAGE = rs.getString("IMAGE");
 			
 			coupon = new Coupon(ID, TITLE, START_DATE, END_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE);
-			
-					
-		} catch (SQLException e) {
-			
+			} 
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
-	} finally {
-		ConnectionPool.getInstance().free(con);
-	}	
-		
+		}		
 		return coupon;
 		
 		

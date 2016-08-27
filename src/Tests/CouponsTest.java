@@ -32,13 +32,13 @@ public class CouponsTest {
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			
-//			Coupon coup1 = new Coupon("BBB", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-//			Coupon coup2 = new Coupon("Agadir", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-//			Coupon coup3 = new Coupon("Mosges", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup1 = new Coupon("BBB", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup2 = new Coupon("Agadir", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup3 = new Coupon("Moses", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
 			Coupon coup4 = new Coupon("T-SHIRT", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
-//			coupDao.createCoupon(coup1);
-//			coupDao.createCoupon(coup2);
-//			coupDao.createCoupon(coup3);
+			coupDao.createCoupon(coup1);
+			coupDao.createCoupon(coup2);
+			coupDao.createCoupon(coup3);
 			coupDao.createCoupon(coup4);
 		}
 		

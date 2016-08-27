@@ -14,8 +14,8 @@ public class CustomerTest {
 		public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 		{
 //	V	CreateCustomerTest();
-		RemoveCustomerTest();
-//	V	updateCustomerTest();
+//	V	RemoveCustomerTest();
+			updateCustomerTest();
 //	V	updateCustomerByNameTest();
 //	V	getCustomerByIdTest();
 //	V	getCustomerByNameTest();

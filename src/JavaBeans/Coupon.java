@@ -151,10 +151,10 @@ public class Coupon {
 
 	@Override
 	public String toString() {
-		return "Coupon \n[id=" + id + ", \ntitle=" + title + ", \nstartDate=" + startDate + ""
-				+ ", endDate=" + endDate + ", amount=" + amount + ", type=" + type + ""
-				+ ", message=" + message + ", price=" + price + ", image="
-				+ image + "]";
+		return "Coupon \nId=" + id + ", \nTitle=" + title + ", \nStart Date=" + startDate + ""
+				+ ", \nEnd Date=" + endDate + ", \nAmount=" + amount + ", \nType=" + type + ""
+				+ ", \nMessage=" + message + ", \nPrice=" + price + ", \nImage="
+				+ image;
 	}
 
 	

@@ -68,7 +68,7 @@ public class AdminFacade implements CouponClientFacade
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "createCompany() - Error", e);
+					+ "createCompany() - Error");
 		}
 	}
 //TODO:
@@ -87,24 +87,25 @@ public class AdminFacade implements CouponClientFacade
 			CouponSystem.getInstance().getCompDAO().removeCompany(company);
 	}
 	
+	
 	public void UpdateCompany(Company company) throws DoesNotExistException, CouponException, SQLException 
 	{
 		compDAO.updateCompany(company);
 	}
 	
-	public Company GetCompany (long compId)  throws DoesNotExistException, CouponException, SQLException
+	public Company GetCompany (long compId)  throws DoesNotExistException, CouponException, SQLException, AlreadyExistException
 	{
-		return compDAO.getCompany(compId);
+		return CouponSystem.getInstance().getCompDAO().getCompanyById(compId);
 	}
 	
-	public Company GetCompanyByName (String compName)throws DoesNotExistException, CouponException
+	public Company GetCompanyByName (String compName)throws DoesNotExistException, CouponException, SQLException, AlreadyExistException
 	{
-		return compDAO.getCompanyByName(compName);
+		return CouponSystem.getInstance().getCompDAO().getCompanyByName(compName);
 	}
 	
-	public Collection<Company> getAllCompanies() throws DoesNotExistException, CouponException, SQLException 
+	public Collection<Company> getAllCompanies() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException 
 	{
-		return compDAO.getAllCompanies();
+		return CouponSystem.getInstance().getCompDAO().getAllCompanies();
 	}
 	
 	public void createCustomer(Customer customer) throws AdminFacadeException,AlreadyExistException, CouponException, SQLException 
