@@ -15,7 +15,7 @@ import JavaBeans.Customer;
 public class Checks {
 
 	
-	public static boolean isCustomerExistByName(String custName) throws CouponException 
+	public static boolean isCustomerExistByName(String custName) throws CouponException, SQLException 
 	{
 
 		Connection con = null;
@@ -37,7 +37,9 @@ public class Checks {
 			e.printStackTrace();
 		} // release connection to pool
 		finally {
+			rs.close();
 			ConnectionPool.getInstance().free(con);
+			
 		}
 		return false;
 
@@ -149,8 +151,9 @@ public class Checks {
 			e.printStackTrace();
 		} // release connection to pool
 		finally {
-			ConnectionPool.getInstance().free(con);
 			rs.close();
+			ConnectionPool.getInstance().free(con);
+			
 		}return false;
 
 	}
@@ -174,8 +177,9 @@ public class Checks {
 			e.printStackTrace();
 		} // release connection to pool
 		finally {
-			ConnectionPool.getInstance().free(con);
 			rs.close();
+			ConnectionPool.getInstance().free(con);
+			
 		}return false;
 
 	}
@@ -205,8 +209,9 @@ public class Checks {
 			
 			// release connection to pool
 			
-			ConnectionPool.getInstance().free(con);		
 			rs.close();
+			ConnectionPool.getInstance().free(con);
+			
 			
 		}
 
@@ -244,8 +249,9 @@ public class Checks {
 			
 			// release connection to pool
 			
-			ConnectionPool.getInstance().free(con);		
 			rs.close();
+			ConnectionPool.getInstance().free(con);
+			
 			
 		}
 

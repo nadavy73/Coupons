@@ -199,6 +199,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	//This function gets Company ID and return Company all company details
 	//********************************************************************
 	@Override
+
 	public Company getCompanyById(long ID) 
 			throws CouponException, DoesNotExistException, SQLException, AlreadyExistException {
 
@@ -210,15 +211,16 @@ public class CompanyDBDAO implements CompanyDAO {
 		Company company=null;
 		String compName, eMail,Password;
 		Collection<Coupon> coupons = null;
-		
+		ResultSet rs=null;
 		
 		try (Connection con= ConnectionPool.getInstance().getConnection()) 
 		{
+
 			String sql = "SELECT * FROM Company WHERE ID=?";
 			PreparedStatement stat = con.prepareStatement(sql);
 			
 			stat.setLong(1, ID);
-			ResultSet rs = stat.executeQuery();
+			rs = stat.executeQuery();
 			
 			
 			rs.next();
@@ -232,9 +234,11 @@ public class CompanyDBDAO implements CompanyDAO {
 		catch (SQLException e) {
  
 			e.printStackTrace();
+
 //		} finally {
 //			ConnectionPool.getInstance().free(con);
 //			rs.close();
+
 		}
 
 		return company;
@@ -244,18 +248,17 @@ public class CompanyDBDAO implements CompanyDAO {
 	//*******************************************************************************
 	//This function gets Company Name (String) and return Company all company details
 	//*******************************************************************************
+
 	public Company getCompanyByName(String compName) throws CouponException, DoesNotExistException, SQLException, AlreadyExistException {
 
-		
 	String eMail,Password;
 	long Id;
-	Connection con = null;
 	Collection <Coupon> coupons = null;
 	Company company=null;
-	
 	ResultSet rs=null;
-	try {
-		con = ConnectionPool.getInstance().getConnection();
+	
+	try (Connection con= ConnectionPool.getInstance().getConnection()) 
+		{
 		String sql = "SELECT * FROM Company WHERE COMP_NAME=?";
 		PreparedStatement stat = con.prepareStatement(sql);
 		stat.setString(1, compName);
@@ -276,26 +279,21 @@ public class CompanyDBDAO implements CompanyDAO {
 
 		e.printStackTrace();
 	} finally {
-
-		
-		// release connection to pool
-		
-		ConnectionPool.getInstance().free(con);
 		rs.close();
 	}
-
 	return company;
-
 }
 	
 	//V
 	//*********************************************
 	//This function return ALL Companies in our DB.
 	//*********************************************
-	public Collection<Company> getAllCompanies() throws CouponException, DoesNotExistException, AlreadyExistException {
+
+	public Collection<Company> getAllCompanies() throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {
+
 		Collection<Company> companies = new HashSet<>();
 		Company company= null;
-//		Connection con = null;
+
 		Collection <Coupon> coupons= null;
 		ResultSet rs = null;
 		String compName = null, eMail = null, password = null;
@@ -303,7 +301,6 @@ public class CompanyDBDAO implements CompanyDAO {
 		
 		try (Connection con= ConnectionPool.getInstance().getConnection()) 
 		{
-//			con = ConnectionPool.getInstance().getConnection();
 			String sql = "SELECT * FROM company";
 			PreparedStatement stat = con.prepareStatement(sql);
 
@@ -326,12 +323,9 @@ public class CompanyDBDAO implements CompanyDAO {
 		}
 
 finally {
-
-			
-			// release connection to pool
-			
-//			ConnectionPool.getInstance().free(con);
-		}
+	// release connection to pool
+			rs.close();
+				}
 
 		return companies;
 	}
@@ -348,14 +342,10 @@ finally {
 		
 		Collection<Coupon> coupons = new HashSet<>();
 		CouponDBDAO couponDB = new CouponDBDAO();
-//		ResultSet rs=null;
-//		Connection con = null;
-		
-		
-		
+		ResultSet rs=null;
+
 		try(Connection con=ConnectionPool.getInstance().getConnection()) {
-//			con = ConnectionPool.getInstance().getConnection();
-			String sql = "SELECT * FROM Coupon "
+		String sql = "SELECT * FROM Coupon "
 					+ "JOIN Company_Coupon "
 					+ "ON Coupon.ID = Company_Coupon.COUPON_ID "
 					+ "WHERE Company_Coupon.COMP_ID = ?";
@@ -364,43 +354,24 @@ finally {
 			PreparedStatement stat = con.prepareStatement(sql);
 			stat.setLong(1, compID);
 			// Execute and get a resultSet
-			ResultSet rs = stat.executeQuery();
+			rs = stat.executeQuery();
 			
 			while (rs.next())
 			{
-//			do {
-			coupons.add(couponDB.getCoupon(rs.getLong("COUPON_ID")));
-	
-//				// Generating Coupon
-//				Coupon coupon = new Coupon(
-//						rs.getLong("ID"),
-//						rs.getString("TITLE"), 
-//						rs.getDate("START_DATE").toLocalDate(),
-//						rs.getDate("END_DATE").toLocalDate(), 
-//						rs.getInt("AMOUNT"), 
-//						CouponType.valueOf(rs.getString("TYPE")),
-//						rs.getString("MESSAGE"), 
-//						rs.getDouble("PRICE"), 
-//						rs.getString("IMAGE"));
-//				
-//				coupons.add(coupon);
-//				while (rs.next());	
+
+				coupons.add(couponDB.getCoupon(rs.getLong("COUPON_ID")));
 			}
 		} 
-		catch (SQLException e) {
+		catch (SQLException e) 
+		{
 		e.printStackTrace();
-		
-		
 		} 
 		
-//	finally {
-//
-//		rs.close();	
-////		ConnectionPool.getInstance().free(con);
-//			
-//			} 
+		finally {
+			rs.close();	
+		
+		}
 
-			
 		return coupons; 
 	} 
 			
@@ -409,7 +380,7 @@ finally {
 	//**************
 	//Login function 
 	//**************
-	public boolean login(String compName, String password) throws CouponException {
+	public boolean login(String compName, String password) throws CouponException, SQLException {
 
 		Connection con = null;
 		ResultSet rs = null;
@@ -432,18 +403,18 @@ finally {
 				hasRows = false;
 			}
 
-			System.out.println(hasRows);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 
 		}
 
 		finally {
+			rs.close();
 			ConnectionPool.getInstance().free(con);
 		}
 
 		return hasRows;
+		
 	}
 	public void addCompanyCouponById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException {
 		
@@ -491,13 +462,13 @@ finally {
 				ConnectionPool.getInstance().free(con);
 			}
 	}
-	
+	            
 	public void removeCompanyCouponsById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {
 		Connection con = null;
 		
 		if (!Checks.isCompanyPurchased(compId, couponId))
 		{
-			throw new DoesNotExistException("This Coupon is not purchased for this Company");
+			throw new DoesNotExistException("This Company doesn't have Coupon ID "+ couponId);
 		}
 		
 		try {
@@ -516,25 +487,24 @@ finally {
 			throw new CouponException("CouponException", e);
 			}
 			
+			finally {
+			ConnectionPool.getInstance().free(con);
+			}
 			System.out.println("Coupon no." + couponId+ "  was removed from Company no." +compId);
 			
-			 {
-				ConnectionPool.getInstance().free(con);
-			 }
+			
 		}
 
 	public void removeCompanyCouponsById(long couponId) throws CouponException, DoesNotExistException, SQLException {
 			Connection con = null;
-
+		try {
 				if (!Checks.isCouponExistById(couponId))
 				{
-					throw new DoesNotExistException("This Coupon is not purchased for this Customer");
+					throw new DoesNotExistException("This Company does not exist "+ couponId);
 				}
-		
-		try {
-			con = ConnectionPool.getInstance().getConnection();
+		con = ConnectionPool.getInstance().getConnection();
 			String sql =
-					"DELETE FROM Company_Coupon WHERE CouponId = ?;";
+					"DELETE FROM Company_Coupon WHERE COUPON_ID = ?;";
 			PreparedStatement stmt = con.prepareStatement(sql);
 		
 			//Delete coupons
@@ -543,13 +513,17 @@ finally {
 			
 			} catch (SQLException e) 
 			{
-			throw new CouponException("CouponException", e);
+			throw new CouponException(e);
 			}
 			
-			System.out.println("Company Coupon no." + couponId+ "  was removed");
-			{
+		finally {
 			ConnectionPool.getInstance().free(con);
-			}
+		}
+			System.out.println("Company Coupon no." + couponId+ "  was removed");
+			
+			
+				
+			
 
 
 	

@@ -340,15 +340,17 @@ public class CustomerDBDAO implements CustomerDAO
 		}
 		// release connection to pool
 		finally {
-			ConnectionPool.getInstance().free(con);
 			rs.close();
+			ConnectionPool.getInstance().free(con);
+			
 			}
 		return coupons; 
 		
 	}
 	//V
 	@Override
-	public boolean login(String custName, String password) throws CouponException {
+	public boolean login(String custName, String password) 
+			throws CouponException, SQLException {
 		Connection con = null;
 		ResultSet rs = null;
 		boolean hasRows = false;
@@ -381,6 +383,7 @@ public class CustomerDBDAO implements CustomerDAO
 		}
 
 		finally {
+			rs.close();
 			ConnectionPool.getInstance().free(con);
 		}
 
@@ -460,12 +463,13 @@ public class CustomerDBDAO implements CustomerDAO
 			{
 			throw new CouponException("CouponException", e);
 			}
+		finally {
+			ConnectionPool.getInstance().free(con);
+		}
 			
-			System.out.println("Coupon no." + couponId+ "  was removed from Customer no." +custId);
+		System.out.println("Coupon no." + couponId+ "  was removed from Customer no." +custId);
 			
-			 {
-				ConnectionPool.getInstance().free(con);
-			 }
+			
 		}
 	
 		//V//
@@ -492,12 +496,22 @@ public class CustomerDBDAO implements CustomerDAO
 					{
 					throw new CouponException("CouponException", e);
 					}
+				
+				
+					finally {
+					ConnectionPool.getInstance().free(con);
+					}		
+					
+				
+				System.out.println("Coupon no." + couponId+ "  was removed");
 						
+
 					System.out.println("Coupon no." + couponId+ "  was removed from All Customers");
 						
 					 {
 						ConnectionPool.getInstance().free(con);
 					}		 
+
 	}
 
 }
