@@ -24,8 +24,8 @@ public class CompanyTest {
 //V 		getCouponsTest();
 //V			loginTest ();
 //V			addCompanyCouponByIdTest();
-//V			removeCompanyCouponsByIdTest2PARAMS();
-			removeCompanyCouponsByIdTest1PARAM();
+		removeCompanyCouponsByIdTest2PARAMS();
+//V			removeCompanyCouponsByIdTest1PARAM();
 			
 			
 	}
@@ -88,7 +88,7 @@ public class CompanyTest {
 			System.out.println(compDao.getCompanyById(4));
 		}
 		
-		public static void getCompanyByNameTest() throws CouponException, DoesNotExistException
+		public static void getCompanyByNameTest() throws CouponException, DoesNotExistException, SQLException
 		{
 			CompanyDAO compDao = new CompanyDBDAO();
 			System.out.println(compDao.getCompanyByName("Nadav1"));
@@ -123,13 +123,13 @@ public class CompanyTest {
 		public static void removeCompanyCouponsByIdTest2PARAMS() throws CouponException, DoesNotExistException, AlreadyExistException, SQLException
 		{
 			CompanyDAO compDao= new CompanyDBDAO();
-			compDao.removeCompanyCouponsById(3, 25);
+			compDao.removeCompanyCouponsById(1, 41);
 		}
 		
 		public static void removeCompanyCouponsByIdTest1PARAM() throws CouponException, DoesNotExistException, AlreadyExistException, SQLException
 		{
 			CompanyDAO compDao= new CompanyDBDAO();
-			compDao.removeCompanyCouponsById(couponId);
+			compDao.removeCompanyCouponsById(25);
 		}
 		
 		

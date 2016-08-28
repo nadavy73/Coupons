@@ -41,7 +41,7 @@ public class CompanyFacade implements CouponClientFacade
  	 */
 
 public CompanyFacade() 
- 	{
+ 	{	
  		compDAO = CouponSystem.getInstance().getCompDAO();
  		custDAO = CouponSystem.getInstance().getCustDAO();
  		coupDAO = CouponSystem.getInstance().getCouponDAO();
@@ -92,47 +92,71 @@ public CompanyFacade()
  			
  	}
 
- 	public void removeCoupon(Coupon coupon) throws CouponException, DoesNotExistException, SQLException, AlreadyExistException
- 	{
- 			long couponId=coupon.getId();
- 			
- 			CouponSystem.getInstance().getCompDAO().removeCompanyCouponsById(couponId);
- 			CouponSystem.getInstance().getCustDAO().removeCustomerCouponsByCouponId(couponId);
- 			CouponSystem.getInstance().getCouponDAO().removeCoupon(coupon);
- 			
- 		
- 		//Remove Coupon		
- 		try {
- 			coupDAO.removeCoupon(coupon);
- 		} catch (CouponException e) {
- 			throw new DoesNotExistException("CompanyFacadeException   "
- 					+ "getCoupon Error", e);
-}
-	
- 		//Remove Coupons from Company
+// 	public void removeCoupon(Coupon coupon) throws CouponException, DoesNotExistException, SQLException, AlreadyExistException
+// 	{
+// 			long couponId=coupon.getId();
+// 			
+// 			CouponSystem.getInstance().getCompDAO().removeCompanyCouponsById(couponId);
+// 			CouponSystem.getInstance().getCustDAO().removeCustomerCouponsByCouponId(couponId);
+// 			CouponSystem.getInstance().getCouponDAO().removeCoupon(coupon);
+// 			
+// 		
+// 		//Remove Coupon		
+// 		try {
+// 			coupDAO.removeCoupon(coupon);
+// 		} catch (CouponException e) {
+// 			throw new DoesNotExistException("CompanyFacadeException   "
+// 					+ "getCoupon Error", e);
+//}
+//	
+// 		//Remove Coupons from Company
+// 	
+// 		try {
+// 			compDAO.removeCompanyCouponsById(coupon.getId(), compId);
+// 		} catch (CouponException e) {
+// 			throw new DoesNotExistException("CompanyFacadeException   "
+// 					+ "getCoupon Error", e);
+// 		}
+// 	
+// 		//Remove Coupon from Customer
+// 	
+// 			for (long custId: coupDAO.getCustomersWhoHaveCoupon(coupon.getId())
+// 			{
+//	try {
+//		  				custDAO.removeCustomerCouponsById(custId, coupon.getId());
+//		  			} catch (CouponException e) {
+//		  				throw new DoesNotExistException("CompanyFacadeException   "
+//		  						+ "getCoupon Error", e);
+//		  			}
+//		  			}
+//		  	}
+//		  	
+//	
  	
- 		try {
- 			compDAO.removeCompanyCouponsById(coupon.getId(), compId);
- 		} catch (CouponException e) {
- 			throw new DoesNotExistException("CompanyFacadeException   "
- 					+ "getCoupon Error", e);
- 		}
+// 	public void removeCoupon(Coupon coupon) throws CompanyFacadeException, DoesNotExistException, AlreadyExistException, SQLException {
+// 		long couponId = coupon.getId();
+//		long compId = company.getId();
+// 		try {
+//			
+//			// remove coupon from company_coupon table
+//			CouponSystem.getInstance().getCompDAO().removeCompanyCouponsById(compId, couponId);
+//			// remove coupon from customer_coupon table
+//			CouponSystem.getInstance().getCustDAO().removeCustomerCouponsByCouponId(couponId);
+//			// remove coupon from Coupon table in the DB
+//			CouponSystem.getInstance().getCouponDAO().removeCoupon(coupon);
+//		}
+
  	
- 		//Remove Coupon from Customer
- 	
- 			for (long custId: coupDAO.getCustomersWhoHaveCoupon(coupon.getId())
- 			{
-	try {
-		  				custDAO.removeCustomerCouponsById(custId, coupon.getId());
-		  			} catch (CouponException e) {
-		  				throw new DoesNotExistException("CompanyFacadeException   "
-		  						+ "getCoupon Error", e);
-		  			}
-		  			}
-		  	}
 		  	
-		  	
-		  	public void updateCoupon(Coupon coupon) throws CouponException, SQLException, DoesNotExistException {
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	public void updateCoupon(Coupon coupon) throws CouponException, SQLException, DoesNotExistException {
 		  		coupDAO.updateCoupon(coupon);
 		  	}
 		  
