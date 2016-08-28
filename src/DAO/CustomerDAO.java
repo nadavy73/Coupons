@@ -23,16 +23,16 @@ public interface CustomerDAO
 			throws CouponException, SQLException, DoesNotExistException;
 	
 	public Customer getCustomerById (long custId)
-			throws CouponException, SQLException, DoesNotExistException;
+			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
 	
 	public Customer getCustomerByName(String custName) 
-			throws CouponException, SQLException, DoesNotExistException;
+			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
 
 	public Collection<Customer> getAllCustomers ()
-			throws CouponException, SQLException;
+			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
 	
 	public Collection<Coupon> getCoupons (long custID)
-			throws CouponException, DoesNotExistException, SQLException;
+			throws CouponException, DoesNotExistException, SQLException, AlreadyExistException;
 	
 	public boolean login (String custName ,String password)
 			throws CouponException, SQLException;

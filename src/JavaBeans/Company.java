@@ -14,7 +14,7 @@ public class Company {
 	private String compName;
 	private String passWord;
 	private String eMail;
-	private Collection <Coupon> coupons;
+	private Collection <Coupon> coupons= new HashSet<>();
 	
 	
 	//
@@ -23,9 +23,17 @@ public class Company {
 	
 	public Company()
 	{
-		
+		super();
 	}
 	
+	public Company(String compName,String passWord,String eMail, Collection <Coupon> coupons)
+	{
+
+		this.compName=compName;
+		this.passWord=passWord;
+		this.eMail=eMail;
+		this.coupons=coupons;
+	}
 	public Company(String compName,String passWord,String eMail)
 	{
 
@@ -34,16 +42,12 @@ public class Company {
 		this.eMail=eMail;
 	}
 	
-	
-	//
-	//Getters & Setters
-	//
-	
-	public Company(long ID, String compName,String passWord,String eMail) {
+	public Company(long ID, String compName,String passWord,String eMail, Collection <Coupon> coupons) {
 		this.ID=ID;
 		this.compName=compName;
 		this.passWord=passWord;
 		this.eMail=eMail;
+		this.coupons=coupons;
 		
 	}
 
@@ -52,6 +56,11 @@ public class Company {
 		this.compName = compName;
 		this.passWord = passWord;
 	}
+	//
+	//Getters & Setters
+	//
+	
+	
 
 	public long getId() {
 		return ID;
@@ -101,8 +110,8 @@ public class Company {
 	@Override
 
 	public String toString() {
-		return "Company [ID=" + ID + ", compName=" + compName + ", passWord=" + passWord 
-				+ ", eMail=" + eMail + ", coupons=" + coupons + "]";
+		return "\nCompany: \nCompany ID=" + ID + "\nCompany Name=" + compName + "\nPassword=" + passWord 
+				+ "\nEmail=" + eMail + "\nCoupons=" + coupons+ "\n***********" ;
 	}
 
 	@Override
