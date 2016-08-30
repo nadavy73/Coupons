@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import DAO.CouponDAO;
-import DAO.CustomerDAO;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
 import Exceptions.CustomerException;
@@ -23,21 +21,8 @@ public class CustomerFacade implements CouponClientFacade
 	 * Attributes
 	 */
 	private Customer customer;
-	private CustomerDAO custDAO = null;
-	private CouponDAO couponDAO = null;
-	
-	
-	/*
-	 * Constructors
-	 */
-		public CustomerFacade() 
-		{
-		
-//		compDao = CouponSystem.getInstance().getCompDao();
-		custDAO = CouponSystem.getInstance().getCustDAO();
-		couponDAO = CouponSystem.getInstance().getCouponDAO();
-	}
-	
+
+	public CustomerFacade() {}
 	
 	@Override
 	public CustomerFacade login(String custName, String password, ClientType clientType) 
@@ -45,7 +30,7 @@ public class CustomerFacade implements CouponClientFacade
 	{
 			boolean LoginAsCustomer= false;
 		try {
-			 LoginAsCustomer= custDAO.login(custName, password);
+			 LoginAsCustomer= CouponSystem.getInstance().getCustDAO().login(custName, password);
 		} catch (Exception e) {
 			throw new DoesNotExistException("Customer failed to login");
 		}
@@ -82,7 +67,6 @@ public class CustomerFacade implements CouponClientFacade
 		CouponSystem.getInstance().getCustDAO().AddCustomerCouponById(customer.getId(), coupon.getId());
 		CouponSystem.getInstance().getCouponDAO().updateAmountOfCoupon(coupon.getId());
 		
-		
 		}
 		
 	}
@@ -114,7 +98,7 @@ public class CustomerFacade implements CouponClientFacade
 		Collection<Coupon> couponsByPrice= new HashSet<>();
 		
 		try {
-			for (Coupon coupon: custDAO.getCoupons(customer.getId())){
+			for (Coupon coupon: CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId())){
 				if (coupon.getPrice()<=(price)){
 					couponsByPrice.add(coupon);
 				}
