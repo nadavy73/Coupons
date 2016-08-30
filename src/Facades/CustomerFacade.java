@@ -32,7 +32,7 @@ public class CustomerFacade implements CouponClientFacade
 		try {
 			 LoginAsCustomer= CouponSystem.getInstance().getCustDAO().login(custName, password);
 		} catch (Exception e) {
-			throw new DoesNotExistException("Customer failed to login");
+			throw new LoginException("Customer failed to login");
 		}
 			
 			if (LoginAsCustomer && clientType.equals(ClientType.CUSTOMER))

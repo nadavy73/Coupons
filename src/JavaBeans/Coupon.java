@@ -61,6 +61,7 @@ public class Coupon {
 	
 	public Coupon(String title, LocalDate i, LocalDate j, int amount, CouponType type,
 			String message, double price, String image) {
+		super();
 		this.title = title;
 		this.startDate = i;
 		this.endDate = j;

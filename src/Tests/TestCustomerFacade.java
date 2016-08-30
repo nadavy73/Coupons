@@ -1,35 +1,20 @@
 package Tests;
 
 import java.sql.SQLException;
-//import java.time.LocalDate;
-
 import DAO.CouponDAO;
 import DBDAO.CouponDBDAO;
-
-//import java.time.DayOfWeek;
-//import java.time.LocalDate;
-//import java.time.Month;
-//import java.time.Year;
-
-//import DAO.CouponDAO;
-//import DAO.CustomerDAO;
-//import DBDAO.CouponsDBDAO;
-import DBDAO.CustomerDBDAO;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
 import Exceptions.CustomerException;
 import Exceptions.DoesNotExistException;
 import Exceptions.FacadeException;
 import Exceptions.LoginException;
-//import JavaBeans.Coupon;
-//import JavaBeans.CouponType;
-//import JavaBeans.Customer;
-import Facades.ClientType;
-import Facades.CustomerFacade;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
-//import JavaBeans.CouponType;
 import JavaBeans.Customer;
+import Facades.ClientType;
+import Facades.CustomerFacade;
+
 
 
 public class TestCustomerFacade {
@@ -46,9 +31,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 }
 	public static void TestLoginCustomer() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException
 	{
-			
-			try {
-				
+		try {
 				Customer customer= new Customer("Customer1020", "Custi9876");
 				custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 				// customer logged in successfully
