@@ -46,7 +46,7 @@ public class Checks {
 
 	}
 	
-	public static boolean isCompanyExistByName(String compName) throws CouponException, SQLException 
+	public static boolean isCompanyExistByName(String compName) throws CouponException
 	{
 
 		Connection con = null;
@@ -68,7 +68,12 @@ public class Checks {
 			e.printStackTrace();
 		} // release connection to pool
 		finally {
-			rs.close();
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			ConnectionPool.getInstance().free(con);
 		}
 		return false;
@@ -103,7 +108,7 @@ public class Checks {
 
 	}
 	
-	public static boolean isCompanyExistById(Long compId) throws CouponException, SQLException 
+	public static boolean isCompanyExistById(Long compId) throws CouponException
 	{
 		ResultSet rs=null;
 		Connection con = null;
@@ -126,7 +131,11 @@ public class Checks {
 		} // release connection to pool
 		finally {
 			ConnectionPool.getInstance().free(con);
-			rs.close();
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 
@@ -158,7 +167,7 @@ public class Checks {
 		}return false;
 
 	}
-	public static boolean isCouponExistByName(String TITLE) throws CouponException, SQLException 
+	public static boolean isCouponExistByName(String TITLE) throws CouponException
 	{
 		Connection con = null;
 		ResultSet rs=null;
@@ -178,7 +187,11 @@ public class Checks {
 			e.printStackTrace();
 		} // release connection to pool
 		finally {
-			rs.close();
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			ConnectionPool.getInstance().free(con);
 			
 		}return false;

@@ -34,7 +34,7 @@ public CompanyFacade() {}
  	//Company Facade - Login
 	//Ofer//
  	public CompanyFacade login(String compName, String password, ClientType clientType) 
- 			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException 
+ 			throws LoginException
  	{
  		boolean LoginAsCompany= false;
  	try 	{
@@ -48,7 +48,11 @@ public CompanyFacade() {}
  		if (LoginAsCompany && clientType.equals(ClientType.COMPANY))
  				{
  				System.out.println("Successful Company Login");
- 				company= CouponSystem.getInstance().getCompDAO().getCompanyByName(compName);
+ 				try {
+					company= CouponSystem.getInstance().getCompDAO().getCompanyByName(compName);
+				} catch (CouponException | DoesNotExistException e) {
+					throw new LoginException("Company "+compName+" does not exist in our DB");
+				}
  				return this;
  				} 
  		else 

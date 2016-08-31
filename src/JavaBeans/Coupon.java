@@ -15,7 +15,7 @@ public class Coupon {
 	private int amount;
 	private CouponType type;
 	private String message;
-	private Double price;
+	private double price;
 	private String image;
 	
 	
@@ -134,11 +134,11 @@ public class Coupon {
 		this.message = message;
 	}
 
-	public Double getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
@@ -187,10 +187,7 @@ public class Coupon {
 				return false;
 		} else if (!message.equals(other.message))
 			return false;
-		if (price == null) {
-			if (other.price != null)
-				return false;
-		} else if (!price.equals(other.price))
+		else if (price != other.price)
 			return false;
 		if (startDate == null) {
 			if (other.startDate != null)

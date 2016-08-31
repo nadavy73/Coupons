@@ -229,7 +229,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	//*******************************************************************************
 
 	public Company getCompanyByName(String compName) 
-			throws CouponException, DoesNotExistException, SQLException, AlreadyExistException 
+			throws CouponException, DoesNotExistException
 	{
 		if (!Checks.isCompanyExistByName(compName))
 			{
@@ -268,7 +268,12 @@ public class CompanyDBDAO implements CompanyDAO {
 		
 		finally 
 			{
-			rs.close();
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			}	
 	return company;
 }
@@ -322,7 +327,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	//*********************************************
 	//This function return ALL Companies in our DB.
 	//*********************************************
-	public Collection<Coupon> getCoupons(long compID) throws CouponException, DoesNotExistException, SQLException, AlreadyExistException
+	public Collection<Coupon> getCoupons(long compID) throws CouponException, DoesNotExistException
 	{	
 		if (!Checks.isCompanyExistById(compID))
 			{
@@ -359,7 +364,11 @@ public class CompanyDBDAO implements CompanyDAO {
 		
 		finally 
 			{
-			rs.close();	
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}	
 			}	
 
 	return coupons; 

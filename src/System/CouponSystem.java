@@ -40,6 +40,7 @@ import Exceptions.CouponException;
  		
  		CouponTask = new DailyCouponExpirationTask();
  		CouponTaskThread = new Thread(CouponTask);
+ 		CouponTaskThread.setDaemon(true);
   		CouponTaskThread.start();
  		
  		

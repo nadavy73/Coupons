@@ -51,7 +51,7 @@ public class CouponDBDAO implements CouponDAO
 	//This function gets Coupon Object and REMOVE from DB
 	//***************************************************		
 	public void removeCoupon(Coupon coupon) 
-			throws CouponException, SQLException, DoesNotExistException
+			throws CouponException, DoesNotExistException
 	{
 			if (!Checks.isCouponExistByName(coupon.getTitle()))
 				{
@@ -190,7 +190,7 @@ public class CouponDBDAO implements CouponDAO
 	//This function gets Coupon Id and Returns coupon Object that contains this Id
 	//****************************************************************************
 	public Coupon getCoupon(long couponId) 
-				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
+				throws CouponException, DoesNotExistException, SQLException 
 		{
 		Coupon coupon = null;
 		Long ID;
@@ -240,7 +240,7 @@ public class CouponDBDAO implements CouponDAO
 	//This function Returns All coupons from DB
 	//*****************************************
 		public Collection<Coupon> getAllCoupons() 
-				throws CouponException, DoesNotExistException, SQLException 
+				throws CouponException, DoesNotExistException
 		{
 		
 		Collection<Coupon> AllCoupons= new ArrayList<>();
@@ -286,7 +286,11 @@ public class CouponDBDAO implements CouponDAO
 			
 		finally 
 			{
-			rs.close();
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			} 
 	return AllCoupons;
 	} 

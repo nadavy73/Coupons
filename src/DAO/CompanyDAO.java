@@ -31,7 +31,7 @@ public interface CompanyDAO
 			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
 	
 	public Company getCompanyByName(String compName) 
-			throws CouponException, DoesNotExistException, SQLException, AlreadyExistException;
+			throws CouponException, DoesNotExistException;
 
 	public Collection <Company> getAllCompanies() 
 			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
