@@ -19,9 +19,9 @@ public class TestCompanyFacade {
 			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException, CompanyFacadeException 
 	{
 //	V	TestLoginCompany();
-//	V	TestCreateCoupon();
+		TestCreateCoupon();
 //	V	TestRemoveCoupon();
-		TestUpdateCoupon();
+//	V	TestUpdateCoupon();
 //	V	TestGetCoupon();
 //	V	TestGetAllCoupon();
 //	V	TestGetCouponByType();
@@ -48,7 +48,7 @@ public class TestCompanyFacade {
 				compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
 				// company logged in successfully
 				
-				Coupon coup4 = new Coupon(7,"Nautica", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
+				Coupon coup4 = new Coupon("Nautica1", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
 				compFacade.createCoupon(coup4);
 				
 			}

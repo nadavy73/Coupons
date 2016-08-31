@@ -9,6 +9,7 @@ import DAO.*;
 import DBDAO.*;
 import Exceptions.*;
 import JavaBeans.*;
+import System.CouponSystem;
 
 
 public class CouponsTest {
@@ -31,16 +32,16 @@ public class CouponsTest {
 		public static void CreateCouponsTest() 
 				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
-			CouponDAO coupDao = new CouponDBDAO();
 			
-			Coupon coup1 = new Coupon("BBB", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-			Coupon coup2 = new Coupon("Agadir", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-			Coupon coup3 = new Coupon("Moses", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-			Coupon coup4 = new Coupon("T-SHIRT", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
-			coupDao.createCoupon(coup1);
-			coupDao.createCoupon(coup2);
-			coupDao.createCoupon(coup3);
-			coupDao.createCoupon(coup4);
+			
+			Coupon coup1 = new Coupon("BBB2", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 1), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup2 = new Coupon("Agadir2", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 28), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup3 = new Coupon("Moses2", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 29), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup4 = new Coupon("T-SHIRT2", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 30), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
+			CouponSystem.getInstance().getCouponDAO().createCoupon(coup1);
+			CouponSystem.getInstance().getCouponDAO().createCoupon(coup2);
+			CouponSystem.getInstance().getCouponDAO().createCoupon(coup3);
+			CouponSystem.getInstance().getCouponDAO().createCoupon(coup4);
 		}
 		
 		public static void RemoveCouponsTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
