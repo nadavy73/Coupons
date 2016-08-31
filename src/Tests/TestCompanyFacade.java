@@ -29,9 +29,9 @@ public class TestCompanyFacade {
 			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException, CompanyFacadeException 
 	{
 //	V	TestLoginCompany();
-		TestCreateCoupon();
+//	V	TestCreateCoupon();
 //	V	TestRemoveCoupon();
-//	X		TestUpdateCoupon();
+		TestUpdateCoupon();
 //	V	TestGetCoupon();
 //	V	TestGetAllCoupon();
 //	V	TestGetCouponByType();
@@ -83,8 +83,8 @@ public class TestCompanyFacade {
 		// company logged in successfully
 		
 		CouponDAO coupDAO= new CouponDBDAO();
-		Coupon coup= coupDAO.getCouponByTitle("Ga");
-		compFacade.updateCoupon(coup);
+		Coupon coup= coupDAO.getCouponByTitle("Alto");
+//		compFacade.updateCoupon(coup);
 		System.out.println(coup);
 	}
 	
