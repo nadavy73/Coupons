@@ -532,7 +532,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		if (!Checks.isCouponExistById(couponId))
 			{
 			throw new DoesNotExistException
-			("This Company does not exist "+ couponId);
+			("This Company does not exist");
 			}
 		
 		try(Connection con=ConnectionPool.getInstance().getConnection())
