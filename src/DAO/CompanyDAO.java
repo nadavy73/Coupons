@@ -45,6 +45,9 @@ public interface CompanyDAO
 	public void addCompanyCouponById(long compId, long couponId) 
 			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException;
 	
+	public void addCompanyCoupon(Company company, Coupon coupon) 
+			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException;
+	
 	public void removeCompanyCouponsById(long couponId) 
 			throws CouponException, DoesNotExistException, SQLException;
 

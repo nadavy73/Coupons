@@ -16,7 +16,7 @@ public class CouponsTest {
 	public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
 		
-//V		CreateCouponsTest();
+		CreateCouponsTest();
 //V		RemoveCouponsTest();
 //V		UpdateCouponsTest();
 //V		updateAmountOfCouponTest();
@@ -28,14 +28,15 @@ public class CouponsTest {
 
 	}
 	
-		public static void CreateCouponsTest() throws CouponException, AlreadyExistException, DoesNotExistException
+		public static void CreateCouponsTest() 
+				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			
-			Coupon coup1 = new Coupon("BBB", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-			Coupon coup2 = new Coupon("Agadir", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-			Coupon coup3 = new Coupon("Moses", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-			Coupon coup4 = new Coupon("T-SHIRT", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
+			Coupon coup1 = new Coupon("BBB", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup2 = new Coupon("Agadir", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup3 = new Coupon("Moses", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 27), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup4 = new Coupon("T-SHIRT", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
 			coupDao.createCoupon(coup1);
 			coupDao.createCoupon(coup2);
 			coupDao.createCoupon(coup3);
@@ -55,7 +56,8 @@ public class CouponsTest {
 			coupDao.removeCoupon(coup3);
 		}
 		
-		public static void UpdateCouponsTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
+		public static void UpdateCouponsTest() 
+				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			
@@ -68,7 +70,8 @@ public class CouponsTest {
 			coupDao.updateCoupon(coup3);
 		}
 		
-		public static void updateAmountOfCouponTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
+		public static void updateAmountOfCouponTest() 
+				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{	
 			CouponDAO coupDao = new CouponDBDAO();
 //			for (int i=0;i<50;i++)
@@ -77,7 +80,8 @@ public class CouponsTest {
 //				}
 		}
 		
-		public static void getCouponByTitleTest() throws CouponException, AlreadyExistException, DoesNotExistException
+		public static void getCouponByTitleTest() 
+				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			
@@ -85,25 +89,29 @@ public class CouponsTest {
 //			System.out.println(coupDao.getCouponByTitle("Shuki"));
 		}
 		
-		public static void getCouponTest() throws CouponException, AlreadyExistException, DoesNotExistException 
+		public static void getCouponTest() 
+				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			System.out.println(coupDao.getCoupon(20));
 		}
 		
-		public static void getAllCouponsTest() throws CouponException, DoesNotExistException
+		public static void getAllCouponsTest() 
+				throws CouponException, DoesNotExistException, SQLException
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			System.out.println(coupDao.getAllCoupons());
 		}
 
-		public static void getCouponByTypeTest() throws CouponException, DoesNotExistException
+		public static void getCouponByTypeTest() 
+				throws CouponException, DoesNotExistException
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			System.out.println(coupDao.getCouponByType(CouponType.Camping));
 		}
 		
-		public static void getCustomersWhoHaveCouponTest() throws CouponException, DoesNotExistException, AlreadyExistException
+		public static void getCustomersWhoHaveCouponTest() 
+				throws CouponException, DoesNotExistException, AlreadyExistException, SQLException
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			System.out.println(coupDao.getCustomersWhoHaveCoupon(3));
@@ -111,6 +119,3 @@ public class CouponsTest {
 		}
 
 }
-
-
-

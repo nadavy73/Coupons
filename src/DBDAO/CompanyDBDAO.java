@@ -409,19 +409,19 @@ public class CompanyDBDAO implements CompanyDAO {
 	public void addCompanyCouponById(long compId, long couponId) 
 			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException 
 	{
-		if (!Checks.isCouponExistById(couponId))
-			{
-			throw new DoesNotExistException
-			("Coupon Does Not Exist"); 
-			}
-		
 		if (!Checks.isCompanyExistById(compId))
 		{
 			throw new DoesNotExistException
 			("Company Does Not Exist");
 		}
 		
-		if (Checks.isPurchased(compId, couponId))
+		if (!Checks.isCouponExistById(couponId))
+		{
+		throw new DoesNotExistException
+		("Coupon Does Not Exist"); 
+		}
+		
+		if (Checks.isCompanyPurchased(compId, couponId))
 		{
 			throw new AlreadyExistException
 			("Coupon was already purchased for this Company");
@@ -446,7 +446,49 @@ public class CompanyDBDAO implements CompanyDAO {
 	System.out.println("Coupon no." + couponId+  " was added to Company "+  "no."+ compId);
 
 	}
-	            
+	
+	@Override
+	public void addCompanyCoupon(Company company, Coupon coupon) 
+			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException 
+	{
+		if (!Checks.isCompanyExistById(company.getId()))
+		{
+			throw new DoesNotExistException
+			("Company Does Not Exist");
+		}
+		
+		if (!Checks.isCouponExistByName(coupon.getTitle()))
+		{
+		throw new DoesNotExistException
+		("Coupon Does Not Exist"); 
+		}
+		
+		if (Checks.isCompanyPurchased(company, coupon))
+		{
+			throw new AlreadyExistException
+			("Coupon was already purchased for this Company");
+		}
+		
+		try(Connection con=ConnectionPool.getInstance().getConnection())
+			{	
+				String sql =
+					"INSERT INTO Company_Coupon (COMP_ID, COUPON_ID) values (?,?);";
+								
+				PreparedStatement stat = con.prepareStatement(sql);
+				stat.setLong(1, company.getId());
+				stat.setLong(2, coupon.getId());
+				
+				stat.executeUpdate();
+			}
+		catch (SQLException e) 
+			{
+			throw new CouponException
+			("Error in connection to DATA BASE", e);
+			}
+	System.out.println("Coupon " + coupon.getTitle()+  " was added to Company "+  "no."+ company.getId());
+
+	}
+	
 	public void removeCompanyCouponsById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {
 				
 		if (!Checks.isCompanyPurchased(compId, couponId))

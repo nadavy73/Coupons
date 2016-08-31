@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import DBDAO.ConnectionPool;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
+import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
 
@@ -187,7 +188,7 @@ public class Checks {
 	{
 		Connection con = null;
 		ResultSet rs = null;
-		try{
+		try {
 			con = ConnectionPool.getInstance().getConnection();
 
 			String sql =
@@ -257,6 +258,12 @@ public class Checks {
 
 		return false;
 
+	}
+
+	public static boolean isCompanyPurchased(Company company, Coupon coupon) 
+			throws CouponException, AlreadyExistException, SQLException 
+	{
+		return isCompanyPurchased(company.getId(), coupon.getId());
 	}
 
 
