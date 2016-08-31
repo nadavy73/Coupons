@@ -19,10 +19,10 @@ public class CouponDBDAO implements CouponDAO
 				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
 			if (Checks.isCouponExistByName(coupon.getTitle()))
-			{
+				{
 				throw new AlreadyExistException
 				("Coupon Already Exist");
-			}
+				}
 			
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{
@@ -48,73 +48,10 @@ public class CouponDBDAO implements CouponDAO
 
 			} 
 				
-			}
-		//V	
-		//***************************************************
-		//This function gets Coupon Object and REMOVE from DB
-		//***************************************************		
-//		public void removeCoupon(Coupon coupon) throws CouponException, SQLException, DoesNotExistException
-//	{
-//		PreparedStatement stat = null;
-//		
-//			if (!Checks.isCouponExistByName(coupon.getTitle()))
-//			{
-//				throw new DoesNotExistException("Coupon Does Not Exist");
-//			}
-//			
-//			try(Connection con=ConnectionPool.getInstance().getConnection())
-//			{
-//			String sql = "DELETE FROM COUPON WHERE TITLE = ?";
-//			stat = con.prepareStatement(sql);
-//			stat.setString(1, coupon.getTitle());
-//			stat.executeUpdate();			
-//			
-//			} catch (SQLException e) {
-//				 
-//				e.printStackTrace();
-//			}
-//			
-//		
-//	}
-//		
-		//V	
-		//****************************************************************
-		//This function gets Coupon Object and Update all parameters in DB
-		//****************************************************************
-//		public void updateCoupon(Coupon coupon) throws CouponException, DoesNotExistException, SQLException {
-//		
-//		if (!Checks.isCouponExistByName(coupon.getTitle()))
-//		{
-//			throw new DoesNotExistException("Customer Does Not Exist");
-//			
-//		}
-//		
-//		try(Connection con=ConnectionPool.getInstance().getConnection())
-//		{
-//			
-//				String sql = "UPDATE Coupon SET TITLE=?, START_DATE=?, END_DATE=?, AMOUNT=?,"+ " TYPE=?, MESSAGE=?, PRICE=?, IMAGE=? WHERE TITLE=?";
-//			
-//			PreparedStatement stat = con.prepareStatement(sql);
-//			stat.setString(1, coupon.getTitle());
-//			stat.setDate(2, Date.valueOf(coupon.getStartDate()));
-//			stat.setDate(3, Date.valueOf(coupon.getEndDate()));
-//			stat.setInt(4, coupon.getAmount());
-//			stat.setString(5, coupon.getType().toString());
-//			stat.setString(6, coupon.getMessage());
-//			stat.setDouble(7, coupon.getPrice());
-//			stat.setString(8, coupon.getImage());
-//			stat.setString(9, coupon.getTitle());
-//
-//			stat.executeUpdate();
-//			}
-//				
-//		catch (SQLException e) 
-//			{
-//			throw new CouponException("Error in connection to DATA BASE", e);
-//			} 
-//				
-//	}
-		//V	
+		}
+		
+
+	//V	
 	//***************************************************
 	//This function gets Coupon Object and REMOVE from DB
 	//***************************************************		
