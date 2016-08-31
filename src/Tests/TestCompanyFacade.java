@@ -1,25 +1,15 @@
 package Tests;
 
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 
-import DAO.CouponDAO;
-import DBDAO.CompanyDBDAO;
-import DBDAO.CouponDBDAO;
-import Exceptions.AlreadyExistException;
-import Exceptions.CompanyFacadeException;
-import Exceptions.CouponException;
-import Exceptions.DoesNotExistException;
-import Exceptions.FacadeException;
-import Exceptions.LoginException;
-import Facades.ClientType;
-import Facades.CompanyFacade;
-import Facades.CustomerFacade;
-import JavaBeans.Company;
-import JavaBeans.Coupon;
-import JavaBeans.CouponType;
-import JavaBeans.Customer;
+import DAO.*;
+import DBDAO.*;
+import Exceptions.*;
+import Facades.*;
+import JavaBeans.*;
 
 public class TestCompanyFacade {
 	
@@ -75,16 +65,22 @@ public class TestCompanyFacade {
 		compFacade.removeCoupon(coupon1);
 	}
 	
-	public static void TestUpdateCoupon() 
-			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException
+	public static void TestUpdateCoupon() throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException 
+			
 	{
 		Company company= new Company("Alto", "Alto12345");
 		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
 		// company logged in successfully
 		
 		CouponDAO coupDAO= new CouponDBDAO();
-		Coupon coup= coupDAO.getCouponByTitle("Alto");
-//		compFacade.updateCoupon(coup);
+
+		Coupon coup= coupDAO.getCouponByTitle("BBB");
+		System.out.println(coup);
+		coup.setPrice(50);
+		compFacade.updateCoupon(coup);
+		
+		coup= coupDAO.getCouponByTitle("BBB");
+
 		System.out.println(coup);
 	}
 	
@@ -141,9 +137,10 @@ public class TestCompanyFacade {
 		System.out.println(compFacade.getCouponsByPrice(50));
 		
 	}
-
-
-
-
-
 }
+
+
+
+
+
+
