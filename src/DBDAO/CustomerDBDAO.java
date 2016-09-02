@@ -1,7 +1,6 @@
 package DBDAO;
 
 
-//import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,13 +15,14 @@ import JavaBeans.*;
 
 public class CustomerDBDAO implements CustomerDAO 
 {
+	
 	//V
 	//***************************************************
 	//This function gets Customer Object and insert to DB
 	//***************************************************
 	@Override
 	public void createCustomer (Customer customer) 
-			throws  CouponException, AlreadyExistException, DoesNotExistException, SQLException
+			throws  AlreadyExistException, SQLException
 	{
 		if (Checks.isCustomerExistByName(customer.getCustName()))
 			{
@@ -42,18 +42,19 @@ public class CustomerDBDAO implements CustomerDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			} 
 	}
 
+	
 	//V
 	//******************************************************
 	//This function gets Customer Name and and remove from DB
 	//******************************************************
 	@Override
 	public void removeCustomer(Customer customer) 
-			throws CouponException, DoesNotExistException, SQLException
+			throws DoesNotExistException, SQLException
 	{
 		if (!Checks.isCustomerExistByName(customer.getCustName()))
 		{
@@ -71,10 +72,11 @@ public class CustomerDBDAO implements CustomerDAO
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 	}
+	
 	
 	//V	
 	//*****************************************************************
@@ -82,7 +84,7 @@ public class CustomerDBDAO implements CustomerDAO
 	//*****************************************************************
 	@Override
 	public void updateCustomerByName(String OldName, String NewName) 
-			throws CouponException, SQLException, DoesNotExistException 
+			throws DoesNotExistException, SQLException  
 	{
 		
 		//Check if Customer exists in DB
@@ -105,11 +107,12 @@ public class CustomerDBDAO implements CustomerDAO
 			}
 	    catch (SQLException e)
 			{
-	    		throw new CouponException
+	    		throw new SQLException
 	    		("Error in connection to DATA BASE", e);
 			}
 		
 	}
+	
 	
 	//V
 	//*****************************************************************
@@ -117,7 +120,7 @@ public class CustomerDBDAO implements CustomerDAO
 	//*****************************************************************
 	@Override
 	public void updateCustomer(Customer customer) 
-			throws CouponException, SQLException, DoesNotExistException 
+			throws DoesNotExistException, SQLException
 	{
 		
 		//Check if Customer exists in DB
@@ -142,18 +145,20 @@ public class CustomerDBDAO implements CustomerDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 			
 		}
+	
+	
 	//V
 	//*****************************************************************
 	//This function returns Customer by its Id from DB
 	//*****************************************************************
 	@Override
 	public Customer getCustomerById (long custId)
-			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException
+			throws DoesNotExistException, SQLException
 	{
 		//Check if Customer exists in DB
 		if (!Checks.isCustomerExistById(custId))
@@ -183,19 +188,21 @@ public class CustomerDBDAO implements CustomerDAO
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			} 
 	return customer;
 
 	}
+	
+	
 	//V
 	//*****************************************************************
 	//This function returns Customer by its name from DB
 	//*****************************************************************
 	@Override
 	public Customer getCustomerByName(String custName) 
-			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException
+			throws DoesNotExistException, SQLException
 	{
 		
 		if (!Checks.isCustomerExistByName(custName))
@@ -227,20 +234,22 @@ public class CustomerDBDAO implements CustomerDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to Data Base", e);
 			}
 			
 	return customer;
 		
 	}
+	
+	
 	//V
 	//*****************************************************************
 	//This function returns All Customers from DB
 	//*****************************************************************
 	@Override
 	public Collection<Customer> getAllCustomers() 
-			throws CouponException, DoesNotExistException, AlreadyExistException 
+			throws SQLException,DoesNotExistException 
 	{
 		Collection <Customer> customers = new  ArrayList<>();
 		String password;
@@ -266,19 +275,21 @@ public class CustomerDBDAO implements CustomerDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to Data Base", e);
 			}
 	
 		return customers;
 	}
+	
+	
 	//V
 	//*****************************************************************
 	//This function returns all coupons of some customer
 	//*****************************************************************
 	@Override
 	public Collection<Coupon> getCoupons(long custId) 
-			throws CouponException, DoesNotExistException, SQLException, AlreadyExistException 
+			throws DoesNotExistException, SQLException
 			
 	{
 		ResultSet rs=null;
@@ -311,7 +322,7 @@ public class CustomerDBDAO implements CustomerDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to Data Base", e);
 			}
 	finally 
@@ -322,13 +333,15 @@ public class CustomerDBDAO implements CustomerDAO
 	return coupons; 
 		
 	}
+	
+	
 	//V
 	//********************************************************************************
 	//This function returns boolean (False/True) if Customers succeeded login to System
 	//********************************************************************************
 	@Override
 	public boolean login(String custName, String password) 
-			throws CouponException, SQLException 
+			throws SQLException 
 	{
 		ResultSet rs = null;
 		boolean hasRows = false;
@@ -356,7 +369,7 @@ public class CustomerDBDAO implements CustomerDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to Data Base", e);
 			}
 
@@ -365,6 +378,8 @@ public class CustomerDBDAO implements CustomerDAO
 				}
 	return hasRows;
 	}
+	
+	
 	//V
 	//**********************************************************************************************
 	//This function adds coupon to some customer. 
@@ -372,7 +387,7 @@ public class CustomerDBDAO implements CustomerDAO
 	//**********************************************************************************************
 	@Override
 	public void AddCustomerCouponById(long custId, long couponId) 
-			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
+			throws AlreadyExistException, DoesNotExistException, SQLException
 	{
 		if (!Checks.isCouponExistById(couponId))
 			{
@@ -405,12 +420,13 @@ public class CustomerDBDAO implements CustomerDAO
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 	System.out.println("Coupon no." + couponId+  " was added to Customer "+  "no."+ custId);
 
 	}
+	
 	
 	//V
 	//**********************************************************************************************
@@ -419,7 +435,7 @@ public class CustomerDBDAO implements CustomerDAO
 	//**********************************************************************************************
 	@Override
 	public void removeCustomerCouponsById(long custId, long couponId) 
-			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException 
+			throws DoesNotExistException, SQLException 
 	{
 		if (!Checks.isPurchased(custId, couponId))
 		{
@@ -439,11 +455,12 @@ public class CustomerDBDAO implements CustomerDAO
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 	System.out.println("Coupon no." + couponId+ "  was removed from Customer no." +custId);
 	}
+	
 	
 	//V
 	//**********************************************************************************************
@@ -451,8 +468,8 @@ public class CustomerDBDAO implements CustomerDAO
 	//Changes can be reviewed on Customer_Coupon table in DB
 	//**********************************************************************************************
 	@Override
-		public void removeCustomerCouponsByCouponId(long couponId) 
-				throws CouponException, DoesNotExistException, AlreadyExistException, SQLException 
+	public void removeCustomerCouponsByCouponId(long couponId) 
+				throws DoesNotExistException, SQLException 
 	{
 			if (!Checks.isCouponExistById(couponId))
 				{
@@ -472,7 +489,7 @@ public class CustomerDBDAO implements CustomerDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 		System.out.println("Coupon no." + couponId+ "  was removed from All Customers");

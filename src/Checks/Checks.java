@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import DBDAO.ConnectionPool;
 import Exceptions.AlreadyExistException;
-import Exceptions.CouponException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
@@ -16,7 +15,7 @@ import JavaBeans.Customer;
 public class Checks {
 
 	
-	public static boolean isCustomerExistByName(String custName) throws CouponException, SQLException 
+	public static boolean isCustomerExistByName(String custName) 
 	{
 
 		Connection con = null;
@@ -36,17 +35,22 @@ public class Checks {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
-		} // release connection to pool
+		} 
+		
+		// release connection to pool
 		finally {
-			rs.close();
 			ConnectionPool.getInstance().free(con);
-			
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 
 	}
 	
-	public static boolean isCompanyExistByName(String compName) throws CouponException
+	public static boolean isCompanyExistByName(String compName)
 	{
 
 		Connection con = null;
@@ -66,20 +70,21 @@ public class Checks {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
-		} // release connection to pool
+		} 
+		
+		// release connection to pool
 		finally {
+			ConnectionPool.getInstance().free(con);
 			try {
 				rs.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			ConnectionPool.getInstance().free(con);
 		}
 		return false;
 
 	}
-	public static boolean isCustomerExistById(Long custId) throws CouponException, SQLException 
+	public static boolean isCustomerExistById(Long custId)
 	{
 		ResultSet rs=null;
 		Connection con = null;
@@ -99,16 +104,22 @@ public class Checks {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
-		} // release connection to pool
+		} 
+		
+		// release connection to pool
 		finally {
 			ConnectionPool.getInstance().free(con);
-			rs.close();
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 
 	}
 	
-	public static boolean isCompanyExistById(Long compId) throws CouponException
+	public static boolean isCompanyExistById(Long compId) throws SQLException
 	{
 		ResultSet rs=null;
 		Connection con = null;
@@ -128,7 +139,9 @@ public class Checks {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
-		} // release connection to pool
+		} 
+		
+		// release connection to pool
 		finally {
 			ConnectionPool.getInstance().free(con);
 			try {
@@ -141,7 +154,7 @@ public class Checks {
 
 	}
 	
-	public static boolean isCouponExistById(long couponId) throws CouponException, SQLException 
+	public static boolean isCouponExistById(long couponId) throws SQLException 
 	{
 		Connection con = null;
 		ResultSet rs=null;
@@ -161,13 +174,17 @@ public class Checks {
 			e.printStackTrace();
 		} // release connection to pool
 		finally {
-			rs.close();
 			ConnectionPool.getInstance().free(con);
-			
-		}return false;
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 
 	}
-	public static boolean isCouponExistByName(String TITLE) throws CouponException
+	public static boolean isCouponExistByName(String TITLE)
 	{
 		Connection con = null;
 		ResultSet rs=null;
@@ -186,18 +203,20 @@ public class Checks {
 
 			e.printStackTrace();
 		} // release connection to pool
+		
 		finally {
+			ConnectionPool.getInstance().free(con);
 			try {
 				rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			ConnectionPool.getInstance().free(con);
-			
-		}return false;
+		}
+		return false;
 
 	}
-	public static boolean isPurchased(long custId, long couponId) throws CouponException, AlreadyExistException, SQLException 
+	public static boolean isPurchased(long custId, long couponId) 
+			
 	{
 		Connection con = null;
 		ResultSet rs = null;
@@ -218,26 +237,27 @@ public class Checks {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
-		} finally {
-
-			
-			// release connection to pool
-			
-			rs.close();
+		} 
+		
+		finally {
 			ConnectionPool.getInstance().free(con);
-			
-			
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-
-		return false;
+			return false;
 
 	}
-	public static boolean isPurchased(Customer customer, Coupon coupon) throws CouponException, AlreadyExistException, SQLException 
+	public static boolean isPurchased(Customer customer, Coupon coupon) 
+			throws AlreadyExistException
 	{
 		return isPurchased(customer.getId(), coupon.getId());
 	}
 	
-	public static boolean isCompanyPurchased(long compId, long couponId) throws CouponException, AlreadyExistException, SQLException 
+	public static boolean isCompanyPurchased(long compId, long couponId) 
+			
 	{
 		Connection con = null;
 		ResultSet rs = null;
@@ -258,15 +278,15 @@ public class Checks {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
-		} finally {
-
-			
-			// release connection to pool
-			
-			rs.close();
+		} 
+		
+		finally {
 			ConnectionPool.getInstance().free(con);
-			
-			
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return false;
@@ -274,7 +294,7 @@ public class Checks {
 	}
 
 	public static boolean isCompanyPurchased(Company company, Coupon coupon) 
-			throws CouponException, AlreadyExistException, SQLException 
+			throws AlreadyExistException, SQLException  
 	{
 		return isCompanyPurchased(company.getId(), coupon.getId());
 	}

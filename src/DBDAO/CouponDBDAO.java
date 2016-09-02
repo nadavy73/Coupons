@@ -1,5 +1,6 @@
 package DBDAO;
 
+
 import java.sql.*;
 import java.sql.Date;
 import java.time.*;
@@ -11,12 +12,13 @@ import JavaBeans.*;
 
 public class CouponDBDAO implements CouponDAO
 {
-		//V
+	
 	//*************************************************
 	//This function gets Coupon Object and INSERT to DB
 	//*************************************************
+	@Override
 	public void createCoupon(Coupon coupon) 
-				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
+				throws AlreadyExistException, SQLException 
 	{
 			if (Checks.isCouponExistByName(coupon.getTitle()))
 				{
@@ -42,16 +44,18 @@ public class CouponDBDAO implements CouponDAO
 			} 
 		catch (SQLException e) 
 			{
-				throw new CouponException("Error in connection to DATA BASE", e);
+				throw new SQLException
+				("Error in connection to DATA BASE", e);
 			} 
 	}		
 
-	//V	
+	
 	//***************************************************
 	//This function gets Coupon Object and REMOVE from DB
-	//***************************************************		
+	//***************************************************
+	@Override
 	public void removeCoupon(Coupon coupon) 
-			throws CouponException, DoesNotExistException
+			throws DoesNotExistException, SQLException
 	{
 			if (!Checks.isCouponExistByName(coupon.getTitle()))
 				{
@@ -70,16 +74,18 @@ public class CouponDBDAO implements CouponDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}	
 	}
-	//V	
+	
+	
 	//****************************************************************
 	//This function gets Coupon Object and Update all parameters in DB
 	//****************************************************************
+	@Override
 	public void updateCoupon(Coupon coupon) 
-				throws CouponException, DoesNotExistException, SQLException 
+				throws DoesNotExistException, SQLException 
 	{
 		if (!Checks.isCouponExistByName(coupon.getTitle()))
 			{
@@ -106,17 +112,19 @@ public class CouponDBDAO implements CouponDAO
 			}
 		 catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 		
 	}
-	//V
+	
+	
 	//**********************************************************************************
 	//This function gets Coupon Object and Update his amount in DB after purchase coupon
 	//**********************************************************************************
+	@Override
 	public void updateAmountOfCoupon(long couponId) 
-			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
+			throws DoesNotExistException, SQLException 
 	{	
 		if (!Checks.isCouponExistById(couponId))
 			{
@@ -138,21 +146,23 @@ public class CouponDBDAO implements CouponDAO
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 	}
-	//V	
+	
+	
 	//**********************************************************************************
 	//This function gets Coupon Title and Returns coupon Object that contains this title		
 	//**********************************************************************************
-	public Coupon getCouponByTitle (String TITLE) 
-			throws CouponException, DoesNotExistException, SQLException
+	@Override
+	public Coupon getCouponByTitle (String CouponTitle) 
+			throws DoesNotExistException, SQLException
 	{
 		Coupon coupon = new Coupon();
 		ResultSet rs;
 		
-			if (!Checks.isCouponExistByName(TITLE))
+			if (!Checks.isCouponExistByName(CouponTitle))
 				{
 				throw new DoesNotExistException("Coupon Does Not Exist");
 				}
@@ -162,7 +172,7 @@ public class CouponDBDAO implements CouponDAO
 				String sql = 
 						"SELECT * FROM Coupon WHERE TITLE=?";
 				PreparedStatement stat = con.prepareStatement (sql);
-				stat.setString(1, TITLE);
+				stat.setString(1, CouponTitle);
 				rs = stat.executeQuery();
 			
 				coupon = new Coupon(
@@ -178,19 +188,21 @@ public class CouponDBDAO implements CouponDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 		
 	return coupon;
 		
 	}
-	//V	
+	
+	
 	//****************************************************************************
 	//This function gets Coupon Id and Returns coupon Object that contains this Id
 	//****************************************************************************
+	@Override
 	public Coupon getCoupon(long couponId) 
-				throws CouponException, DoesNotExistException, SQLException 
+				throws DoesNotExistException, SQLException 
 		{
 		Coupon coupon = null;
 		Long ID;
@@ -229,18 +241,20 @@ public class CouponDBDAO implements CouponDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}		
 	return coupon;
 		
 	}
-		//V
+	
+	
 	//*****************************************
 	//This function Returns All coupons from DB
 	//*****************************************
-		public Collection<Coupon> getAllCoupons() 
-				throws CouponException, DoesNotExistException
+	@Override
+	public Collection<Coupon> getAllCoupons() 
+				throws DoesNotExistException, SQLException
 		{
 		
 		Collection<Coupon> AllCoupons= new ArrayList<>();
@@ -280,7 +294,7 @@ public class CouponDBDAO implements CouponDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			} 
 			
@@ -295,14 +309,13 @@ public class CouponDBDAO implements CouponDAO
 	return AllCoupons;
 	} 
 		
-		
-			
-	//V
+				
 	//*****************************************
 	//This function Returns All coupons BY Type
 	//*****************************************
+	@Override
 	public Collection<Coupon> getCouponByType(CouponType coupontype) 
-			throws CouponException, DoesNotExistException 
+			throws DoesNotExistException, SQLException 
 	{
 		Collection <Coupon> Coupons= new ArrayList<>();
 		Long ID;
@@ -343,18 +356,21 @@ public class CouponDBDAO implements CouponDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 			
 	return Coupons;
 		}
-	//V
+	
+	
+	
 	//*******************************************************
 	//This function Returns All customer that have the coupon
 	//*******************************************************
+	@Override
 	public Collection<Customer> getCustomersWhoHaveCoupon(long couponId) 
-			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
+			throws DoesNotExistException, SQLException 
 		{
 		ResultSet rs;
 		Collection <Customer> custCoupons = new ArrayList<>();
@@ -385,7 +401,7 @@ public class CouponDBDAO implements CouponDAO
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 						

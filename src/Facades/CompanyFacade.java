@@ -29,7 +29,7 @@ public class CompanyFacade implements CouponClientFacade
  	 * Constructors
  	 */
 
-public CompanyFacade() {}
+ 	public CompanyFacade() {}
  		
  	//Company Facade - Login
 	//Ofer//
@@ -50,9 +50,11 @@ public CompanyFacade() {}
  				System.out.println("Successful Company Login");
  				try {
 					company= CouponSystem.getInstance().getCompDAO().getCompanyByName(compName);
-				} catch (CouponException | DoesNotExistException e) {
+ 					} 
+ 				catch (SQLException | DoesNotExistException e) 
+ 					{
 					throw new LoginException("Company "+compName+" does not exist in our DB");
-				}
+ 					}
  				return this;
  				} 
  		else 
@@ -125,18 +127,13 @@ public CompanyFacade() {}
 				{
 		  			Collection <Coupon> Allcoupons = new HashSet<>();
 
-		  		try {
-		  			for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) {
-		  				
-		  				if (coupon.getStartDate().isBefore(Date) || coupon.getEndDate().equals(Date))  
-		  				{
-		  					Allcoupons.add(coupon);
-		  				}
-		 }
-		  		} catch (CouponException e) {
-		  			throw new CompanyFacadeException("CompanyFacadeException   "
-		  					+ "getAllCoupons Error", e);
-		  				}
+		  		for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) {
+					
+					if (coupon.getStartDate().isBefore(Date) || coupon.getEndDate().equals(Date))  
+					{
+						Allcoupons.add(coupon);
+					}
+ }
 		  		return Allcoupons;
 		  	}
 		  	

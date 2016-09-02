@@ -1,15 +1,11 @@
 package DBDAO;
 
 
-
 import java.sql.*;
 import java.util.*;
-
 import Checks.Checks;
 import DAO.CompanyDAO;
-import Exceptions.AlreadyExistException;
-import Exceptions.CouponException;
-import Exceptions.DoesNotExistException;
+import Exceptions.*;
 import JavaBeans.*;
 
 //***********************************************
@@ -19,21 +15,21 @@ import JavaBeans.*;
 public class CompanyDBDAO implements CompanyDAO {
 	
 		
-	//V
+	
 	//**************************************************
 	//This function gets Company Object and insert to DB
 	//**************************************************
 	public void createCompany(Company company) 
-			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
-	{
-		if (Checks.isCompanyExistByName(company.getCompName()))
+			throws AlreadyExistException, SQLException
 		{
-			throw new AlreadyExistException
-			("Company Already Exist");
-		}
+			if (Checks.isCompanyExistByName(company.getCompName()))
+				{
+				throw new AlreadyExistException
+				("Company Already Exist");
+				}
 		
-	try(Connection con=ConnectionPool.getInstance().getConnection())
-		{
+		try(Connection con=ConnectionPool.getInstance().getConnection())
+			{
 		
 			String sql = 
 					"INSERT INTO Company(COMP_NAME,PASSWORD,EMAIL) VALUES (?,?,?)";
@@ -42,19 +38,22 @@ public class CompanyDBDAO implements CompanyDAO {
 				stat.setString(2, company.getPassWord());
 				stat.setString(3, company.geteMail());
 				stat.executeUpdate();
-		}
-	catch (SQLException e) 
-		{
-		throw new CouponException
-		("Error in connection to DATA BASE", e);
-		}
+			}
+		catch (SQLException e) 
+			{
+			throw new SQLException
+			("Error in connection to DATA BASE", e);
+			}
 }
 	
-	//V
+	
+	
 	//********************************************************
-	//This function gets Company Object and and remove from DB
+	//This function gets Company Object and and remove 
+	//from DB
 	//********************************************************
-	public void removeCompany(Company company) throws SQLException, CouponException, DoesNotExistException
+	public void removeCompany(Company company) 
+			throws DoesNotExistException, SQLException
 		{
 			if (!Checks.isCompanyExistByName(company.getCompName()))
 			{
@@ -68,20 +67,23 @@ public class CompanyDBDAO implements CompanyDAO {
 			String sql = 
 					"DELETE FROM COMPANY WHERE COMP_NAME = ?";
 				PreparedStatement stat = con.prepareStatement(sql);
-				stat.setString(1, company.getCompName());					stat.executeUpdate();
+				stat.setString(1, company.getCompName());					
+				stat.executeUpdate();
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 		}
-	//V
+	
+	
+	
 	//******************************************************
 	//This function gets Company Name and remove from DB
 	//******************************************************
 	public void removeCompanyByName(String compName) 
-			throws CouponException, DoesNotExistException, SQLException 
+			throws DoesNotExistException, SQLException 
 	
 	{
 		if (!Checks.isCompanyExistByName(compName))
@@ -102,16 +104,18 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 	}
-	//V
+	
+	
 	//*****************************************************************
-	//This function gets Company Name and replace with new Company name.
+	//This function gets Company Name and replace with 
+	//new Company name.
 	//*****************************************************************
 	public void updateCompanyByName(String OldName, String NewName) 
-			throws CouponException, SQLException, DoesNotExistException 
+			throws DoesNotExistException, SQLException 
 	{
 		if (!Checks.isCompanyExistByName(OldName))
 		{
@@ -133,17 +137,18 @@ public class CompanyDBDAO implements CompanyDAO {
 			}	
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 	}
 	
-	//V
+	
 	//****************************************************************
-	//This function gets Company Object and update the Company details
+	//This function gets Company Object and update the 
+	//Company details
 	//****************************************************************
 	public void updateCompany(Company company) 
-			throws DoesNotExistException, CouponException, SQLException 
+			throws DoesNotExistException, SQLException 
 	{
 		if (!Checks.isCompanyExistByName(company.getCompName()))
 		{
@@ -167,19 +172,20 @@ public class CompanyDBDAO implements CompanyDAO {
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			} 
 			
 	}
-	//V
+	
+	
 	//********************************************************************
-	//This function gets Company ID and return Company all company details
+	//This function gets Company ID and return 
+	//Company all company details
 	//********************************************************************
 	@Override
-
 	public Company getCompanyById(long ID) 
-			throws CouponException, DoesNotExistException, SQLException, AlreadyExistException 
+			throws DoesNotExistException, SQLException 
 	{
 		if (!Checks.isCompanyExistById(ID))
 			{
@@ -211,7 +217,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			} 
 	
@@ -223,13 +229,15 @@ public class CompanyDBDAO implements CompanyDAO {
 	return company;
 
 	}
-	//V
+	
+	
 	//*******************************************************************************
-	//This function gets Company Name (String) and return Company all company details
+	//This function gets Company Name (String) and return 
+	//Company all company details
 	//*******************************************************************************
-
+	@Override
 	public Company getCompanyByName(String compName) 
-			throws CouponException, DoesNotExistException
+			throws DoesNotExistException, SQLException
 	{
 		if (!Checks.isCompanyExistByName(compName))
 			{
@@ -262,28 +270,30 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			} 
 		
 		finally 
+		{
+		try {
+			rs.close();
+			} 
+		catch (SQLException e) 
 			{
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			e.printStackTrace();
 			}	
-	return company;
+		}	
+		return company;
 }
 	
-	//V
+	
 	//*********************************************
 	//This function return ALL Companies in our DB.
 	//*********************************************
+	@Override
 	public Collection<Company> getAllCompanies() 
-			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException 
+			throws DoesNotExistException,SQLException 
 	{
 		Collection<Company> companies = new HashSet<>();
 		Company company= null;
@@ -312,7 +322,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 
@@ -323,11 +333,14 @@ public class CompanyDBDAO implements CompanyDAO {
 
 	return companies;
 	}
-	//V
+	
+	
 	//*********************************************
 	//This function return ALL Companies in our DB.
 	//*********************************************
-	public Collection<Coupon> getCoupons(long compID) throws CouponException, DoesNotExistException
+	@Override
+	public Collection<Coupon> getCoupons(long compID) 
+			throws DoesNotExistException, SQLException
 	{	
 		if (!Checks.isCompanyExistById(compID))
 			{
@@ -358,7 +371,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			} 
 		catch (SQLException e) 
 			{	
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			} 
 		
@@ -373,12 +386,14 @@ public class CompanyDBDAO implements CompanyDAO {
 
 	return coupons; 
 	} 
-				
-	//V
-	//**************
+	
+	
+	//****************************************
 	//Login function 
-	//**************
-	public boolean login(String compName, String password) throws CouponException, SQLException {
+	//****************************************
+	@Override
+	public boolean login(String compName, String password) 
+			throws SQLException {
 
 		ResultSet rs = null;
 		boolean hasRows = false;
@@ -404,7 +419,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 
@@ -415,8 +430,15 @@ public class CompanyDBDAO implements CompanyDAO {
 	return hasRows;
 		
 	}
+	
+	
+	//*********************************************
+	//This function Adds Coupon to the selected company 
+	//by typing both Company Id & Coupon ID 
+	//*********************************************
+	@Override
 	public void addCompanyCouponById(long compId, long couponId) 
-			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException 
+			throws DoesNotExistException, AlreadyExistException, SQLException 
 	{
 		if (!Checks.isCompanyExistById(compId))
 		{
@@ -449,16 +471,21 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 	System.out.println("Coupon no." + couponId+  " was added to Company "+  "no."+ compId);
 
 	}
 	
+	
+	//*********************************************
+	//This function Adds Coupon to the selected company 
+	//by typing both Company & Coupon 
+	//*********************************************
 	@Override
 	public void addCompanyCoupon(Company company, Coupon coupon) 
-			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException 
+			throws DoesNotExistException, AlreadyExistException, SQLException 
 	{
 		if (!Checks.isCompanyExistById(company.getId()))
 		{
@@ -491,14 +518,22 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 	System.out.println("Coupon " + coupon.getTitle()+  " was added to Company "+  "no."+ company.getId());
 
 	}
 	
-	public void removeCompanyCouponsById(long compId, long couponId) throws CouponException, DoesNotExistException, AlreadyExistException, SQLException {
+	
+	//*********************************************
+	//This function removes Coupon from the selected 
+	//company by typing both Company Id & Coupon ID 
+	//*********************************************
+	@Override
+	public void removeCompanyCouponsById(long compId, long couponId) 
+			throws DoesNotExistException, SQLException  
+		{
 				
 		if (!Checks.isCompanyPurchased(compId, couponId))
 			{
@@ -519,15 +554,21 @@ public class CompanyDBDAO implements CompanyDAO {
 			} 
 		catch (SQLException e) 
 			{
-				throw new CouponException
+				throw new SQLException
 				("Error in connection to DATA BASE", e);
 			}
 			
-	System.out.println("Coupon no." + couponId+ "  was removed from Company no." +compId);
+		System.out.println("Coupon no." + couponId+ "  was removed from Company no." +compId);
 	}
 
+	
+	//*********************************************
+	//This function removes Coupon from the selected 
+	//company by typing both Company & Coupon 
+	//*********************************************
+		@Override
 	public void removeCompanyCouponsById(long couponId) 
-			throws CouponException, DoesNotExistException, SQLException 
+			throws DoesNotExistException, SQLException 
 	{
 		if (!Checks.isCouponExistById(couponId))
 			{
@@ -547,11 +588,11 @@ public class CompanyDBDAO implements CompanyDAO {
 			} 
 		catch (SQLException e) 
 			{
-			throw new CouponException
+			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
 			
-	System.out.println("Company Coupon no." + couponId+ "  was removed");
+		System.out.println("Company Coupon no." + couponId+ "  was removed");
 			
 			
 				

@@ -4,47 +4,46 @@ import java.sql.SQLException;
 import java.util.*;
 
 import Exceptions.AlreadyExistException;
-import Exceptions.CouponException;
 import Exceptions.DoesNotExistException;
 import JavaBeans.*;
 
 public interface CustomerDAO 
 {
 	public void createCustomer (Customer customer)
-			throws CouponException, AlreadyExistException, SQLException,DoesNotExistException;
+			throws AlreadyExistException, SQLException;
 	
 	public void removeCustomer (Customer customer)
-			throws CouponException,DoesNotExistException, SQLException, DoesNotExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public void updateCustomerByName (String OldName, String NewName)
-			throws CouponException, SQLException, DoesNotExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public void updateCustomer (Customer customer) 
-			throws CouponException, SQLException, DoesNotExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public Customer getCustomerById (long custId)
-			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public Customer getCustomerByName(String custName) 
-			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
+			throws DoesNotExistException, SQLException;
 
 	public Collection<Customer> getAllCustomers ()
-			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public Collection<Coupon> getCoupons (long custID)
-			throws CouponException, DoesNotExistException, SQLException, AlreadyExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public boolean login (String custName ,String password)
-			throws CouponException, SQLException;
+			throws SQLException;
 
 	public void AddCustomerCouponById(long custId, long couponId) 
-			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException;
+			throws AlreadyExistException, DoesNotExistException, SQLException;
 	
 	public void removeCustomerCouponsById(long custId, long couponId) 
-			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException;
+			throws DoesNotExistException, SQLException;
 	
 	public void removeCustomerCouponsByCouponId(long couponId)
-			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException;
+			throws DoesNotExistException, SQLException;
 
 }
 

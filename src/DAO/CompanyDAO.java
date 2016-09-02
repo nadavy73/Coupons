@@ -13,46 +13,46 @@ import JavaBeans.Coupon;
 public interface CompanyDAO
 {
 	public void createCompany (Company company) 
-			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException;
+			throws AlreadyExistException, SQLException;
 	
 	public void removeCompany(Company company) 
-			throws SQLException, CouponException, DoesNotExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public void removeCompanyByName (String compName)
-			throws CouponException,DoesNotExistException, SQLException;
+			throws DoesNotExistException, SQLException;
 	
 	public void updateCompanyByName(String OldName, String NewName)
-			throws CouponException, SQLException, DoesNotExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public void updateCompany (Company company)
-			throws CouponException, SQLException, DoesNotExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public Company getCompanyById(long ID) 
-			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public Company getCompanyByName(String compName) 
-			throws CouponException, DoesNotExistException;
+			throws DoesNotExistException, SQLException;
 
 	public Collection <Company> getAllCompanies() 
-			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public Collection<Coupon> getCoupons(long compID) 
-			throws CouponException, SQLException, DoesNotExistException, AlreadyExistException;
+			throws DoesNotExistException, SQLException;
 	
 	public boolean login (String compName ,String password)
-			throws CouponException, SQLException;
+			throws SQLException;
 	
 	public void addCompanyCouponById(long compId, long couponId) 
-			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException;
+			throws DoesNotExistException, AlreadyExistException, SQLException;
 	
 	public void addCompanyCoupon(Company company, Coupon coupon) 
-			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException;
+			throws DoesNotExistException, AlreadyExistException, SQLException;
 	
 	public void removeCompanyCouponsById(long couponId) 
-			throws CouponException, DoesNotExistException, SQLException;
+			throws DoesNotExistException, SQLException;
 
 	public void removeCompanyCouponsById(long compId, long couponId) 
-			throws CouponException, DoesNotExistException, AlreadyExistException, SQLException;
+			throws DoesNotExistException, SQLException;
 	
 }
 
