@@ -1,7 +1,7 @@
 package Exceptions;
 
 @SuppressWarnings("serial")
-public class CompanyFacadeException extends Exception {
+public class CompanyFacadeException extends FacadeException{
 	
 
 	public CompanyFacadeException() {

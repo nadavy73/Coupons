@@ -50,25 +50,20 @@ public class CustomerFacade implements CouponClientFacade
 		}	
 	
 	public void purchaseCoupon(Coupon coupon) 
-			throws DoesNotExistException, AlreadyExistException, SQLException 
+			throws CustomerFacadeException, CouponException, DoesNotExistException
 	{
-		try {
-			coupon = CouponSystem.getInstance().getCouponDAO().getCoupon(coupon.getId());
-			} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		if (LocalDate.now().isAfter(coupon.getEndDate())) {
-				try {
-					throw new CouponException("Coupon Id no."+ coupon.getId() + " (" + coupon.getTitle() 
+			try {
+				coupon = CouponSystem.getInstance().getCouponDAO().getCoupon(coupon.getId());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
+			 
+		if (LocalDate.now().isAfter(coupon.getEndDate())) 
+				{
+				throw new CouponException("Coupon Id no."+ coupon.getId() + " (" + coupon.getTitle() 
 					+ ") was expired. Coupon End Date:" + coupon.getEndDate());
-				} catch (CouponException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-		}
 		if (coupon.getAmount() < 1) 
 		{
 			throw new DoesNotExistException("Coupon is out of stock");
@@ -76,34 +71,39 @@ public class CustomerFacade implements CouponClientFacade
 		
 		else {
 		
-		try {
+			try 
+			{
 			CouponSystem.getInstance().getCustDAO().AddCustomerCouponById(customer.getId(), coupon.getId());
+			
+			CouponSystem.getInstance().getCouponDAO().updateAmountOfCoupon(coupon.getId());
+
 			} 
 		catch (AlreadyExistException| SQLException e) 
 			{
-			throw new AlreadyExistException("Coupon was Already Purchased for this Cusotmer");
+			throw new CustomerFacadeException("Coupon was Already Purchased for this Cusotmer");
 			} 
 		}
-		try {
-			CouponSystem.getInstance().getCouponDAO().updateAmountOfCoupon(coupon.getId());
-		} catch (SQLException e) {
-			
-		}
 		
-		}
+	}
 		
-	
-
-	
+		
 	public Collection<Coupon> getAllPurchasedCoupons() 
-			throws SQLException, DoesNotExistException
+			throws CustomerFacadeException
 		{
-			Collection<Coupon> coupons = CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId());
-			return coupons;
+			
+			try {
+				return CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId());
+				
+			} catch (SQLException| DoesNotExistException e) {
+				
+				throw new CustomerFacadeException("CustomerFacade - getAllPurchasedCoupons"+ e.getMessage());
+				
+			}
+			
 		}
 
 	public Collection<Coupon> getAllPurchasedCouponsByType(CouponType CouponType) 
-				throws SQLException, DoesNotExistException 
+				throws CustomerFacadeException 
 	{
 		Collection<Coupon> couponsType= new HashSet<>();
 		
@@ -120,7 +120,7 @@ public class CustomerFacade implements CouponClientFacade
 	}	
 	
 	public Collection<Coupon> getAllPurchasedCouponsByMaxPrice(double price) 
-			throws SQLException, DoesNotExistException 
+			throws CustomerFacadeException
 	{
 		Collection<Coupon> couponsByPrice= new HashSet<>();
 		

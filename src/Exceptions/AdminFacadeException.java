@@ -1,6 +1,6 @@
 package Exceptions;
 
-public class AdminFacadeException extends Exception {
+public class AdminFacadeException extends FacadeException{
 
 	private static final long serialVersionUID = 1L;
 
