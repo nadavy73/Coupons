@@ -54,8 +54,8 @@ public class CustomerFacade implements CouponClientFacade
 	{
 			try {
 				coupon = CouponSystem.getInstance().getCouponDAO().getCoupon(coupon.getId());
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 			 
@@ -86,7 +86,7 @@ public class CustomerFacade implements CouponClientFacade
 		
 	}
 		
-		
+	
 	public Collection<Coupon> getAllPurchasedCoupons() 
 			throws CustomerFacadeException
 		{
@@ -108,14 +108,18 @@ public class CustomerFacade implements CouponClientFacade
 		Collection<Coupon> couponsType= new HashSet<>();
 		
 		try {
-			for (Coupon coupon: CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId())){
-				if (coupon.getType().equals(CouponType)){
-					couponsType.add(coupon);
+			for (Coupon coupon: CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId()))
+				{
+					if (coupon.getType().equals(CouponType))
+					{
+						couponsType.add(coupon);
+					}
 				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			} 
+		catch (SQLException | DoesNotExistException e) 
+				{
+				throw new CustomerFacadeException("CustomerFacade - getAllPurchasedCouponsByType"+ e.getMessage());
+				}
 		return couponsType;
 	}	
 	
@@ -130,9 +134,9 @@ public class CustomerFacade implements CouponClientFacade
 					couponsByPrice.add(coupon);
 				}
 			}
-		} catch (Exception e) {
+		} catch (SQLException| DoesNotExistException e) {
 			
-			e.printStackTrace();
+			throw new CustomerFacadeException("CustomerFacade - getAllPurchasedCouponsByMaxPrice"+ e.getMessage());
 		}
 		return couponsByPrice;
 	}

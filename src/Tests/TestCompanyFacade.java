@@ -28,12 +28,10 @@ public class TestCompanyFacade {
 //	V	TestGetCouponsByEndDate();
 //	V	TestGetCouponsByPrice();
 		
-
-
 	}
 
 	public static void TestLoginCompany() 
-			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException
+			throws LoginException
 		{
 			Company company= new Company("Alto", "Alto12345");
 				
@@ -41,8 +39,8 @@ public class TestCompanyFacade {
 			// company logged in successfully
 		}
 	
-	public static void TestCreateCoupon() 
-			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException, CompanyFacadeException
+	public static void TestCreateCoupon() throws LoginException, CompanyFacadeException, AlreadyExistException 
+			
 			{
 				Company company= new Company("Alto", "Alto12345");
 				compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
@@ -53,16 +51,21 @@ public class TestCompanyFacade {
 				
 			}
 	
-	public static void TestRemoveCoupon() 
-			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException
+	public static void TestRemoveCoupon() throws LoginException, DoesNotExistException,CompanyFacadeException 
 	{
 		Company company= new Company("Alto", "Alto12345");
 		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
 		// company logged in successfully
 		
 		CouponDAO coupDAO= new CouponDBDAO();
-		Coupon coupon1= coupDAO.getCouponByTitle("Nautica");
-		compFacade.removeCoupon(coupon1);
+		Coupon coupon1;
+		try {
+			coupon1 = coupDAO.getCouponByTitle("Nautica");
+			compFacade.removeCoupon(coupon1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static void TestUpdateCoupon() throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException 

@@ -4,11 +4,8 @@ package DAO;
 
 import java.sql.SQLException;
 import java.util.Collection;
-import Exceptions.AlreadyExistException;
-import Exceptions.CouponException;
-import Exceptions.DoesNotExistException;
-import JavaBeans.Company;
-import JavaBeans.Coupon;
+import Exceptions.*;
+import JavaBeans.*;
 
 public interface CompanyDAO
 {

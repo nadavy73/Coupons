@@ -5,15 +5,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import Exceptions.AlreadyExistException;
-import Exceptions.CompanyFacadeException;
-import Exceptions.CouponException;
-import Exceptions.DoesNotExistException;
-import Exceptions.FacadeException;
-import Exceptions.LoginException;
-import JavaBeans.Company;
-import JavaBeans.Coupon;
-import JavaBeans.CouponType;
+import Exceptions.*;
+import JavaBeans.*;
 import System.CouponSystem;
 
 public class CompanyFacade implements CouponClientFacade
@@ -66,94 +59,155 @@ public class CompanyFacade implements CouponClientFacade
  	//Company Facade - create Coupon
  	//Ofer
  	public void createCoupon(Coupon coupon) 
- 			throws CouponException, AlreadyExistException, CompanyFacadeException, SQLException, DoesNotExistException
+ 			throws CompanyFacadeException, AlreadyExistException
  	{
  		//Create coupon
- 		CouponSystem.getInstance().getCouponDAO().createCoupon(coupon);
+ 		try {
+			CouponSystem.getInstance().getCouponDAO().createCoupon(coupon);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
  		
  		//add this coupon to the the company
- 		CouponSystem.getInstance().getCompDAO().addCompanyCoupon(company, coupon);
+ 		try {
+			CouponSystem.getInstance().getCompDAO().addCompanyCoupon(company, coupon);
+ 		} 
+ 		catch (DoesNotExistException | AlreadyExistException |SQLException e) 
+ 		{
+			
+		} 
  	}	
 		
  	//Ofer
  	public void removeCoupon(Coupon coupon) 
- 			throws CouponException, DoesNotExistException, SQLException, AlreadyExistException
+ 			throws CompanyFacadeException, DoesNotExistException
  	{
- 			CouponSystem.getInstance().getCompDAO().removeCompanyCouponsById(coupon.getId());
- 			CouponSystem.getInstance().getCustDAO().removeCustomerCouponsByCouponId(coupon.getId());
- 			CouponSystem.getInstance().getCouponDAO().removeCoupon(coupon);
- 	}
+ 			try {
+				CouponSystem.getInstance().getCompDAO().removeCompanyCouponsById(coupon.getId());
+				CouponSystem.getInstance().getCustDAO().removeCustomerCouponsByCouponId(coupon.getId());
+	 			CouponSystem.getInstance().getCouponDAO().removeCoupon(coupon);
+	 	
+ 			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+ 			}
 		  	
 	public void updateCoupon(Coupon coupon) 
-			throws CouponException, SQLException, DoesNotExistException 
-				{
-		  		CouponSystem.getInstance().getCouponDAO().updateCoupon(coupon);
-		  		}
-		  
-	public Coupon getCoupon (long coupId)
-			throws CompanyFacadeException, SQLException, AlreadyExistException, DoesNotExistException, CouponException 
+			throws CompanyFacadeException, DoesNotExistException 
+		{
+		  try 	{
+				CouponSystem.getInstance().getCouponDAO().updateCoupon(coupon);
+		  		}	
+		  		
+		  catch (SQLException e) 
 		  		{
-		  		return CouponSystem.getInstance().getCouponDAO().getCoupon(coupId);
+		  			throw new CompanyFacadeException
+		  				("CompanyFacade - updateCoupon"+ e.getMessage());
 		  		}
+	}
+		  
+	public Coupon getCoupon (long coupId) 
+			throws CompanyFacadeException, DoesNotExistException
+		{
+		  	try {
+					return CouponSystem.getInstance().getCouponDAO().getCoupon(coupId);
+				} 
+		  	catch (SQLException e) 
+		  		{
+		  			throw new CompanyFacadeException
+		  			("CompanyFacade - getCoupon"+ e.getMessage());
+		  		}
+		 }
 		  		
 	public Collection <Coupon> getAllCoupon() 
-			throws CompanyFacadeException, CouponException, SQLException, DoesNotExistException, AlreadyExistException
-		  		{ 
-		  		return CouponSystem.getInstance().getCompDAO().getCoupons(company.getId());
+			throws CompanyFacadeException, DoesNotExistException
+		{ 
+		  	try {
+					return CouponSystem.getInstance().getCompDAO().getCoupons(company.getId());
+		  		} 	
+		  	catch (SQLException e) 
+		  		{
+		  			throw new CompanyFacadeException
+					("CompanyFacade -  getAllCoupon"+ e.getMessage());
 		  		}
+		}
 		  	
 	public Collection <Coupon> getCouponByType (CouponType couponType) 
-			throws CompanyFacadeException, CouponException, SQLException, DoesNotExistException, AlreadyExistException
-		 {
-		  	
+			throws CompanyFacadeException
+	{
 			Collection<Coupon> couponsByType = new HashSet<>();  		
+		
+		try
+			{
 			Collection <Coupon>  Allcoupons = CouponSystem.getInstance().getCompDAO().getCoupons(company.getId());
 		  		
-		  		
 		  		for (Coupon coupon : Allcoupons)
-		  		{
-		  			if (coupon.getType().equals(couponType))
 		  			{
+		  				if (coupon.getType().equals(couponType))
+		  				{
 		  				couponsByType.add(coupon);
-		  			}
+		  				}
 		  			
-		  		}
+		  			}
+			}
+		catch (SQLException | DoesNotExistException e)
+			{
+			throw new CompanyFacadeException
+			("CompanyFacade -  getCouponByType"+ e.getMessage());
+			}
 		  		return couponsByType;
 		  		
-		  }
+	}
 		  	
 	public Collection <Coupon> getCouponsByEndDate(LocalDate Date) 
-			throws CompanyFacadeException, CouponException, SQLException, DoesNotExistException, AlreadyExistException
-				{
-		  			Collection <Coupon> Allcoupons = new HashSet<>();
-
-		  		for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) {
-					
-					if (coupon.getStartDate().isBefore(Date) || coupon.getEndDate().equals(Date))  
-					{
+			throws CompanyFacadeException,DoesNotExistException
+	{
+		  	Collection <Coupon> Allcoupons = new HashSet<>();
+		 try
+			{
+		  		for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) 
+		  			{
+		  				if (coupon.getStartDate().isBefore(Date) || coupon.getEndDate().equals(Date))  
+		  				{
 						Allcoupons.add(coupon);
-					}
- }
-		  		return Allcoupons;
-		  	}
+		  				}
+		  			}
+			}
+		catch (SQLException e)
+			{
+				throw new CompanyFacadeException("CompanyFacade -  getCouponsByEndDate"+ e.getMessage());
+			}	
+	return Allcoupons;
+ 	}
 		  	
 	public Collection <Coupon> getCouponsByPrice(double price) 
-				  throws CompanyFacadeException, CouponException, SQLException, DoesNotExistException, AlreadyExistException
-		  {
-			 Collection <Coupon> Allcoupons = new HashSet<>();
-
-			  		for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) 
-			  			{
-			  				
-			  				if (coupon.getPrice() <= price){
+				  throws CompanyFacadeException, DoesNotExistException
+	{
+		Collection <Coupon> Allcoupons = new HashSet<>();
+			 
+		try
+			{
+			  	for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) 
+			  		{
+			  			if (coupon.getPrice() <= price)
+			  				{
 			  					Allcoupons.add(coupon);
 			  				}
 			  				
-			  			}
-				
-			  			return Allcoupons;
-		}
-			  	
+			  		} 			
+			 }
+		catch (SQLException e)
+			{
+				throw new CompanyFacadeException("CompanyFacade -  getCouponsByEndDate"+ e.getMessage());
+			}		
+	return Allcoupons;
+	}
+
+	
+	
+	
 			 			
 }
 

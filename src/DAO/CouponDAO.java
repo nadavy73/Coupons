@@ -2,8 +2,7 @@ package DAO;
 
 import java.sql.SQLException;
 import java.util.*;
-import Exceptions.AlreadyExistException;
-import Exceptions.DoesNotExistException;
+import Exceptions.*;
 import JavaBeans.*;
 
 public interface CouponDAO
