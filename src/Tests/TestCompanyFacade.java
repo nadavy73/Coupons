@@ -10,10 +10,13 @@ import DBDAO.*;
 import Exceptions.*;
 import Facades.*;
 import JavaBeans.*;
+import System.CouponSystem;
+import Threads.DailyCouponExpirationTask;
 
 public class TestCompanyFacade {
 	
 	private static CompanyFacade compFacade = new CompanyFacade();
+	private static DailyCouponExpirationTask daily= new DailyCouponExpirationTask();
 
 	public static void main(String[] args) 
 			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException, CompanyFacadeException 
@@ -26,7 +29,7 @@ public class TestCompanyFacade {
 //	V	TestGetAllCoupon();
 //	V	TestGetCouponByType();
 //	V	TestGetCouponsByEndDate();
-//	V	TestGetCouponsByPrice();
+//		TestGetCouponsByPrice();
 		
 	}
 
@@ -39,14 +42,14 @@ public class TestCompanyFacade {
 			// company logged in successfully
 		}
 	
-	public static void TestCreateCoupon() throws LoginException, CompanyFacadeException, AlreadyExistException 
+	public static void TestCreateCoupon() throws LoginException, CompanyFacadeException, AlreadyExistException, DoesNotExistException, SQLException
 			
 			{
 				Company company= new Company("Alto", "Alto12345");
 				compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
 				// company logged in successfully
 				
-				Coupon coup4 = new Coupon("Nautica1", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
+				Coupon coup4 = new Coupon("ZARA", LocalDate.now(),LocalDate.of(2016, Month.JULY, 27), 50, CouponType.Restaurants, "Fire", 24.99, "T-shirt.jpg");
 				compFacade.createCoupon(coup4);
 				
 			}
@@ -58,9 +61,9 @@ public class TestCompanyFacade {
 		// company logged in successfully
 		
 		CouponDAO coupDAO= new CouponDBDAO();
-		Coupon coupon1;
+		 
 		try {
-			coupon1 = coupDAO.getCouponByTitle("Nautica");
+			Coupon coupon1 = coupDAO.getCouponByTitle("Nautica");
 			compFacade.removeCoupon(coupon1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -133,11 +136,13 @@ public class TestCompanyFacade {
 	public static void TestGetCouponsByPrice()
 			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException, CompanyFacadeException
 	{
-		Company company= new Company("Alto", "Alto12345");
-		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
-		// company logged in successfullyGetAllCoupon()
-	
-		System.out.println(compFacade.getCouponsByPrice(50));
+//		Company company= new Company("Alto", "Alto12345");
+//		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
+//		// company logged in successfullyGetAllCoupon()
+//	
+//		System.out.println(compFacade.getCouponsByPrice(50));
+		
+		
 		
 	}
 }

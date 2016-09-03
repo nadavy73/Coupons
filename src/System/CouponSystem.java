@@ -29,22 +29,21 @@ import Exceptions.CouponException;
   	private CompanyDAO compDAO = null;
 	private CustomerDAO custDAO = null;
 	private CouponDAO couponDAO = null;
-  	//Constructors
+	
+	
+	//Constructors
 
  	private CouponSystem() 
  	{
  		compDAO = new CompanyDBDAO();
 		custDAO = new CustomerDBDAO();
 		couponDAO = new CouponDBDAO();
- 		
+	
  		
  		CouponTask = new DailyCouponExpirationTask();
  		CouponTaskThread = new Thread(CouponTask);
  		CouponTaskThread.setDaemon(true);
   		CouponTaskThread.start();
- 		
- 		
- 		
  	}
  	
  	public static CouponSystem getInstance()
@@ -97,6 +96,9 @@ import Exceptions.CouponException;
 		public CouponDAO getCouponDAO() {
 			return couponDAO;
 		} // getCouponDao
+		
+		
+ 
  
  }
  

@@ -7,6 +7,7 @@ import Checks.Checks;
 import DAO.CompanyDAO;
 import Exceptions.*;
 import JavaBeans.*;
+import System.CouponSystem;
 
 //***********************************************
 //This class implement All Company Dao's function
@@ -86,14 +87,20 @@ public class CompanyDBDAO implements CompanyDAO {
 			throws DoesNotExistException, SQLException 
 	
 	{
+		Connection con=null;
+		
 		if (!Checks.isCompanyExistByName(compName))
 		{
 			throw new DoesNotExistException
 			("Customer Does Not Exist");
 		}
 		
-		try(Connection con=ConnectionPool.getInstance().getConnection())
-			{
+		
+//		try(Connection con=ConnectionPool.getInstance().getConnection())
+		try 	
+		{
+			con=ConnectionPool.getInstance().getConnection();
+
 			String sql = 
 					"DELETE FROM COMPANY WHERE COMP_NAME = ?";
 				PreparedStatement stat= con.prepareStatement(sql);
@@ -107,6 +114,12 @@ public class CompanyDBDAO implements CompanyDAO {
 			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
+	
+	finally
+			{
+				ConnectionPool.getInstance().free(con);
+			}	
+	
 	}
 	
 	
@@ -212,7 +225,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			compName = rs.getString("COMP_NAME");
 			Password = rs.getString("PASSWORD");
 			eMail = rs.getString("EMAIL");
-			coupons= getCoupons(ID);
+			coupons = getCoupons(ID);
 			company = new Company(ID, compName, Password, eMail, coupons);
 			} 
 		catch (SQLException e) 
@@ -249,11 +262,16 @@ public class CompanyDBDAO implements CompanyDAO {
 		long Id;
 		Collection <Coupon> coupons = null;
 		Company company=null;
+		Connection con= null;	
 		ResultSet rs=null;
 	
-		try (Connection con= ConnectionPool.getInstance().getConnection()) 
-			{
-				String sql = 
+//		try (Connection con= ConnectionPool.getInstance().getConnection()) 
+//			{
+		try
+		{
+		con=ConnectionPool.getInstance().getConnection();
+						
+		String sql = 
 						"SELECT * FROM Company WHERE COMP_NAME=?";
 					PreparedStatement stat = con.prepareStatement(sql);
 					stat.setString(1, compName);
@@ -278,6 +296,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		{
 		try {
 			rs.close();
+			ConnectionPool.getInstance().free(con);
 			} 
 		catch (SQLException e) 
 			{
@@ -342,6 +361,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	public Collection<Coupon> getCoupons(long compID) 
 			throws DoesNotExistException, SQLException
 	{	
+		Connection con= null;	
 		if (!Checks.isCompanyExistById(compID))
 			{
 			throw new DoesNotExistException
@@ -352,9 +372,11 @@ public class CompanyDBDAO implements CompanyDAO {
 		CouponDBDAO couponDB = new CouponDBDAO();
 		ResultSet rs=null;
 
-		try(Connection con=ConnectionPool.getInstance().getConnection()) 
+//		try(Connection con=ConnectionPool.getInstance().getConnection()) 
+			try
 			{
-			String sql = 
+			con=ConnectionPool.getInstance().getConnection();
+				String sql = 
 					"SELECT * FROM Coupon "
 					+ "JOIN Company_Coupon "
 					+ "ON Coupon.ID = Company_Coupon.COUPON_ID "
@@ -377,11 +399,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		
 		finally 
 			{
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}	
+			ConnectionPool.getInstance().free(con);	
 			}	
 
 	return coupons; 
@@ -487,23 +505,25 @@ public class CompanyDBDAO implements CompanyDAO {
 	public void addCompanyCoupon(Company company, Coupon coupon) 
 			throws DoesNotExistException, AlreadyExistException, SQLException 
 	{
-		if (!Checks.isCompanyExistById(company.getId()))
-		{
-			throw new DoesNotExistException
-			("Company Does Not Exist");
-		}
 		
-		if (!Checks.isCouponExistByName(coupon.getTitle()))
-		{
-		throw new DoesNotExistException
-		("Coupon Does Not Exist"); 
-		}
+		if (!Checks.isCompanyExistById(company.getId()))
+				{
+				throw new DoesNotExistException
+				("Company Does Not Exist");
+				}
+		
+		if (!Checks.isCouponExistByName(coupon.getTitle()) || 
+			!Checks.isCouponExistById(coupon.getId()))
+				{
+				throw new DoesNotExistException
+				("Coupon Does Not Exist"); 
+				}
 		
 		if (Checks.isCompanyPurchased(company, coupon))
-		{
-			throw new AlreadyExistException
-			("Coupon was already purchased for this Company");
-		}
+				{	
+				throw new AlreadyExistException
+				("Coupon was already purchased for this Company");
+				}	
 		
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{	
@@ -521,7 +541,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
-	System.out.println("Coupon " + coupon.getTitle()+  " was added to Company "+  "no."+ company.getId());
+	System.out.println("Coupon " + coupon.getTitle() + "("+coupon.getId()+") was added to Company "+ company.getCompName()+ "("+ company.getId()+ ").");
 
 	}
 	
@@ -573,7 +593,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		if (!Checks.isCouponExistById(couponId))
 			{
 			throw new DoesNotExistException
-			("This Company does not exist");
+			("This Coupon Does not exist");
 			}
 		
 		try(Connection con=ConnectionPool.getInstance().getConnection())

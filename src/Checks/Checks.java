@@ -109,10 +109,15 @@ public class Checks {
 	public static boolean isCompanyExistById(Long compId) throws SQLException
 	{
 		ResultSet rs=null;
+		Connection con= null;	
 		
-		
-		try(Connection con=ConnectionPool.getInstance().getConnection())
+//		try(Connection con=ConnectionPool.getInstance().getConnection())
+//			{
+			try
 			{
+			con=ConnectionPool.getInstance().getConnection();
+
+			
 			String sql = "SELECT * FROM Company WHERE ID=?;"; 
 			
 			PreparedStatement stat = con.prepareStatement(sql);
@@ -130,6 +135,7 @@ public class Checks {
 			{
 				try {
 					rs.close();
+					ConnectionPool.getInstance().free(con);
 					} 
 				catch (SQLException e) 
 				{
@@ -143,9 +149,13 @@ public class Checks {
 	public static boolean isCouponExistById(long couponId) throws SQLException 
 	{
 		ResultSet rs=null;
+		Connection con= null;	
 		
-		try(Connection con=ConnectionPool.getInstance().getConnection())
-			{
+//		try(Connection con=ConnectionPool.getInstance().getConnection())
+//			{
+		try
+		{
+		con=ConnectionPool.getInstance().getConnection();
 			String sql = "SELECT * FROM Coupon WHERE ID= ?;"; 
 			
 			PreparedStatement stat = con.prepareStatement(sql);
@@ -162,6 +172,7 @@ public class Checks {
 	finally {
 			try {
 				rs.close();
+				ConnectionPool.getInstance().free(con);
 				} 
 			catch (SQLException e) 
 				{

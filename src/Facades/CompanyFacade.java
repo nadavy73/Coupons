@@ -46,7 +46,7 @@ public class CompanyFacade implements CouponClientFacade
  					} 
  				catch (SQLException | DoesNotExistException e) 
  					{
-					throw new LoginException("Company "+compName+" does not exist in our DB");
+					throw new LoginException("Company "+compName+" does not exist in DB");
  					}
  				return this;
  				} 
@@ -60,22 +60,32 @@ public class CompanyFacade implements CouponClientFacade
  	//Ofer
  	public void createCoupon(Coupon coupon) 
  			throws CompanyFacadeException, AlreadyExistException
- 	{
- 		//Create coupon
+ 		{
+ 			//Create coupon
+ 			try {
+ 				CouponSystem.getInstance().getCouponDAO().createCoupon(coupon);
+ 				} 
+ 			catch (SQLException e) 
+ 				{
+ 				e.printStackTrace();
+ 				}
+ 		//Get the Coupon's Id from Coupon Table
  		try {
-			CouponSystem.getInstance().getCouponDAO().createCoupon(coupon);
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
+			coupon = CouponSystem.getInstance().getCouponDAO().getCouponByTitle(coupon.getTitle());
+ 		} 
+ 		catch (DoesNotExistException | SQLException e) 
+ 		{
+ 			e.printStackTrace();
 		}
  		
- 		//add this coupon to the the company
+ 		//Add This coupon to the Company
  		try {
 			CouponSystem.getInstance().getCompDAO().addCompanyCoupon(company, coupon);
  		} 
- 		catch (DoesNotExistException | AlreadyExistException |SQLException e) 
+ 		catch (DoesNotExistException | SQLException e) 
  		{
-			
+ 			throw new CompanyFacadeException
+				("CompanyFacade - createCoupon"+ e.getMessage());
 		} 
  	}	
 		

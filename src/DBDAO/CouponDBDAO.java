@@ -20,15 +20,19 @@ public class CouponDBDAO implements CouponDAO
 	public void createCoupon(Coupon coupon) 
 				throws AlreadyExistException, SQLException 
 	{
-			if (Checks.isCouponExistByName(coupon.getTitle()))
+		Connection con= null;	
+		if (Checks.isCouponExistByName(coupon.getTitle()))
 				{
 				throw new AlreadyExistException
 				("Coupon Already Exist");
 				}
 			
-		try(Connection con=ConnectionPool.getInstance().getConnection())
+//		try(Connection con=ConnectionPool.getInstance().getConnection())
+		try
 			{
-			String sql = 
+			con=ConnectionPool.getInstance().getConnection();
+
+				String sql = 
 					"INSERT INTO Coupon (TITLE, START_DATE, END_DATE, AMOUNT,TYPE, MESSAGE, PRICE, IMAGE) VALUES(?,?,?,?,?,?,?,?);";
 				PreparedStatement stat = con.prepareStatement (sql);
 				stat.setString(1, coupon.getTitle());
@@ -41,12 +45,16 @@ public class CouponDBDAO implements CouponDAO
 				stat.setString(8, coupon.getImage());
 				stat.executeUpdate();
 				
-			} 
+				} 
 		catch (SQLException e) 
-			{
+				{
 				throw new SQLException
 				("Error in connection to DATA BASE", e);
-			} 
+				} 
+		finally
+		{
+			ConnectionPool.getInstance().free(con);
+		}	
 	}		
 
 	
@@ -57,14 +65,18 @@ public class CouponDBDAO implements CouponDAO
 	public void removeCoupon(Coupon coupon) 
 			throws DoesNotExistException, SQLException
 	{
-			if (!Checks.isCouponExistByName(coupon.getTitle()))
+		Connection con= null;
+		
+		if (!Checks.isCouponExistByName(coupon.getTitle()))
 				{
 				throw new DoesNotExistException
 				("Coupon Does Not Exist");
 				}
 			
-		try(Connection con=ConnectionPool.getInstance().getConnection())
+//		try(Connection con=ConnectionPool.getInstance().getConnection())
+		try	
 			{
+			con=ConnectionPool.getInstance().getConnection();
 			String sql = 
 						"DELETE FROM COUPON WHERE TITLE = ?";
 				PreparedStatement stat = con.prepareStatement(sql);
@@ -77,6 +89,11 @@ public class CouponDBDAO implements CouponDAO
 			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}	
+	
+		finally
+		{
+			ConnectionPool.getInstance().free(con);
+		}
 	}
 	
 	
@@ -131,24 +148,25 @@ public class CouponDBDAO implements CouponDAO
 			throw new DoesNotExistException("Coupon Does not exist");
 			}
 			
-		int amount = getCoupon(couponId).getAmount();
+			int amount = getCoupon(couponId).getAmount();
 			if(!(amount>0))
 			{
 			throw new DoesNotExistException("Coupon was sold out");
 			}
+		
 		try(Connection con=ConnectionPool.getInstance().getConnection())
-			{
+				{
 				String sql =
 						"UPDATE Coupon SET AMOUNT= AMOUNT +(-1) WHERE ID=?";
 					PreparedStatement stmt = con.prepareStatement(sql);
 					stmt.setLong(1, couponId);
 					stmt.executeUpdate();
-			}
+				}
 		catch (SQLException e) 
-			{
-			throw new SQLException
-			("Error in connection to DATA BASE", e);
-			}
+				{
+				throw new SQLException
+				("Error in connection to DATA BASE", e);
+				}
 	}
 	
 	
@@ -211,22 +229,29 @@ public class CouponDBDAO implements CouponDAO
 		int AMOUNT;
 		CouponType TYPE;
 		double PRICE;
-		
+		Connection con= null;	
+		ResultSet rs=null;
+
 		if (!Checks.isCouponExistById(couponId))
 			{
 			throw new DoesNotExistException
 			("Coupon Does Not Exist");
 			}
 		
-		try (Connection con=ConnectionPool.getInstance().getConnection()) 
-				{
-				String sql = 
+//		try (Connection con=ConnectionPool.getInstance().getConnection()) 
+//				{
+			try
+			{
+			con=ConnectionPool.getInstance().getConnection();
+					
+			
+			String sql = 
 						"SELECT * FROM Coupon WHERE ID=?";
 					PreparedStatement stat = con.prepareStatement (sql);
 					stat.setLong(1, couponId);
-					ResultSet rs = stat.executeQuery();
+					rs = stat.executeQuery();
 			
-				rs.next();
+					rs.next();
 					ID = rs.getLong(1);
 					TITLE = rs.getString("TITLE");
 					START_DATE = rs.getDate("START_DATE").toLocalDate();
@@ -243,7 +268,18 @@ public class CouponDBDAO implements CouponDAO
 			{
 			throw new SQLException
 			("Error in connection to DATA BASE", e);
-			}		
+			}
+			
+			finally {
+				try {
+					rs.close();
+					ConnectionPool.getInstance().free(con);
+					} 
+				catch (SQLException e) 
+					{
+					e.printStackTrace();
+					}
+				}	
 	return coupon;
 		
 	}
@@ -408,8 +444,6 @@ public class CouponDBDAO implements CouponDAO
 	return custCoupons; 
 			
 	}
-		
-		
 	
-	
+		
 }

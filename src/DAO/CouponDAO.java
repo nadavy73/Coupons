@@ -35,5 +35,4 @@ public interface CouponDAO
 	public Collection<Customer> getCustomersWhoHaveCoupon(long couponId) 
 			throws DoesNotExistException, SQLException;
 
-	
 }

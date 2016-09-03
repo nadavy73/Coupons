@@ -2,7 +2,6 @@ package JavaBeans;
 
 import java.util.*;
 
-import Facades.CompanyFacade;
 
 public class Company {
 
@@ -28,7 +27,7 @@ public class Company {
 	
 	public Company(String compName,String passWord,String eMail, Collection <Coupon> coupons)
 	{
-
+		super();
 		this.compName=compName;
 		this.passWord=passWord;
 		this.eMail=eMail;
@@ -36,7 +35,7 @@ public class Company {
 	}
 	public Company(String compName,String passWord,String eMail)
 	{
-
+		super();
 		this.compName=compName;
 		this.passWord=passWord;
 		this.eMail=eMail;

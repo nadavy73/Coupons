@@ -471,14 +471,19 @@ public class CustomerDBDAO implements CustomerDAO
 	public void removeCustomerCouponsByCouponId(long couponId) 
 				throws DoesNotExistException, SQLException 
 	{
-			if (!Checks.isCouponExistById(couponId))
+		Connection con=null;
+	
+		if (!Checks.isCouponExistById(couponId))
 				{
 					throw new DoesNotExistException
 					("This Coupon is not purchased for this Customer");
 				}
 					
-		try(Connection con=ConnectionPool.getInstance().getConnection())
+//		try(Connection con=ConnectionPool.getInstance().getConnection())
+		try
 			{
+				con=ConnectionPool.getInstance().getConnection();
+
 				String sql =
 						"DELETE FROM Customer_Coupon WHERE CouponId = ?;";
 					PreparedStatement stmt = con.prepareStatement(sql);
@@ -492,7 +497,14 @@ public class CustomerDBDAO implements CustomerDAO
 			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
+		
+		finally
+		{
+			ConnectionPool.getInstance().free(con);
+		}	
+		
 		System.out.println("Coupon no." + couponId+ "  was removed from All Customers");
+		
 	}
 
 	
