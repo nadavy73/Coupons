@@ -21,8 +21,8 @@ public class TestCompanyFacade {
 	public static void main(String[] args) 
 			throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException, CompanyFacadeException 
 	{
-//	V	TestLoginCompany();
-		TestCreateCoupon();
+	TestLoginCompany();
+//		TestCreateCoupon();
 //	V	TestRemoveCoupon();
 //	V	TestUpdateCoupon();
 //	V	TestGetCoupon();

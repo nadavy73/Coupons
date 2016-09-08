@@ -28,7 +28,7 @@ public class AdminFacade implements CouponClientFacade
 	}
 
 	public void createCompany(Company company) 
-			throws AdminFacadeException 
+			throws AdminFacadeException, AlreadyExistException 
 	{
 		try {
 			// Call the createCompany method from CompanyDBDAO
@@ -42,7 +42,7 @@ public class AdminFacade implements CouponClientFacade
 			} 
 		catch (AlreadyExistException e) 
 			{
-			throw new AdminFacadeException("AdminFacadeException - " 
+			throw new AlreadyExistException("AlreadyExist - " 
 					+ "createCompany()");
 			}
 	}

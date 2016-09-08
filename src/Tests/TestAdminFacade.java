@@ -27,7 +27,7 @@ public class TestAdminFacade
 
 	public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException, AdminFacadeException, FacadeException 
 	{
-//	V	TestLoginAdmin();
+	TestLoginAdmin();
 //	V	TestCreateCompany();
 //	V	TestRemoveCompany();
 //	X				TestUpdateCompany();
@@ -53,7 +53,7 @@ public class TestAdminFacade
 		System.out.println("Admin was logged suceessfully");
 		// customer logged in successfully
 					
-		adminFacade.createCompany(new Company("Altair2","Altair123456" , "Altair@coupons.co.il"));
+		//adminFacade.createCompany(new Company("Altair2","Altair123456" , "Altair@coupons.co.il"));
 		
 			
 		}
@@ -146,18 +146,18 @@ public class TestAdminFacade
 			adminFacade.RemoveCustomer(customer);
 		}
 		
-		public static void TestUpdateCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException
+		public static void TestUpdateCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException, AdminFacadeException
 		{
 			CustomerDAO cust = new CustomerDBDAO();	
 			
 			adminFacade.UpdateCustomer(cust.getCustomerById(14));
 		}
-		public static void TestGetCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException
+		public static void TestGetCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException, AdminFacadeException
 		{
 			adminFacade.GetCustomer(14);
 		}
 		
-		public static void TestGetAllCustomers() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException
+		public static void TestGetAllCustomers() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException, AdminFacadeException
 		{
 			System.out.println(adminFacade.getAllCustomers());
 		}

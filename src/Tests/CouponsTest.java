@@ -111,7 +111,7 @@ public class CouponsTest {
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			try {
-				System.out.println(coupDao.getCouponByType(CouponType.Camping));
+				System.out.println(coupDao.getCouponByType(CouponType.Camping_and_Travelling));
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

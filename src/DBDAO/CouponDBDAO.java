@@ -27,7 +27,6 @@ public class CouponDBDAO implements CouponDAO
 				("Coupon Already Exist");
 				}
 			
-//		try(Connection con=ConnectionPool.getInstance().getConnection())
 		try
 			{
 			con=ConnectionPool.getInstance().getConnection();
@@ -398,6 +397,9 @@ public class CouponDBDAO implements CouponDAO
 			
 	return Coupons;
 		}
+	
+	
+
 	
 	
 	
