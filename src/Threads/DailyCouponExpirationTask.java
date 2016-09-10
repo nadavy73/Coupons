@@ -20,7 +20,7 @@ public class DailyCouponExpirationTask implements Runnable {
 		while (run) {
 			try 	
 			{
-			TimeUnit.SECONDS.sleep(8);
+			TimeUnit.SECONDS.sleep(10);
 			} 	
 			catch (InterruptedException e) 
 			{	

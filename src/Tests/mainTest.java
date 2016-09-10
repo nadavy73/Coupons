@@ -11,6 +11,7 @@ import Exceptions.*;
 import Facades.*;
 import JavaBeans.*;
 import System.CouponSystem;
+import Threads.DailyCouponExpirationTask;
 
 public class mainTest {
 	private static AdminFacade adminF = new AdminFacade();
@@ -174,21 +175,21 @@ public class mainTest {
 ///////////////////////////////////
 //Here we create the COUPON objects
 ///////////////////////////////////
-//Coupon BBB = new Coupon("Burgers", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 10), 50, CouponType.Restaurants, "Try our new Vegan burger", 24.99, "image");
-//Coupon Fifty_Shekel_off_for_all_jeans = new Coupon("50_off_jeans", LocalDate.of(2016, Month.SEPTEMBER, 10), LocalDate.of(2016, Month.SEPTEMBER, 12), 50, CouponType.Clothes, "for old collection",100,"image");	
+//    Coupon BBB = new Coupon("Burgers", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 10), 50, CouponType.Restaurants, "Try our new Vegan burger", 24.99, "image");
+//    Coupon Fifty_Shekel_off_for_all_jeans = new Coupon("50_off_jeans", LocalDate.of(2016, Month.SEPTEMBER, 10), LocalDate.of(2016, Month.SEPTEMBER, 12), 50, CouponType.Clothes, "for old collection",100,"image");	
 //Coupon Fifty_percent_off_Electronics= new Coupon("HEVER", LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 27), 100 , CouponType.Electronics, "Only for HEVER members", 100, "image");
-//Coupon Fifty_percent_off_Home_and_Styling_Garden= new Coupon("HOME", LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 100 , CouponType.Home_and_Styling_Garden, "The chiper store", 100, "image");
+//    Coupon Fifty_percent_off_Home_and_Styling_Garden= new Coupon("HOME", LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 100 , CouponType.Home_and_Styling_Garden, "The chiper store", 100, "image");
 //Coupon Fifty_percent_off_Restaurants= new Coupon("Restaurants", LocalDate.of(2016, Month.SEPTEMBER, 10), LocalDate.of(2016, Month.SEPTEMBER, 12), 50, CouponType.Clothes, "for old collection",100,"image");
 //Coupon Fifty_percent_off_Clothes= new Coupon("Clothes", LocalDate.of(2016, Month.SEPTEMBER, 10), LocalDate.of(2016, Month.SEPTEMBER, 12), 50, CouponType.Clothes, "for old collection",100,"image");
-//Coupon Buy_one_Get_One_Free_Restaurants = new Coupon("1+1 about Cocktail", LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 50, CouponType.Restaurants, "From 01:00 to 04:00",00.00, "image");
-//Coupon Buy_one_Get_One_Free_Food = new Coupon("1+1 about all the Pasta",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 100, CouponType.Food, "doesn't include with gluten", 00.00, "image");
-//Coupon Buy_one_Get_One_Free_Clothes = new Coupon("buy on T-shirt get one for free",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 80, CouponType.Clothes, "For summer collection", 00.00, "image");
-//Coupon Buy_3_Get_One_Free_Home_and_Styling_Garden = new Coupon("buy three chairs and get one for free",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 100, CouponType.Home_and_Styling_Garden, "For ketter collection", 00.00, "image");
-//Coupon Buy_3_Get_One_Free_Food = new Coupon("buy three bisly and get one free",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 1000, CouponType.Food,"only 70gr packes", 00.00, "image");
-//Coupon Pay_70_instead_of_100_Home_and_Styling_Garden = new Coupon("Home_and_Styling",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 200, CouponType.Home_and_Styling_Garden, "On Garden depart", 70, "image");
-//Coupon Pay_70_instead_of_100_Restaurants = new Coupon("ZAKAIM",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 50, CouponType.Restaurants, "Evening Menu", 70, "image");
-//Coupon Pay_70_instead_of_100_Electronics = new Coupon("SAKAL",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 20, CouponType.Electronics,"for all Coffee machines" ,70 , "image");
-//Coupon Pay_70_instead_of_100_Clothes = new Coupon("FOX",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 500, CouponType.Clothes, "about all winter collection", 70, "image");
+//    Coupon Buy_one_Get_One_Free_Restaurants = new Coupon("1+1 about Cocktail", LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 50, CouponType.Restaurants, "From 01:00 to 04:00",00.00, "image");
+//    Coupon Buy_one_Get_One_Free_Food = new Coupon("1+1 about all the Pasta",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 100, CouponType.Food, "doesn't include with gluten", 00.00, "image");
+//    Coupon Buy_one_Get_One_Free_Clothes = new Coupon("buy on T-shirt get one for free",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 80, CouponType.Clothes, "For summer collection", 00.00, "image");
+//    Coupon Buy_3_Get_One_Free_Home_and_Styling_Garden = new Coupon("buy three chairs and get one for free",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 100, CouponType.Home_and_Styling_Garden, "For ketter collection", 00.00, "image");
+//    Coupon Buy_3_Get_One_Free_Food = new Coupon("buy three bisly and get one free",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 1000, CouponType.Food,"only 70gr packes", 00.00, "image");
+//    Coupon Pay_70_instead_of_100_Home_and_Styling_Garden = new Coupon("Home_and_Styling",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 200, CouponType.Home_and_Styling_Garden, "On Garden depart", 70, "image");
+//    Coupon Pay_70_instead_of_100_Restaurants = new Coupon("ZAKAIM",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 50, CouponType.Restaurants, "Evening Menu", 70, "image");
+//    Coupon Pay_70_instead_of_100_Electronics = new Coupon("SAKAL",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 20, CouponType.Electronics,"for all Coffee machines" ,70 , "image");
+//    Coupon Pay_70_instead_of_100_Clothes = new Coupon("FOX",LocalDate.now(), LocalDate.of(2016, Month.SEPTEMBER, 10), 500, CouponType.Clothes, "about all winter collection", 70, "image");
 
 
 //companyF.login("ACE", "ACE123456", ClientType.COMPANY) ;
@@ -274,8 +275,9 @@ public class mainTest {
 //System.out.println(customerF.getAllPurchasedCouponsByType(CouponType.Clothes));
 //System.out.println(customerF.getAllPurchasedCouponsByMaxPrice(90));
 
-
-	
+		
+		DailyCouponExpirationTask daily= new DailyCouponExpirationTask();
+		daily.run();
 	}
 	
 
