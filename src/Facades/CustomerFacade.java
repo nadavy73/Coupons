@@ -45,7 +45,7 @@ public class CustomerFacade implements CouponClientFacade
 				
 			else 
 				{
- 				throw new LoginException("Customer "+custName+" does not exist in our DB");
+ 				throw new LoginException("one or more from your details are incorect User: " +custName+" Password: "+password+" or Client type: "+clientType);
 				}
 		}	
 	
@@ -103,7 +103,7 @@ public class CustomerFacade implements CouponClientFacade
 		}
 
 	public Collection<Coupon> getAllPurchasedCouponsByType(CouponType CouponType) 
-				throws CustomerFacadeException 
+				throws CustomerFacadeException, DoesNotExistException 
 	{
 		Collection<Coupon> couponsType= new HashSet<>();
 		
@@ -120,11 +120,15 @@ public class CustomerFacade implements CouponClientFacade
 				{
 				throw new CustomerFacadeException("CustomerFacade - getAllPurchasedCouponsByType"+ e.getMessage());
 				}
+		if(couponsType.isEmpty())
+		{
+			throw new DoesNotExistException ("this customer does not have any coupons from this type: "+CouponType);
+		}
 		return couponsType;
 	}	
 	
 	public Collection<Coupon> getAllPurchasedCouponsByMaxPrice(double price) 
-			throws CustomerFacadeException
+			throws CustomerFacadeException, DoesNotExistException
 	{
 		Collection<Coupon> couponsByPrice= new HashSet<>();
 		
@@ -138,6 +142,8 @@ public class CustomerFacade implements CouponClientFacade
 			
 			throw new CustomerFacadeException("CustomerFacade - getAllPurchasedCouponsByMaxPrice"+ e.getMessage());
 		}
+		if (couponsByPrice.isEmpty())
+			throw new DoesNotExistException("This customer does not have any coupon in price range: 0 to "+price);
 		return couponsByPrice;
 	}
 

@@ -145,7 +145,7 @@ public class CompanyFacade implements CouponClientFacade
 		}
 		  	
 	public Collection <Coupon> getCouponByType (CouponType couponType) 
-			throws CompanyFacadeException
+			throws CompanyFacadeException, DoesNotExistException
 	{
 			Collection<Coupon> couponsByType = new HashSet<>();  		
 		
@@ -167,7 +167,9 @@ public class CompanyFacade implements CouponClientFacade
 			throw new CompanyFacadeException
 			("CompanyFacade -  getCouponByType"+ e.getMessage());
 			}
-		  		return couponsByType;
+		if (couponsByType.isEmpty())
+			throw new DoesNotExistException("This company doesn't have this coupon type "+couponType);
+		return couponsByType;
 		  		
 	}
 		  	
@@ -179,7 +181,7 @@ public class CompanyFacade implements CouponClientFacade
 			{
 		  		for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) 
 		  			{
-		  				if (coupon.getStartDate().isBefore(Date) || coupon.getEndDate().equals(Date))  
+		  				if (/*coupon.getStartDate().isBefore(Date) || */coupon.getEndDate().equals(Date))  
 		  				{
 						Allcoupons.add(coupon);
 		  				}
@@ -188,7 +190,9 @@ public class CompanyFacade implements CouponClientFacade
 		catch (SQLException e)
 			{
 				throw new CompanyFacadeException("CompanyFacade -  getCouponsByEndDate"+ e.getMessage());
-			}	
+			}
+		 if (Allcoupons.isEmpty())
+/* */			 throw new DoesNotExistException("we dont have any coupon with this end date "+Date);
 	return Allcoupons;
  	}
 		  	
@@ -201,7 +205,7 @@ public class CompanyFacade implements CouponClientFacade
 			{
 			  	for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) 
 			  		{
-			  			if (coupon.getPrice() <= price)
+			  			if (coupon.getPrice() == price)
 			  				{
 			  					Allcoupons.add(coupon);
 			  				}
@@ -211,7 +215,10 @@ public class CompanyFacade implements CouponClientFacade
 		catch (SQLException e)
 			{
 				throw new CompanyFacadeException("CompanyFacade -  getCouponsByEndDate"+ e.getMessage());
-			}		
+			}	
+		if (Allcoupons.isEmpty())
+			throw new DoesNotExistException("we don't have coupons with this price "+price);
+		
 	return Allcoupons;
 	}
 
