@@ -86,6 +86,10 @@ public class Customer {
 	public String getPassWord() {
 		return custPassword;
 	}
+	
+	public void setCustPassword(String custPassword) {
+		this.custPassword = custPassword;
+	}
 
 	public Collection<Coupon> getCoupons() {
 		return custCoupons;
@@ -147,6 +151,8 @@ public class Customer {
 			return false;
 		return true;
 	}
+
+	
 
 	
 	

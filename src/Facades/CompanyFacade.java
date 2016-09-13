@@ -205,7 +205,7 @@ public class CompanyFacade implements CouponClientFacade
 			{
 			  	for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) 
 			  		{
-			  			if (coupon.getPrice() == price)
+			  			if (coupon.getPrice() <= price)
 			  				{
 			  					Allcoupons.add(coupon);
 			  				}

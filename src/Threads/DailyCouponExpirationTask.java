@@ -30,7 +30,7 @@ public class DailyCouponExpirationTask implements Runnable {
 			
 			try 
 				{
-				System.out.println(LocalDate.now() + " - Daily Task Run...");
+//				System.out.println(LocalDate.now() + " - Daily Task Run...");
 				for (Coupon coupon : CouponSystem.getInstance().getCouponDAO().getAllCoupons()) 
 					{
 					if (LocalDate.now().isAfter(coupon.getEndDate())) 

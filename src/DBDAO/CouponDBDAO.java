@@ -106,7 +106,7 @@ public class CouponDBDAO implements CouponDAO
 		if (!Checks.isCouponExistByName(coupon.getTitle()))
 			{
 			throw new DoesNotExistException
-			("Customer Does Not Exist");
+			("Coupon Does Not Exist");
 			}	
 		
 		try(Connection con=ConnectionPool.getInstance().getConnection())

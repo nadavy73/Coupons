@@ -21,7 +21,7 @@ public class Checks {
 			stat.setString(1, custName);			
 			rs = stat.executeQuery();
 			
-			// If there is even one line in the response - it means the coupon exists
+			// If there is even one line in the response - it means the customer exists
 			
 			return (rs.next());
 			} 
@@ -53,7 +53,7 @@ public class Checks {
 			stat.setString(1, compName);			
 			rs = stat.executeQuery();
 			
-			// If there is even one line in the response - it means the coupon exists
+			// If there is even one line in the response - it means the company exists
 			
 			return (rs.next());
 			} 
