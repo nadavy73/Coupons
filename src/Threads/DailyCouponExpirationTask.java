@@ -12,15 +12,14 @@ import System.CouponSystem;
 public class DailyCouponExpirationTask implements Runnable {
 
 	private volatile boolean run = true;
-	// private CustomerDBDAO custDBDAO = new CustomerDBDAO();
 	
-
 	// Remove Coupon if their end date has already gone
 	public void run() {
 		while (run) {
 			try 	
 			{
-			TimeUnit.SECONDS.sleep(10);
+			
+			TimeUnit.SECONDS.sleep(5);
 			} 	
 			catch (InterruptedException e) 
 			{	
@@ -30,7 +29,6 @@ public class DailyCouponExpirationTask implements Runnable {
 			
 			try 
 				{
-//				System.out.println(LocalDate.now() + " - Daily Task Run...");
 				for (Coupon coupon : CouponSystem.getInstance().getCouponDAO().getAllCoupons()) 
 					{
 					if (LocalDate.now().isAfter(coupon.getEndDate())) 

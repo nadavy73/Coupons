@@ -89,7 +89,7 @@ public class CompanyFacade implements CouponClientFacade
 		} 
  	}	
 		
- 	//Ofer
+ 	
  	public void removeCoupon(Coupon coupon) 
  			throws CompanyFacadeException, DoesNotExistException
  	{

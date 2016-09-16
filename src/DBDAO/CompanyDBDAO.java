@@ -541,7 +541,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
-	System.out.println("Coupon " + coupon.getTitle() + "("+coupon.getId()+") was added to Company "+ company.getCompName()+ "("+ company.getId()+ ").");
+	System.out.println("Coupon " + '"' + coupon.getTitle()+ '"' + "("+coupon.getId()+") was added to Company "+ company.getCompName()+ "("+ company.getId()+ ").");
 
 	}
 	

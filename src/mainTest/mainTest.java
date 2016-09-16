@@ -1,9 +1,10 @@
-package Tests;
+package mainTest;
 
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.concurrent.TimeUnit;
 
 import DAO.*;
 import DBDAO.*;
@@ -13,12 +14,14 @@ import JavaBeans.*;
 import System.CouponSystem;
 import Threads.DailyCouponExpirationTask;
 
-public class mainTestt {
+public class mainTest {
 	private static AdminFacade adminF = new AdminFacade();
 	private static CompanyFacade companyF = new CompanyFacade();
 	private static CustomerFacade customerF = new CustomerFacade();
+	private static DailyCouponExpirationTask daily = new DailyCouponExpirationTask();
+
 	
-	public static void main(String[] args) throws LoginException, AdminFacadeException, AlreadyExistException, DoesNotExistException, SQLException, CompanyFacadeException, CustomerFacadeException, CouponException {
+	public static void main(String[] args) throws LoginException, AdminFacadeException, AlreadyExistException, DoesNotExistException, SQLException, CompanyFacadeException, CustomerFacadeException, CouponException, InterruptedException {
 		
 		//AAAAAAAAAAAADDDDDDDDDDDDMMMMMMMMMMMMIIIIIIIIIIIINNNNNNNNNNNN
 		//************************************************************
@@ -46,7 +49,6 @@ public class mainTestt {
 		//******************V
 		
 
-//		adminF.login("admin", "1234", ClientType.ADMIN);
 //		Company SHEKEM_ELECTRIC = new Company("SHEKEM_ELECTRIC", "S123456", "shekem_electric8080@shekem_electric.com");	
 //		adminF.createCompany(SHEKEM_ELECTRIC);
 //		Company Telma = new Company("Telma", "T123456", "telma8080@telma.com");
@@ -94,10 +96,16 @@ public class mainTestt {
 //		adminF.login("admin", "1234", ClientType.ADMIN);
 //		CompanyDAO compDao = new CompanyDBDAO();
 //		Company SHEKEM_ELECTRIC_UPDATE = compDao.getCompanyByName("SHEKEM_ELECTRIC");
+//		System.out.println();
+//		System.out.println("Before changes");
 //		System.out.println(adminF.GetCompanyByName("SHEKEM_ELECTRIC"));
+//		
 //		SHEKEM_ELECTRIC_UPDATE.setPassWord("ShekemE123");
 //		SHEKEM_ELECTRIC_UPDATE.seteMail("ShekemShekemShekem@shekem.com");
+//		
 //		adminF.UpdateCompany(SHEKEM_ELECTRIC_UPDATE);
+//		System.out.println();
+//		System.out.println("After changes");
 //		System.out.println(adminF.GetCompanyByName("SHEKEM_ELECTRIC"));
 		
 		
@@ -225,7 +233,7 @@ public class mainTestt {
 		//***********************************V
 		//*Create A Coupon for Telma Company*V
 		//***********************************V
-		
+
 //		companyF.login("Telma", "T123456", ClientType.COMPANY);
 //		Coupon Buy_one_Get_One_Free_Food = new Coupon("1+1 about all the Pasta",LocalDate.now(), LocalDate.of(2016, Month.OCTOBER, 14), 100, CouponType.Food, "doesn't include with gluten", 00.00, "image");
 //		companyF.createCoupon(Buy_one_Get_One_Free_Food);
@@ -275,7 +283,7 @@ public class mainTestt {
 //		companyF.login("Telma", "T123456", ClientType.COMPANY);
 //		CouponDAO coupDao = new CouponDBDAO();
 //		Coupon Buy_one_Get_One_Free_Food_Updated = coupDao.getCouponByTitle("1+1 about all the Pasta");
-//		
+//		System.out.println();
 //		System.out.println("coupon before update");
 //		System.out.println();
 //		System.out.println(companyF.getCoupon(1));
@@ -286,6 +294,7 @@ public class mainTestt {
 //		
 //		companyF.updateCoupon(Buy_one_Get_One_Free_Food_Updated);
 //		
+//		System.out.println();
 //		System.out.println("coupon after update");
 //		System.out.println();
 //		System.out.println(companyF.getCoupon(1));
@@ -327,8 +336,7 @@ public class mainTestt {
 //		companyF.createCoupon(Buy_one_Get_One_Free_Food);
 //		
 //		customerF.login("Michael_Jordan", "Michael1234" , ClientType.CUSTOMER);
-//		CouponDAO coupDao = new CouponDBDAO();
-//		Coupon Michael_Jordan_Coupon = coupDao.getCouponByTitle("1+1 about all the Pasta");
+//		Coupon Michael_Jordan_Coupon = CouponSystem.getInstance().getCouponDAO().getCouponByTitle("1+1 about all the Pasta");
 //		customerF.purchaseCoupon(Michael_Jordan_Coupon);
 		
 		
@@ -359,7 +367,21 @@ public class mainTestt {
 //		System.out.println(customerF.getAllPurchasedCouponsByType(CouponType.Food));
 		
 		
+		
+//		customerF.login("LeBron_James", "LeBron1234", ClientType.CUSTOMER);
+//		
+//		Coupon Buy_one_Get_One_Free_Food11 = CouponSystem.getInstance().getCouponDAO().getCouponByTitle("1+1 about all the Pasta1");
+//		Coupon Buy_one_Get_One_Free_Food22 = CouponSystem.getInstance().getCouponDAO().getCouponByTitle("1+1 about all the Pasta2");
+//		Coupon Buy_one_Get_One_Free_Food33 =CouponSystem.getInstance().getCouponDAO().getCouponByTitle("1+1 about all the Pasta3");
+//		customerF.purchaseCoupon(Buy_one_Get_One_Free_Food11);
+//		customerF.purchaseCoupon(Buy_one_Get_One_Free_Food22);
+//		customerF.purchaseCoupon(Buy_one_Get_One_Free_Food33);
+//		
 
+		
+		
+		
+//		daily.run();
 	}
 
 }
