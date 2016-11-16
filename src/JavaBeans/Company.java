@@ -2,18 +2,21 @@ package JavaBeans;
 
 import java.util.*;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Company {
 
 	
 	//
 	//Attributes
 	//
-	private long ID;
-	private String compName;
-	private String passWord;
-	private String eMail;
-	private Collection <Coupon> coupons= new HashSet<>();
+	@XmlElement private long ID;
+	@XmlElement private String compName;
+	@XmlElement private String passWord;
+	@XmlElement private String eMail;
+	@XmlElement private Collection <Coupon> coupons= new HashSet<>();
 	
 	
 	//

@@ -1,4 +1,4 @@
-package Tests;
+package Tests_on_the_fly;
 
 import java.sql.SQLException;
 import DAO.CouponDAO;
@@ -29,18 +29,11 @@ public static void main(String[] args) throws LoginException, CustomerException,
 //	TestgetAllPurchasedCouponsByType();
 //	TestgetAllPurchasedCouponsByPrice();
 }
-	public static void TestLoginCustomer() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException
+	public static void TestLoginCustomer() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException
 	{
-		try {
-				Customer customer= new Customer("Customer1020", "Custi9876");
-				custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
-				// customer logged in successfully
-				
-				
-			} catch (FacadeException e) {
-				
-				e.printStackTrace();
-			}
+		Customer customer= new Customer("Customer1020", "Custi9876");
+		custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
+		// customer logged in successfully
 		
 	}
 	
