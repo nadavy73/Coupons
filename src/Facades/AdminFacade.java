@@ -86,7 +86,7 @@ public class AdminFacade implements CouponClientFacade
 		catch (DoesNotExistException | SQLException  e) 
 			{
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "createCompany()");
+					+ "updateCompany()");
 			} 
 	}
 	

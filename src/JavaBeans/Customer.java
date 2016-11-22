@@ -2,6 +2,10 @@ package JavaBeans;
 
 import java.util.*;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Customer {
 
 	
@@ -10,10 +14,10 @@ public class Customer {
 	//Attributes
 	//
 	
-	private long custId;
-	private String custName;
-	private String custPassword;
-	private Collection <Coupon> custCoupons;
+	@XmlElement private long custId;
+	@XmlElement private String custName;
+	@XmlElement private String custPassword;
+	@XmlElement private Collection <Coupon> custCoupons;
 	
 	
 	//

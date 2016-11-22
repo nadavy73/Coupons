@@ -156,6 +156,8 @@ public class CompanyDBDAO implements CompanyDAO {
 	}
 	
 	
+	
+	
 	//****************************************************************
 	//This function gets Company Object and update the 
 	//Company details
@@ -173,13 +175,13 @@ public class CompanyDBDAO implements CompanyDAO {
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{
 			String sql = 
-					"UPDATE Company SET COMP_NAME=?, PASSWORD=?, EMAIL=? WHERE COMP_NAME=?";
+					"UPDATE Company SET COMP_NAME=?, PASSWORD=?, EMAIL=? WHERE COMP_ID=?";
 				
 				PreparedStatement stmt = con.prepareStatement(sql);
 				stmt.setString(1, company.getCompName());
 				stmt.setString(2, company.getPassWord());
 				stmt.setString(3, company.geteMail());
-				stmt.setString(4, company.getCompName());
+				stmt.setLong(4, company.getId());
 				stmt.executeUpdate();
 			
 			} 
@@ -190,6 +192,8 @@ public class CompanyDBDAO implements CompanyDAO {
 			} 
 			
 	}
+	
+	
 	
 	
 	//********************************************************************

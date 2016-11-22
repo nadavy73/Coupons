@@ -17,8 +17,8 @@ public class CompanyTest {
 //V			removeCompanyTest ();
 //V			removeCompanyByNameTest();
 //V			updateCompanyByNameTest();
-//V			updateCompanyTest ();
-//V			getCompanyByIdTest();
+	updateCompanyTest ();
+//		getCompanyByIdTest();
 //V			getCompanyByNameTest();
 //V 		getAllCompaniesTest();
 //V 		getCouponsTest();
@@ -76,7 +76,7 @@ public class CompanyTest {
 		{
 			CompanyDAO compDao = new CompanyDBDAO();
 			
-			Company comp1 = new Company("Nadav1", "nadav123456", "nadavy73@gmail.com");
+			Company comp1 = new Company("Alto", "nadav123456", "nadavy73@gmail.com");
 			
 			compDao.updateCompany(comp1);
 			
@@ -86,7 +86,7 @@ public class CompanyTest {
 				throws CouponException, SQLException, DoesNotExistException, AlreadyExistException
 		{
 			CompanyDAO compDao = new CompanyDBDAO();
-			System.out.println(compDao.getCompanyById(4));
+			System.out.println(compDao.getCompanyById(9));
 		}
 		
 		public static void getCompanyByNameTest() 
