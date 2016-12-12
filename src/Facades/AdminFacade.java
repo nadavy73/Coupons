@@ -1,8 +1,11 @@
 package Facades;
 
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
+
+import Checks.Checks;
 import Exceptions.*;
 import JavaBeans.*;
 import System.CouponSystem;
@@ -144,6 +147,7 @@ public class AdminFacade implements CouponClientFacade
 	public void RemoveCustomer (Customer customer) 
 			throws AdminFacadeException, DoesNotExistException
 	{
+
 		try 
 			{
 			for (Coupon coupon : CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId())) 

@@ -123,8 +123,7 @@ public class CustomerDBDAO implements CustomerDAO
 			throws DoesNotExistException, SQLException
 	{
 		
-		//Check if Customer exists in DB
-		if (!Checks.isCustomerExistByName(customer.getCustName()))
+		if (!Checks.isCustomerExistById(customer.getId()))
 		{
 			throw new DoesNotExistException
 			("Customer Does Not Exist");
@@ -134,12 +133,12 @@ public class CustomerDBDAO implements CustomerDAO
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{
 				String sql = 
-						"UPDATE Customer SET CUST_NAME=?, PASSWORD=? WHERE CUST_NAME=?";
+						"UPDATE Customer SET CUST_NAME=?, PASSWORD=? WHERE ID=?";
 				
 					PreparedStatement stmt = con.prepareStatement(sql);
 					stmt.setString(1, customer.getCustName());
 					stmt.setString(2, customer.getPassWord());
-					stmt.setString(3, customer.getCustName());
+					stmt.setLong(3, customer.getId());
 					stmt.executeUpdate();
 			
 			} 
@@ -290,6 +289,7 @@ public class CustomerDBDAO implements CustomerDAO
 	@Override
 	public Collection<Coupon> getCoupons(long custId) 
 			throws DoesNotExistException, SQLException
+	
 			
 	{
 		ResultSet rs=null;
@@ -314,7 +314,7 @@ public class CustomerDBDAO implements CustomerDAO
 					stat.setLong(1, custId);
 					rs = stat.executeQuery();
 			
-				if(rs.next())
+				while(rs.next())
 					{	
 					// Generating Coupon
 					coupons.add(couponDB.getCoupon(rs.getLong("CouponId")));

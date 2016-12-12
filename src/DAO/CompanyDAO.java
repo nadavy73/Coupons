@@ -18,8 +18,8 @@ public interface CompanyDAO
 	public void removeCompanyByName (String compName)
 			throws DoesNotExistException, SQLException;
 	
-	public void updateCompanyByName(String OldName, String NewName)
-			throws DoesNotExistException, SQLException;
+//	public void updateCompanyByName(String OldName, String NewName)
+//			throws DoesNotExistException, SQLException;
 	
 	public void updateCompany (Company company)
 			throws DoesNotExistException, SQLException;

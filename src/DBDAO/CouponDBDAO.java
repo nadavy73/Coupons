@@ -103,7 +103,7 @@ public class CouponDBDAO implements CouponDAO
 	public void updateCoupon(Coupon coupon) 
 				throws DoesNotExistException, SQLException 
 	{
-		if (!Checks.isCouponExistByName(coupon.getTitle()))
+		if (!Checks.isCouponExistById(coupon.getId()))
 			{
 			throw new DoesNotExistException
 			("Coupon Does Not Exist");
@@ -112,7 +112,7 @@ public class CouponDBDAO implements CouponDAO
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{
 				String sql = 
-						"UPDATE Coupon SET TITLE=?, START_DATE=?, END_DATE=?, AMOUNT=?,"+ " TYPE=?, MESSAGE=?, PRICE=?, IMAGE=? WHERE TITLE=?";
+						"UPDATE Coupon SET TITLE=?, START_DATE=?, END_DATE=?, AMOUNT=?,"+ " TYPE=?, MESSAGE=?, PRICE=?, IMAGE=? WHERE ID=?";
 			
 				PreparedStatement stat = con.prepareStatement(sql);
 				stat.setString(1, coupon.getTitle());
@@ -123,7 +123,7 @@ public class CouponDBDAO implements CouponDAO
 				stat.setString(6, coupon.getMessage());
 				stat.setDouble(7, coupon.getPrice());
 				stat.setString(8, coupon.getImage());
-				stat.setString(9, coupon.getTitle());
+				stat.setLong(9, coupon.getId());
 				stat.executeUpdate();
 			}
 		 catch (SQLException e) 
