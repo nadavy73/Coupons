@@ -27,14 +27,14 @@ public class TestAdminFacade
 
 	public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException, AdminFacadeException, FacadeException 
 	{
-	TestLoginAdmin();
+//	TestLoginAdmin();
 //	V	TestCreateCompany();
 //	V	TestRemoveCompany();
 //	X				TestUpdateCompany();
 //	V	TestGetCompany();
 //	V	TestGetAllCompanies();
 //	V	TestCreateCustomer();
-//	V	TestRemoveCustomer();
+TestRemoveCustomer();
 //	X				TestUpdateCustomer();
 //	V	TestGetCustomer();
 //	V	TestGetAllCustomers();
@@ -141,7 +141,7 @@ public class TestAdminFacade
 		public static void TestRemoveCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException, FacadeException, LoginException, AdminFacadeException
 		{
 			CustomerDAO cust = new CustomerDBDAO();	
-			Customer customer= cust.getCustomerById(13);
+			Customer customer= cust.getCustomerById(24);
 			
 			adminFacade.RemoveCustomer(customer);
 		}

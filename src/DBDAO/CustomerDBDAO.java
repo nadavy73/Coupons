@@ -54,9 +54,9 @@ public class CustomerDBDAO implements CustomerDAO
 	//******************************************************
 	@Override
 	public void removeCustomer(Customer customer) 
-			throws DoesNotExistException, SQLException
+			throws DoesNotExistException
 	{
-		if (!Checks.isCustomerExistByName(customer.getCustName()))
+		if (!Checks.isCustomerExistById(customer.getId()))
 		{
 			throw new DoesNotExistException
 			("Customer Does Not Exist");
@@ -72,8 +72,8 @@ public class CustomerDBDAO implements CustomerDAO
 			}
 		catch (SQLException e) 
 			{
-			throw new SQLException
-			("Error in connection to DATA BASE", e);
+			e.printStackTrace();
+			
 			}
 	}
 	
@@ -122,7 +122,6 @@ public class CustomerDBDAO implements CustomerDAO
 	public void updateCustomer(Customer customer) 
 			throws DoesNotExistException, SQLException
 	{
-		
 		if (!Checks.isCustomerExistById(customer.getId()))
 		{
 			throw new DoesNotExistException
@@ -446,11 +445,10 @@ public class CustomerDBDAO implements CustomerDAO
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{
 			String sql =
-					"DELETE FROM Customer_Coupon WHERE CustId=? AND CouponId = ?;";
+					"DELETE FROM Customer_Coupon WHERE CustId=?";
 				
 				PreparedStatement stmt = con.prepareStatement(sql);
 				stmt.setLong(1, custId);
-				stmt.setLong(2, couponId);
 				stmt.executeUpdate();
 			}
 		catch (SQLException e) 
@@ -471,6 +469,7 @@ public class CustomerDBDAO implements CustomerDAO
 	public void removeCustomerCouponsByCouponId(long couponId) 
 				throws DoesNotExistException, SQLException 
 	{
+		System.out.println("***************removeCustomerCouponsByCouponId************************");
 		Connection con=null;
 	
 		if (!Checks.isCouponExistById(couponId))
@@ -493,16 +492,11 @@ public class CustomerDBDAO implements CustomerDAO
 						
 			} 
 		catch (SQLException e) 
-			{
-			throw new SQLException
-			("Error in connection to DATA BASE", e);
-			}
+			{throw new SQLException
+			("Error in connection to DATA BASE", e);}
 		
 		finally
-		{
-			ConnectionPool.getInstance().free(con);
-		}	
-		
+		{ConnectionPool.getInstance().free(con);}	
 		System.out.println("Coupon no." + couponId+ "  was removed from All Customers");
 		
 	}
