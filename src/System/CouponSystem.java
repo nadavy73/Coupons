@@ -3,19 +3,24 @@ package System;
 
 
 
- import DAO.CompanyDAO;
+ import java.sql.SQLException;
+
+import DAO.CompanyDAO;
 import DAO.CouponDAO;
 import DAO.CustomerDAO;
 import DBDAO.CompanyDBDAO;
 import DBDAO.ConnectionPool;
 import DBDAO.CouponDBDAO;
 import DBDAO.CustomerDBDAO;
+import Exceptions.CompanyFacadeException;
 import Exceptions.CouponException;
  import Exceptions.CustomerException;
- import Exceptions.FacadeException;
+import Exceptions.DoesNotExistException;
+import Exceptions.FacadeException;
  import Exceptions.LoginException;
  import Facades.AdminFacade;
- import Facades.CompanyFacade;
+import Facades.ClientType;
+import Facades.CompanyFacade;
  import Facades.CustomerFacade;
  import Threads.DailyCouponExpirationTask;
  
@@ -26,20 +31,15 @@ import Exceptions.CouponException;
  	private DailyCouponExpirationTask CouponTask= null;
   	private Thread CouponTaskThread;
  	
-  	private CompanyDAO compDAO = null;
-	private CustomerDAO custDAO = null;
-	private CouponDAO couponDAO = null;
+  	private CompanyDAO compDAO = new CompanyDBDAO();
+	private CustomerDAO custDAO = new CustomerDBDAO();
+	private CouponDAO couponDAO = new CouponDBDAO();
 	
 	
 	//Constructors
 
  	private CouponSystem() 
  	{
- 		compDAO = new CompanyDBDAO();
-		custDAO = new CustomerDBDAO();
-		couponDAO = new CouponDBDAO();
-	
- 		
  		CouponTask = new DailyCouponExpirationTask();
  		CouponTaskThread = new Thread(CouponTask);
  		CouponTaskThread.setDaemon(true);
@@ -56,28 +56,23 @@ import Exceptions.CouponException;
  		return instance;
 }
 	
- 	public CompanyFacade CompanyLogin(String compName, String password) throws FacadeException, LoginException, CouponException 
+ 	public CompanyFacade CompanyLogin(String username, String password) throws CompanyFacadeException, LoginException, SQLException, DoesNotExistException 
  	{
- 
- 		
- 		return CouponSystem.getInstance().CompanyLogin(compName, password);
- 			
+ 		return CompanyFacade.login(username, password); 			
  }
 
- 	public CustomerFacade CustomerLogin(String custName, String password) throws FacadeException, LoginException, CouponException, CustomerException 
+ 	public CustomerFacade CustomerLogin(String username, String password) throws FacadeException, LoginException, CouponException, CustomerException, SQLException, DoesNotExistException 
  	{
- 			return CouponSystem.getInstance().CustomerLogin(custName, password);
- 			
-}
-	
- 	public static AdminFacade AdminLogin(String name, String password) throws FacadeException, LoginException, CouponException 
+ 			return CustomerFacade.login(username, password);
+ 					
+ 	}				
+ 	public static AdminFacade AdminLogin(String username, String password) throws FacadeException, LoginException, CouponException 
  	{
  		
- 		CouponSystem.getInstance();
-		return CouponSystem.AdminLogin(name, password);
+ 		return AdminFacade.login(username, password);
  			
 }
- 	// Shut down
+ 		// Shut down
  		public void shutDown(){
  			
  				ConnectionPool.getInstance().closeAllConnections();

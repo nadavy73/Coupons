@@ -33,7 +33,7 @@ public interface CustomerDAO
 	public Collection<Coupon> getCoupons (long custID)
 			throws DoesNotExistException, SQLException;
 	
-	public boolean login (String custName ,String password)
+	public boolean login (String username ,String password)
 			throws SQLException;
 
 	public void AddCustomerCouponById(long custId, long couponId) 

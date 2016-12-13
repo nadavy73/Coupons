@@ -3,29 +3,32 @@ package Facades;
 
 import java.sql.SQLException;
 import java.util.Collection;
+
+
+
 import Exceptions.*;
 import JavaBeans.*;
 import System.CouponSystem;
 
-public class AdminFacade implements CouponClientFacade
+public class AdminFacade
 {
 
+	
 	/*
 	 * Methods
 	 */
-	public AdminFacade login(String name, String password, ClientType clientType) 
+	public static AdminFacade login(String username, String password) 
 			throws LoginException
 	{
-		if (name.equals("admin") && password.equals("1234")) 
+		if (username.equals("admin") && password.equals("1234"))
 			{
 			System.out.println("Admin logged successfully");
 			return new AdminFacade();
 			}
-		else 
-			{
-				throw new LoginException ("Incorrect username and/or password");
-			}
-		
+		else {
+			throw new LoginException("Admin Login Failed");
+		}
+			
 	}
 
 	public void createCompany(Company company) 
@@ -149,9 +152,12 @@ public class AdminFacade implements CouponClientFacade
 			for (Coupon coupon : CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId())) 
 				{
 				CouponSystem.getInstance().getCustDAO().removeCustomerCouponsById(customer.getId(), coupon.getId());
-				}
-		
+				
+				CouponSystem.getInstance().getCustDAO().removeCustomerCouponsByCouponId(coupon.getId());
 				CouponSystem.getInstance().getCustDAO().removeCustomer(customer);
+				
+			}
+		
 			}
 		catch (SQLException e) 
 			{
@@ -159,6 +165,15 @@ public class AdminFacade implements CouponClientFacade
 					+ "RemoveCustomer()");
 			}
 	}
+	
+	
+
+	
+	
+	
+	
+	
+	
 	
 	public void UpdateCustomer (Customer customer) 
 			throws AdminFacadeException, DoesNotExistException

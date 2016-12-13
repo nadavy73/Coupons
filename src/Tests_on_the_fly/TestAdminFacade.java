@@ -27,15 +27,15 @@ public class TestAdminFacade
 
 	public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException, AdminFacadeException, FacadeException 
 	{
-	TestLoginAdmin();
+//		TestLoginAdmin();
 //	V	TestCreateCompany();
 //	V	TestRemoveCompany();
-//	X				TestUpdateCompany();
+//		TestUpdateCompany();
 //	V	TestGetCompany();
 //	V	TestGetAllCompanies();
 //	V	TestCreateCustomer();
-//	V	TestRemoveCustomer();
-//	X				TestUpdateCustomer();
+		TestRemoveCustomer();
+//		TestUpdateCustomer();
 //	V	TestGetCustomer();
 //	V	TestGetAllCustomers();
 		
@@ -49,7 +49,7 @@ public class TestAdminFacade
 		public static void TestLoginAdmin() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, AdminFacadeException, FacadeException
 		{
 						
-		AdminFacade af= adminFacade.login("admin", "1234", ClientType.ADMIN) ;
+		AdminFacade af= adminFacade.login("admin", "1234") ;
 		System.out.println("Admin was logged suceessfully");
 		// customer logged in successfully
 					
@@ -64,7 +64,7 @@ public class TestAdminFacade
 			
 				try {
 					
-					adminFacade.login("admin", "1234", ClientType.ADMIN) ;
+					adminFacade.login("admin", "1234") ;
 					System.out.println("Admin was logged suceessfully");
 					// customer logged in successfully
 					
@@ -81,7 +81,7 @@ public class TestAdminFacade
 			CompanyDAO comp = new CompanyDBDAO();					
 			try
 			{
-				adminFacade.login("admin", "1234", ClientType.ADMIN) ;
+				adminFacade.login("admin", "1234") ;
 				System.out.println("Admin was logged suceessfully");
 				// customer logged in successfully
 				Company company= comp.getCompanyById(25);
@@ -98,7 +98,7 @@ public class TestAdminFacade
 		
 		public static void TestUpdateCompany() throws CouponException, DoesNotExistException, SQLException, FacadeException, LoginException, AlreadyExistException
 		{
-			adminFacade.login("admin", "1234", ClientType.ADMIN) ;
+			adminFacade.login("admin", "1234") ;
 			System.out.println("Admin was logged suceessfully");
 			// customer logged in successfully
 			
@@ -141,7 +141,7 @@ public class TestAdminFacade
 		public static void TestRemoveCustomer() throws DoesNotExistException, CouponException, SQLException, AlreadyExistException, FacadeException, LoginException, AdminFacadeException
 		{
 			CustomerDAO cust = new CustomerDBDAO();	
-			Customer customer= cust.getCustomerById(13);
+			Customer customer= cust.getCustomerById(15);
 			
 			adminFacade.RemoveCustomer(customer);
 		}

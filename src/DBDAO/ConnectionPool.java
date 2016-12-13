@@ -13,7 +13,7 @@ import java.util.*;
 public class ConnectionPool implements Runnable {
 	
 	private static final String DRIVER = "org.sqlite.JDBC";
-	private static final String URL = "jdbc:sqlite:C:/Users/yehiel/git/DB/Coupon_System.db";
+	private static final String URL = "jdbc:sqlite:C:/Coupon_Project/Coupon_System.db";
 	private static final String USER = "root";
 	private static final String PASSWORD = "password";
 	

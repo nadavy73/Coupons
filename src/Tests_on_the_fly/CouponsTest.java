@@ -33,17 +33,17 @@ public class CouponsTest {
 				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
 			
-			Coupon coup = CouponSystem.getInstance().getCouponDAO().getCouponByTitle("BBB");
-			System.out.println(coup);
-//			
-//			Coupon coup1 = new Coupon("BBB2", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 1), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-//			Coupon coup2 = new Coupon("Agadir2", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 28), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-//			Coupon coup3 = new Coupon("Moses2", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 29), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
-//			Coupon coup4 = new Coupon("T-SHIRT2", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 30), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
-//			CouponSystem.getInstance().getCouponDAO().createCoupon(coup1);
-//			CouponSystem.getInstance().getCouponDAO().createCoupon(coup2);
-//			CouponSystem.getInstance().getCouponDAO().createCoupon(coup3);
-//			CouponSystem.getInstance().getCouponDAO().createCoupon(coup4);
+//			Coupon coup = CouponSystem.getInstance().getCouponDAO().getCouponByTitle("BBB");
+//			System.out.println(coup);
+
+			Coupon coup1 = new Coupon("BBB2", LocalDate.now(),LocalDate.of(2016, Month.SEPTEMBER, 1), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup2 = new Coupon("Agadir2", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 28), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup3 = new Coupon("Moses2", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 29), 50, CouponType.Restaurants, "The Burger", 24.99, "blabka");
+			Coupon coup4 = new Coupon("T-SHIRT2", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 30), 50, CouponType.Clothes, "Fire", 24.99, "T-shirt.jpg");
+			CouponSystem.getInstance().getCouponDAO().createCoupon(coup1);
+			CouponSystem.getInstance().getCouponDAO().createCoupon(coup2);
+			CouponSystem.getInstance().getCouponDAO().createCoupon(coup3);
+			CouponSystem.getInstance().getCouponDAO().createCoupon(coup4);
 		}
 		
 		public static void RemoveCouponsTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException

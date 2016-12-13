@@ -11,5 +11,5 @@ import Exceptions.LoginException;
 public interface CouponClientFacade 
 {
 	public CouponClientFacade login(String name, String password, ClientType clientType) 
-			throws FacadeException, LoginException, CouponException, SQLException, DoesNotExistException, AlreadyExistException;
+			throws FacadeException, LoginException, CouponException, DoesNotExistException, AlreadyExistException;
 }

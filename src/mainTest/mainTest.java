@@ -16,8 +16,6 @@ import Threads.DailyCouponExpirationTask;
 
 public class mainTest {
 	private static AdminFacade adminF = new AdminFacade();
-	private static CompanyFacade companyF = new CompanyFacade();
-	private static CustomerFacade customerF = new CustomerFacade();
 	private static DailyCouponExpirationTask daily = new DailyCouponExpirationTask();
 
 	

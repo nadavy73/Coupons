@@ -5,11 +5,13 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
+
+
 import Exceptions.*;
 import JavaBeans.*;
 import System.CouponSystem;
 
-public class CompanyFacade implements CouponClientFacade
+public class CompanyFacade
 {
 	
  	/*
@@ -22,39 +24,22 @@ public class CompanyFacade implements CouponClientFacade
  	 * Constructors
  	 */
 
- 	public CompanyFacade() {}
+ 	public CompanyFacade(String username, String password) throws CompanyFacadeException, DoesNotExistException, SQLException {
+		company = CouponSystem.getInstance().getCompDAO().getCompanyByName(username);
+	}
  		
  	//Company Facade - Login
 	//Ofer//
- 	public CompanyFacade login(String compName, String password, ClientType clientType) 
- 			throws LoginException
+ 	public static CompanyFacade login(String username, String password) 
+ 			throws LoginException, CompanyFacadeException, SQLException, DoesNotExistException
  	{
- 		boolean LoginAsCompany= false;
- 	try 	{
- 			LoginAsCompany=CouponSystem.getInstance().getCompDAO().login(compName, password);
- 			} 
- 	catch (Exception e) 
- 			{
-			throw new LoginException("Company failed to login");
- 			}
- 		
- 		if (LoginAsCompany && clientType.equals(ClientType.COMPANY))
- 				{
- 				System.out.println("Successful Company Login");
- 				try {
-					company= CouponSystem.getInstance().getCompDAO().getCompanyByName(compName);
- 					} 
- 				catch (SQLException | DoesNotExistException e) 
- 					{
-					throw new LoginException("Company "+compName+" does not exist in DB");
- 					}
- 				return this;
- 				} 
- 		else 
- 				{
- 				throw new LoginException("Company "+compName+" does not exist in our DB");
- 				}
- 	}
+ 		// Invoking the login method in CustomerDBDAO
+		// if true - return new CustomerFacade instance with a specific Company
+		if (CouponSystem.getInstance().getCompDAO().login(username, password)) {
+			return new CompanyFacade(username, password);
+		}
+		return null;
+	}
  	//V
  	//Company Facade - create Coupon
  	//Ofer
