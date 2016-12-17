@@ -73,11 +73,15 @@ public class Checks {
 
 	}
 	
-	public static boolean isCustomerExistById(Long custId)
+	public static boolean isCustomerExistById(long custId)
 	{
+		Connection con= null;	
 		ResultSet rs=null;
 		
-		try(Connection con=ConnectionPool.getInstance().getConnection())
+		try
+		{
+		con=ConnectionPool.getInstance().getConnection();
+
 			{
 			String sql = "SELECT * FROM Customer WHERE ID=?;"; 
 			
@@ -87,6 +91,7 @@ public class Checks {
 			
 			return (rs.next());
 			} 
+		}
 		catch (SQLException e) 
 			{
 			e.printStackTrace();
@@ -106,7 +111,7 @@ public class Checks {
 
 }
 	
-	public static boolean isCompanyExistById(Long compId) throws SQLException
+	public static boolean isCompanyExistById(long compId) throws SQLException
 	{
 		ResultSet rs=null;
 		Connection con= null;	
@@ -226,7 +231,7 @@ public class Checks {
 					stat.setLong(2, couponId);
 					rs= stat.executeQuery();
 			
-					return (rs.next());
+					return rs.next();
 			
 			} 
 		catch (SQLException e) 

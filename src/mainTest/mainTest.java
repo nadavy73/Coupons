@@ -47,16 +47,16 @@ public class mainTest {
 		//******************V
 		
 
-		Company SHEKEM_ELECTRIC = new Company("SHEKEM_ELECTRIC", "S123456", "shekem_electric8080@shekem_electric.com");	
-		adminF.createCompany(SHEKEM_ELECTRIC);
-		Company Telma = new Company("Telma", "T123456", "telma8080@telma.com");
-		adminF.createCompany(Telma);
-		Company TNT = new Company("TNT", "TNT123456", "tnt8080@tnt.com");
-		adminF.createCompany(TNT);
-		Company ACE = new Company("ACE", "ACE123456", "ace8080@ace.com");
-		adminF.createCompany(ACE);
-		Company ZAKAIM = new Company("ZAKAIM", "ZAKAIM123456", "zakaim8080@zakaim.com");
-		adminF.createCompany(ZAKAIM);
+//		Company SHEKEM_ELECTRIC = new Company("SHEKEM_ELECTRIC", "S123456", "shekem_electric8080@shekem_electric.com");	
+//		adminF.createCompany(SHEKEM_ELECTRIC);
+//		Company Telma = new Company("Telma", "T123456", "telma8080@telma.com");
+//		adminF.createCompany(Telma);
+//		Company TNT = new Company("TNT", "TNT123456", "tnt8080@tnt.com");
+//		adminF.createCompany(TNT);
+//		Company ACE = new Company("ACE", "ACE123456", "ace8080@ace.com");
+//		adminF.createCompany(ACE);
+//		Company ZAKAIM = new Company("ZAKAIM", "ZAKAIM123456", "zakaim8080@zakaim.com");
+//		adminF.createCompany(ZAKAIM);
 		
 		
 		//************************************V
@@ -192,7 +192,7 @@ public class mainTest {
 //		
 //		System.out.println("The Customer after the changes");
 //		System.out.println(Kobe_Bryant_UPDATE.toString());
-		
+//		
 		
 		//***************************************V
 		//*This Function remove customer from DB*V
@@ -321,7 +321,7 @@ public class mainTest {
 		//*************************************************************V
 		
 		
-//		customerF.login("Michael_Jordan", "Michael1234" , ClientType.CUSTOMER);
+		customerF.login("nadavy", "testtttttt" , ClientType.CUSTOMER);
 		
 		
 		//**********************************************************************V

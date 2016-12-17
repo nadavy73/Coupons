@@ -44,6 +44,15 @@ public class Company {
 		this.eMail=eMail;
 	}
 	
+	
+	public Company(long id,String compName,String passWord,String eMail)
+	{
+		super();
+		this.ID=id;
+		this.compName=compName;
+		this.passWord=passWord;
+		this.eMail=eMail;
+	}
 	public Company(long ID, String compName,String passWord,String eMail, Collection <Coupon> coupons) {
 		this.ID=ID;
 		this.compName=compName;

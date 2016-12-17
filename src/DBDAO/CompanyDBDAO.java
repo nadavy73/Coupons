@@ -127,33 +127,33 @@ public class CompanyDBDAO implements CompanyDAO {
 	//This function gets Company Name and replace with 
 	//new Company name.
 	//*****************************************************************
-	public void updateCompanyByName(String OldName, String NewName) 
-			throws DoesNotExistException, SQLException 
-	{
-		if (!Checks.isCompanyExistByName(OldName))
-		{
-			throw new DoesNotExistException
-			("Company Does Not Exist");
-			
-		}
-		
-		try(Connection con=ConnectionPool.getInstance().getConnection())
-			{
-			// Create a statement for retrieving and updating data
-			String sql = 
-					"UPDATE Company SET COMP_NAME = ? WHERE COMP_NAME = ?";
-				PreparedStatement stmt = con.prepareStatement(sql);
-				// Change the name values
-				stmt.setString(1, NewName);
-				stmt.setString(2, OldName);
-				stmt.executeUpdate();
-			}	
-		catch (SQLException e) 
-			{
-			throw new SQLException
-			("Error in connection to DATA BASE", e);
-			}
-	}
+//	public void updateCompanyByName(String OldName, String NewName) 
+//			throws DoesNotExistException, SQLException 
+//	{
+//		if (!Checks.isCompanyExistByName(OldName))
+//		{
+//			throw new DoesNotExistException
+//			("Company Does Not Exist");
+//			
+//		}
+//		
+//		try(Connection con=ConnectionPool.getInstance().getConnection())
+//			{
+//			// Create a statement for retrieving and updating data
+//			String sql = 
+//					"UPDATE Company SET COMP_NAME = ? WHERE COMP_NAME = ?";
+//				PreparedStatement stmt = con.prepareStatement(sql);
+//				// Change the name values
+//				stmt.setString(1, NewName);
+//				stmt.setString(2, OldName);
+//				stmt.executeUpdate();
+//			}	
+//		catch (SQLException e) 
+//			{
+//			throw new SQLException
+//			("Error in connection to DATA BASE", e);
+//			}
+//	}
 	
 	
 	
@@ -165,7 +165,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	public void updateCompany(Company company) 
 			throws DoesNotExistException, SQLException 
 	{
-		if (!Checks.isCompanyExistByName(company.getCompName()))
+		if (!Checks.isCompanyExistById(company.getId()))
 		{
 			throw new DoesNotExistException
 			("Company Does Not Exist");
@@ -175,7 +175,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{
 			String sql = 
-					"UPDATE Company SET COMP_NAME=?, PASSWORD=?, EMAIL=? WHERE COMP_ID=?";
+					"UPDATE Company SET COMP_NAME=?, PASSWORD=?, EMAIL=? WHERE ID=?";
 				
 				PreparedStatement stmt = con.prepareStatement(sql);
 				stmt.setString(1, company.getCompName());

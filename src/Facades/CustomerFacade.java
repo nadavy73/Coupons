@@ -27,11 +27,12 @@ public class CustomerFacade
 			return null;
 				}
 	
-	public void purchaseCoupon(Coupon coupon) 
-			throws CustomerFacadeException, CouponException, DoesNotExistException
+	public Coupon purchaseCoupon(long Couponid) 
+			throws CustomerFacadeException, CouponException, DoesNotExistException, SQLException, AlreadyExistException
 	{
+		Coupon coupon = CouponSystem.getInstance().getCouponDAO().getCoupon(Couponid);
 			try {
-				coupon = CouponSystem.getInstance().getCouponDAO().getCoupon(coupon.getId());
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -54,13 +55,15 @@ public class CustomerFacade
 			CouponSystem.getInstance().getCustDAO().AddCustomerCouponById(customer.getId(), coupon.getId());
 			
 			CouponSystem.getInstance().getCouponDAO().updateAmountOfCoupon(coupon.getId());
+			}
+			finally {
+				
+			}
+		
 
-			} 
-		catch (AlreadyExistException| SQLException e) 
-			{
-			throw new CustomerFacadeException("Coupon was Already Purchased for this Cusotmer");
-			} 
+			
 		}
+		return coupon;
 		
 	}
 		

@@ -66,17 +66,17 @@ public class CompanyTest {
 			compDao.removeCompanyByName("Nadav3");
 		}
 		
-		public static void updateCompanyByNameTest()throws CouponException, SQLException, DoesNotExistException 
-		{
-			CompanyDAO compDao = new CompanyDBDAO();
-			compDao.updateCompanyByName("Nadav1", "Ofer1");
-		}
+//		public static void updateCompanyByNameTest()throws CouponException, SQLException, DoesNotExistException 
+//		{
+//			CompanyDAO compDao = new CompanyDBDAO();
+//			compDao.updateCompanyByName("Nadav1", "Ofer1");
+//		}
 		
 		public static void updateCompanyTest ()throws CouponException, SQLException, DoesNotExistException
 		{
 			CompanyDAO compDao = new CompanyDBDAO();
 			
-			Company comp1 = new Company("Alto", "nadav123456", "nadavy73@gmail.com");
+			Company comp1 = new Company(37, "test", "test1234", "test1234@gmail.com");
 			
 			compDao.updateCompany(comp1);
 			

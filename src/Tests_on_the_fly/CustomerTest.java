@@ -14,8 +14,8 @@ public class CustomerTest {
 		public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 		{
 //	V	CreateCustomerTest();
-//	V	RemoveCustomerTest();
-			updateCustomerTest();
+//		RemoveCustomerTest();
+//			updateCustomerTest();
 //	V	updateCustomerByNameTest();
 //	V	getCustomerByIdTest();
 //	V	getCustomerByNameTest();
@@ -23,7 +23,7 @@ public class CustomerTest {
 //		getCouponsTest();
 //	V	LoginTest();
 //	V	AddCustomerCouponByIdTest();
-//	V	RemoveCustomerCouponByIdTest();
+		RemoveCustomerCouponByIdTest();
 		}
 		public static void CreateCustomerTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
@@ -52,7 +52,7 @@ public class CustomerTest {
 		public static void RemoveCustomerTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
 			CustomerDAO custDAO= new CustomerDBDAO();
-			Customer cust= custDAO.getCustomerById(15);
+			Customer cust= custDAO.getCustomerById(25);
 			try 
 				{
 				custDAO.removeCustomer(cust);

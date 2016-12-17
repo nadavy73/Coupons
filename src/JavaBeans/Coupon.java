@@ -2,21 +2,26 @@ package JavaBeans;
 
 import java.time.LocalDate;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement
 public class Coupon {
 	
 	//
 	//Attributes
 	//
 	
-	private long id;
-	private String title;
-	private LocalDate startDate;
-	private LocalDate endDate;
-	private int amount;
-	private CouponType type;
-	private String message;
-	private double price;
-	private String image;
+	@XmlElement private long id;
+	@XmlElement private String title;
+	@XmlElement @XmlJavaTypeAdapter(LocalDateAdapter.class) private LocalDate startDate;
+	@XmlElement @XmlJavaTypeAdapter(LocalDateAdapter.class) private LocalDate endDate;
+	@XmlElement private int amount;
+	@XmlElement private CouponType type;
+	@XmlElement private String message;
+	@XmlElement private double price;
+	@XmlElement private String image;
 	
 	
 	//
@@ -40,7 +45,6 @@ public class Coupon {
 	
 	public Coupon(long id, String title, LocalDate startDate, LocalDate endDate, int amount, CouponType type, String message,
 			Double price, String image) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.startDate = startDate;
@@ -53,18 +57,11 @@ public class Coupon {
 	}
 
 	
-	
-	//
-	//Getters & Setters
-	//
-	
-	
-	public Coupon(String title, LocalDate i, LocalDate j, int amount, CouponType type,
+	public Coupon(String title, LocalDate startDate, LocalDate endDate, int amount, CouponType type,
 			String message, double price, String image) {
-		super();
 		this.title = title;
-		this.startDate = i;
-		this.endDate = j;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.amount = amount;
 		this.type = type;
 		this.message = message;
@@ -73,6 +70,10 @@ public class Coupon {
 		
 	}
 
+	
+	//
+	//Getters & Setters
+	//
 		
 	//
 	//Functions

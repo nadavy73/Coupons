@@ -25,8 +25,8 @@ public static void main(String[] args) throws LoginException, CustomerException,
 {
 //	TestLoginCustomer();
 //	TestAddCoupon();
-	TestGetAllPurchasedCoupons();
-//	TestgetAllPurchasedCouponsByType();
+//	TestGetAllPurchasedCoupons();
+	TestgetAllPurchasedCouponsByType();
 //	TestgetAllPurchasedCouponsByPrice();
 }
 	public static void TestLoginCustomer() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException
@@ -43,7 +43,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 		
 		try {
 			CouponDAO Coup = new CouponDBDAO();
-			Customer customer= new Customer("Customer23", "Custielel");
+			Customer customer= new Customer("Michael_Jordan", "Nautica");
 			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
