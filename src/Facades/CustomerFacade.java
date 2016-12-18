@@ -4,28 +4,50 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-
 import Exceptions.*;
 import JavaBeans.*;
 import System.CouponSystem;
 
-public class CustomerFacade 
+public class CustomerFacade implements CouponClientFacade 
 {
 	//Attributes
 	private Customer customer;
 
 	//Constructors
-	public CustomerFacade(String username, String password) throws CustomerFacadeException, DoesNotExistException, SQLException {
-		customer = CouponSystem.getInstance().getCustDAO().getCustomerByName(username);
-	}
+	public CustomerFacade() {}
 	
-	public static CustomerFacade login(String username, String password) throws CustomerFacadeException, SQLException, DoesNotExistException {
-			// if true - return new CustomerFacade instance with a specific Customer 
-			if (CouponSystem.getInstance().getCustDAO().login(username, password)) {
-				return new CustomerFacade(username, password);
+	@Override
+	public CustomerFacade login(String custName, String password, ClientType clientType) 
+			throws LoginException
+	{
+			boolean LoginAsCustomer= false;
+		try {
+			 LoginAsCustomer= CouponSystem.getInstance().getCustDAO().login(custName, password);
 			} 
-			return null;
+		catch (Exception e) 
+			{
+			throw new LoginException("Customer failed to login");
+			}
+			
+			if (LoginAsCustomer && clientType.equals(ClientType.CUSTOMER))
+					{
+					System.out.println("Successful Customer Login");
+					try 
+						{
+						customer= CouponSystem.getInstance().getCustDAO().getCustomerByName(custName);
+						} 
+					catch (SQLException | DoesNotExistException e) 
+						{
+						throw new LoginException("Customer "+custName+" does not exist in our DB");
+						}
+					return this;
+					}
+				
+			else 
+				{
+ 				throw new LoginException("one or more from your details are incorect User: " +custName+" Password: "+password+" or Client type: "+clientType);
 				}
+		}	
 	
 	public Coupon purchaseCoupon(long Couponid) 
 			throws CustomerFacadeException, CouponException, DoesNotExistException, SQLException, AlreadyExistException

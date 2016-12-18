@@ -321,7 +321,7 @@ public class mainTest {
 		//*************************************************************V
 		
 		
-		customerF.login("nadavy", "testtttttt" , ClientType.CUSTOMER);
+		//customerF.login("nadavy", "testtttttt" , ClientType.CUSTOMER);
 		
 		
 		//**********************************************************************V
