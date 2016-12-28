@@ -69,7 +69,7 @@ public class AdminFacade
 			
 				// Remove company from DB
 		try {
-			CouponSystem.getInstance().getCompDAO().removeCompany(company);
+			CouponSystem.getInstance().getCompDAO().removeCompanyById(company);
 			} 
 		catch (DoesNotExistException |SQLException e) 
 			{

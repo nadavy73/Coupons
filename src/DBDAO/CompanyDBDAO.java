@@ -7,7 +7,6 @@ import Checks.Checks;
 import DAO.CompanyDAO;
 import Exceptions.*;
 import JavaBeans.*;
-import System.CouponSystem;
 
 //***********************************************
 //This class implement All Company Dao's function
@@ -36,8 +35,8 @@ public class CompanyDBDAO implements CompanyDAO {
 					"INSERT INTO Company(COMP_NAME,PASSWORD,EMAIL) VALUES (?,?,?)";
 				PreparedStatement stat = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				stat.setString(1, company.getCompName());
-				stat.setString(2, company.getPassWord());
-				stat.setString(3, company.geteMail());
+				stat.setString(2, company.getPassword());
+				stat.setString(3, company.getEmail());
 				stat.executeUpdate();
 			}
 		catch (SQLException e) 
@@ -53,10 +52,10 @@ public class CompanyDBDAO implements CompanyDAO {
 	//This function gets Company Object and and remove 
 	//from DB
 	//********************************************************
-	public void removeCompany(Company company) 
+	public void removeCompanyById(Company company) 
 			throws DoesNotExistException, SQLException
 		{
-			if (!Checks.isCompanyExistByName(company.getCompName()))
+			if (!Checks.isCompanyExistById(company.getId()))
 			{
 			throw new DoesNotExistException
 			("Company Does Not Exist");	
@@ -66,9 +65,9 @@ public class CompanyDBDAO implements CompanyDAO {
 			{
 			
 			String sql = 
-					"DELETE FROM COMPANY WHERE COMP_NAME = ?";
+					"DELETE FROM COMPANY WHERE ID = ?";
 				PreparedStatement stat = con.prepareStatement(sql);
-				stat.setString(1, company.getCompName());					
+				stat.setLong(1, company.getId());					
 				stat.executeUpdate();
 			}
 		catch (SQLException e) 
@@ -179,8 +178,8 @@ public class CompanyDBDAO implements CompanyDAO {
 				
 				PreparedStatement stmt = con.prepareStatement(sql);
 				stmt.setString(1, company.getCompName());
-				stmt.setString(2, company.getPassWord());
-				stmt.setString(3, company.geteMail());
+				stmt.setString(2, company.getPassword());
+				stmt.setString(3, company.getEmail());
 				stmt.setLong(4, company.getId());
 				stmt.executeUpdate();
 			

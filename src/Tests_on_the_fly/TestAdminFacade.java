@@ -108,8 +108,8 @@ public class TestAdminFacade
 			Company comp= compDAO.getCompanyByName("company 124");
 			System.out.println(comp);
 			comp.setCompName("Altozachen");
-			comp.setPassWord("123456");
-			comp.seteMail("Alto@gmail.comm");
+			comp.setPassword("123456");
+			comp.setEmail("Alto@gmail.comm");
 			System.out.println(comp+ "******");
 			
 			adminFacade.UpdateCompany(comp);
