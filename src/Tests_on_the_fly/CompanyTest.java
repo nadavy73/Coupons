@@ -54,9 +54,9 @@ public class CompanyTest {
 			Company comp2 = new Company("Nadav2", "Nadav123", "Nadavy2@gmail.com");
 			Company comp3 = new Company("Nadav3", "Nadav123", "Nadavy3@gmail.com");
 			
-			compDao.removeCompany(comp1);
-			compDao.removeCompany(comp2);
-			compDao.removeCompany(comp3);
+			compDao.removeCompanyById(comp1);
+			compDao.removeCompanyById(comp2);
+			compDao.removeCompanyById(comp3);
 			
 		}
 		

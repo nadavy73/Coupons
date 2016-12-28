@@ -12,7 +12,7 @@ public interface CompanyDAO
 	public void createCompany (Company company) 
 			throws AlreadyExistException, SQLException;
 	
-	public void removeCompany(Company company) 
+	public void removeCompanyById(Company company) 
 			throws DoesNotExistException, SQLException;
 	
 	public void removeCompanyByName (String compName)

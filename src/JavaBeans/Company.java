@@ -12,10 +12,10 @@ public class Company {
 	//
 	//Attributes
 	//
-	@XmlElement private long ID;
+	@XmlElement private long id;
 	@XmlElement private String compName;
-	@XmlElement private String passWord;
-	@XmlElement private String eMail;
+	@XmlElement private String password;
+	@XmlElement private String email;
 	@XmlElement private Collection <Coupon> coupons= new HashSet<>();
 	
 	
@@ -28,44 +28,45 @@ public class Company {
 		super();
 	}
 	
-	public Company(String compName,String passWord,String eMail, Collection <Coupon> coupons)
+	public Company(String compName,String passWord,String email, Collection <Coupon> coupons)
 	{
 		super();
 		this.compName=compName;
-		this.passWord=passWord;
-		this.eMail=eMail;
+		this.password=passWord;
+		this.email=email;
 		this.coupons=coupons;
 	}
-	public Company(String compName,String passWord,String eMail)
+	public Company(String compName,String passWord,String email)
 	{
 		super();
 		this.compName=compName;
-		this.passWord=passWord;
-		this.eMail=eMail;
+		this.password=passWord;
+		this.email=email;
 	}
 	
 	
-	public Company(long id,String compName,String passWord,String eMail)
+	public Company(long id,String compName,String passWord,String email)
 	{
-		super();
-		this.ID=id;
+		
+		this.id=id;
 		this.compName=compName;
-		this.passWord=passWord;
-		this.eMail=eMail;
+		this.password=passWord;
+		this.email=email;
 	}
-	public Company(long ID, String compName,String passWord,String eMail, Collection <Coupon> coupons) {
-		this.ID=ID;
+	public Company(long id, String compName,String passWord,String email, Collection <Coupon> coupons) {
+		
+		this.id=id;
 		this.compName=compName;
-		this.passWord=passWord;
-		this.eMail=eMail;
+		this.password=password;
+		this.email=email;
 		this.coupons=coupons;
 		
 	}
 
 
-	public Company(String compName, String passWord) {
+	public Company(String compName, String password) {
 		this.compName = compName;
-		this.passWord = passWord;
+		this.password = password;
 	}
 	//
 	//Getters & Setters
@@ -74,11 +75,11 @@ public class Company {
 	
 
 	public long getId() {
-		return ID;
+		return id;
 	}
 	
 	public void setId(long Id) {
-		ID = Id;
+		id = Id;
 	}
 	
 	public String getCompName() {
@@ -89,20 +90,20 @@ public class Company {
 		this.compName = compName;
 	}
 	
-	public String getPassWord() {
-		return passWord;
+	public String getPassword() {
+		return password;
 	}
 	
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public String geteMail() {
-		return eMail;
+	public String getEmail() {
+		return email;
 	}
 	
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	public Collection<Coupon> getCoupons() {
@@ -121,19 +122,19 @@ public class Company {
 	@Override
 
 	public String toString() {
-		return "\nCompany: \nCompany ID=" + ID + "\nCompany Name=" + compName + "\nPassword=" + passWord 
-				+ "\nEmail=" + eMail + "\nCoupons=" + coupons+ "\n***********" ;
+		return "\nCompany: \nCompany ID=" + id + "\nCompany Name=" + compName + "\nPassword=" + password 
+				+ "\nEmail=" + email + "\nCoupons=" + coupons+ "\n***********" ;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (ID ^ (ID >>> 32));
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((compName == null) ? 0 : compName.hashCode());
 		result = prime * result + ((coupons == null) ? 0 : coupons.hashCode());
-		result = prime * result + ((eMail == null) ? 0 : eMail.hashCode());
-		result = prime * result + ((passWord == null) ? 0 : passWord.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		return result;
 	}
 
@@ -146,7 +147,7 @@ public class Company {
 		if (getClass() != obj.getClass())
 			return false;
 		Company other = (Company) obj;
-		if (ID != other.ID)
+		if (id != other.id)
 			return false;
 		if (compName == null) {
 			if (other.compName != null)
@@ -158,15 +159,15 @@ public class Company {
 				return false;
 		} else if (!coupons.equals(other.coupons))
 			return false;
-		if (eMail == null) {
-			if (other.eMail != null)
+		if (email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!eMail.equals(other.eMail))
+		} else if (!email.equals(other.email))
 			return false;
-		if (passWord == null) {
-			if (other.passWord != null)
+		if (password == null) {
+			if (other.password != null)
 				return false;
-		} else if (!passWord.equals(other.passWord))
+		} else if (!password.equals(other.password))
 			return false;
 		return true;
 	}

@@ -38,7 +38,7 @@ public class TestCompanyFacade {
 		{
 			Company company= new Company("Alto", "Alto12345");
 				
-				compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
+				compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
 			// company logged in successfully
 		}
 	
@@ -46,7 +46,7 @@ public class TestCompanyFacade {
 			
 			{
 				Company company= new Company("Alto", "Alto12345");
-				compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
+				compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
 				// company logged in successfully
 				
 				Coupon coup4 = new Coupon("ZARA", LocalDate.now(),LocalDate.of(2016, Month.JULY, 27), 50, CouponType.Restaurants, "Fire", 24.99, "T-shirt.jpg");
@@ -57,7 +57,7 @@ public class TestCompanyFacade {
 	public static void TestRemoveCoupon() throws LoginException, DoesNotExistException,CompanyFacadeException 
 	{
 		Company company= new Company("Alto", "Alto12345");
-		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
+		compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
 		// company logged in successfully
 		
 		CouponDAO coupDAO= new CouponDBDAO();
@@ -75,7 +75,7 @@ public class TestCompanyFacade {
 			
 	{
 		Company company= new Company("Alto", "Alto12345");
-		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
+		compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
 		// company logged in successfully
 		
 		CouponDAO coupDAO= new CouponDBDAO();
@@ -94,7 +94,7 @@ public class TestCompanyFacade {
 			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException, CompanyFacadeException
 	{
 		Company company= new Company("Alto", "Alto12345");
-		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
+		compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
 		// company logged in successfully
 		
 		System.out.println(compFacade.getCoupon(5));
@@ -104,7 +104,7 @@ public class TestCompanyFacade {
 			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException, CompanyFacadeException
 	{
 		Company company= new Company("Alto", "Alto12345");
-		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
+		compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
 		// company logged in successfullyGetAllCoupon()
 	
 		System.out.println(compFacade.getAllCoupon());
@@ -114,7 +114,7 @@ public class TestCompanyFacade {
 			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException, CompanyFacadeException
 	{
 		Company company= new Company("Alto", "Alto12345");
-		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
+		compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
 		// company logged in successfullyGetAllCoupon()
 	
 		System.out.println(compFacade.getCouponByType(CouponType.Restaurants));
@@ -126,7 +126,7 @@ public class TestCompanyFacade {
 			throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException, CompanyFacadeException
 	{
 		Company company= new Company("Alto", "Alto12345");
-		compFacade.login(company.getCompName(), company.getPassWord(), ClientType.COMPANY) ;
+		compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
 		// company logged in successfullyGetAllCoupon()
 	
 		System.out.println(compFacade.getCouponsByEndDate(LocalDate.of(2016, Month.AUGUST, 31)));
