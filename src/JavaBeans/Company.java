@@ -25,35 +25,35 @@ public class Company {
 	
 	public Company()
 	{
-		super();
+		
 	}
 	
-	public Company(String compName,String passWord,String email, Collection <Coupon> coupons)
+	public Company(String compName,String password,String email, Collection <Coupon> coupons)
 	{
-		super();
+		
 		this.compName=compName;
-		this.password=passWord;
+		this.password=password;
 		this.email=email;
 		this.coupons=coupons;
 	}
-	public Company(String compName,String passWord,String email)
+	public Company(String compName,String password,String email)
 	{
-		super();
+		
 		this.compName=compName;
-		this.password=passWord;
+		this.password=password;
 		this.email=email;
 	}
 	
 	
-	public Company(long id,String compName,String passWord,String email)
+	public Company(long id,String compName,String password,String email)
 	{
 		
 		this.id=id;
 		this.compName=compName;
-		this.password=passWord;
+		this.password=password;
 		this.email=email;
 	}
-	public Company(long id, String compName,String passWord,String email, Collection <Coupon> coupons) {
+	public Company(long id, String compName,String password,String email, Collection <Coupon> coupons) {
 		
 		this.id=id;
 		this.compName=compName;
