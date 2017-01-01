@@ -14,10 +14,10 @@ public class Customer {
 	//Attributes
 	//
 	
-	@XmlElement private long custId;
+	@XmlElement private long id;
 	@XmlElement private String custName;
-	@XmlElement private String custPassword;
-	@XmlElement private Collection <Coupon> custCoupons;
+	@XmlElement private String password;
+	@XmlElement private Collection <Coupon> coupons;
 	
 	
 	//
@@ -29,43 +29,43 @@ public class Customer {
 		
 	}
 	
-	public Customer(long custId)
+	public Customer(long id)
 	{
-		this.custId = custId;
+		this.id = id;
 	}
 	
-	public Customer(long custId,Collection<Coupon> coupons)
+	public Customer(long id,Collection<Coupon> coupons)
 	{
 		super();
-		this.custId = custId;
-		this.custCoupons = coupons;
+		this.id = id;
+		this.coupons = coupons;
 	}
 	public Customer(String custName)
 	{
 		this.custName = custName;
 	}
-	public Customer(long custId, String custName, String custPassWord, Collection<Coupon> coupons) 
+	public Customer(long id, String custName, String password, Collection<Coupon> coupons) 
 	{
 		super();
-		this.custId = custId;
+		this.id = id;
 		this.custName = custName;
-		this.custPassword = custPassWord;
-		this.custCoupons = coupons;
+		this.password = password;
+		this.coupons = coupons;
 	}
 	
-	public Customer(String custName, String custPassword) 
+	public Customer(String custName, String password) 
 	{
 		super();
 		this.custName = custName;
-		this.custPassword= custPassword;
+		this.password= password;
 	}
 	
-	public Customer(long custId, String custName, String custPassword)
+	public Customer(long id, String custName, String password)
 	{
 		super();
-		this.custId = custId;
+		this.id = id;
 		this.custName = custName;
-		this.custPassword = custPassword;
+		this.password = password;
 	}
 	//
 	//Getters & Setters
@@ -79,28 +79,28 @@ public class Customer {
 		this.custName = custName;
 	}
 
-	public void setId(long custId) {
-		this.custId = custId;
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 	public long getId() {
-		return custId;
+		return id;
 	}
 
 	public String getPassWord() {
-		return custPassword;
+		return password;
 	}
 	
-	public void setCustPassword(String custPassword) {
-		this.custPassword = custPassword;
+	public void setpassword(String password) {
+		this.password = password;
 	}
 
 	public Collection<Coupon> getCoupons() {
-		return custCoupons;
+		return coupons;
 	}
 
-	public Collection<Coupon> getCoupons (long custId){
-		return custCoupons;
+	public Collection<Coupon> getCoupons (long id){
+		return coupons;
 	}
 	
 	//
@@ -109,9 +109,9 @@ public class Customer {
 	
 	@Override
 	public String toString() {
-		return "\nCustomer: \nCustomer ID= " + custId + " \nCustomer Name= " +
-				custName + " \nCustomer password= " + custPassword + 
-				" \nCustomer coupons= " + custCoupons + "\n*************";
+		return "\nCustomer: \nCustomer ID= " + id + " \nCustomer Name= " +
+				custName + " \nCustomer password= " + password + 
+				" \nCustomer coupons= " + coupons + "\n*************";
 		
 	}
 	
@@ -120,10 +120,10 @@ public class Customer {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((custCoupons == null) ? 0 : custCoupons.hashCode());
-		result = prime * result + (int) (custId ^ (custId >>> 32));
+		result = prime * result + ((coupons == null) ? 0 : coupons.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((custName == null) ? 0 : custName.hashCode());
-		result = prime * result + ((custPassword == null) ? 0 : custPassword.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		return result;
 	}
 
@@ -136,22 +136,22 @@ public class Customer {
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
-		if (custCoupons == null) {
-			if (other.custCoupons != null)
+		if (coupons == null) {
+			if (other.coupons != null)
 				return false;
-		} else if (!custCoupons.equals(other.custCoupons))
+		} else if (!coupons.equals(other.coupons))
 			return false;
-		if (custId != other.custId)
+		if (id != other.id)
 			return false;
 		if (custName == null) {
 			if (other.custName != null)
 				return false;
 		} else if (!custName.equals(other.custName))
 			return false;
-		if (custPassword == null) {
-			if (other.custPassword != null)
+		if (password == null) {
+			if (other.password != null)
 				return false;
-		} else if (!custPassword.equals(other.custPassword))
+		} else if (!password.equals(other.password))
 			return false;
 		return true;
 	}
