@@ -29,24 +29,26 @@ public class AdminFacade
 			
 	}
 
-	public void createCompany(Company company) 
+	public int createCompany(Company company) 
 			throws AdminFacadeException, AlreadyExistException 
 	{
 		try {
+			int companyId = -1;
 			// Call the createCompany method from CompanyDBDAO
 			try {
-				CouponSystem.getInstance().getCompDAO().createCompany(company);
+				companyId =  CouponSystem.getInstance().getCompDAO().createCompany(company);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
+			return companyId;
 			// If candidate already exist
-			} 
+		} 
 		catch (AlreadyExistException e) 
-			{
+		{
 			throw new AlreadyExistException("AlreadyExist - " 
 					+ "createCompany()");
-			}
+		}
 	}
 	public void removeCompany(Company company) 
 			throws AdminFacadeException
