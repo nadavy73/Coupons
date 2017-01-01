@@ -130,7 +130,8 @@ public class CompanyFacade implements CouponClientFacade
 		  			("CompanyFacade - getCoupon"+ e.getMessage());
 		  		}
 		 }
-		  		
+	
+	//getAllCoupon
 	public Collection <Coupon> getAllCoupon() 
 			throws CompanyFacadeException, DoesNotExistException
 		{ 
@@ -144,6 +145,7 @@ public class CompanyFacade implements CouponClientFacade
 		  		}
 		}
 		  	
+	//getCouponByType
 	public Collection <Coupon> getCouponByType (CouponType couponType) 
 			throws CompanyFacadeException, DoesNotExistException
 	{
@@ -172,7 +174,9 @@ public class CompanyFacade implements CouponClientFacade
 		return couponsByType;
 		  		
 	}
-		  	
+	
+	
+	//getCouponsByEndDate
 	public Collection <Coupon> getCouponsByEndDate(LocalDate Date) 
 			throws CompanyFacadeException,DoesNotExistException
 	{
@@ -192,10 +196,35 @@ public class CompanyFacade implements CouponClientFacade
 				throw new CompanyFacadeException("CompanyFacade -  getCouponsByEndDate"+ e.getMessage());
 			}
 		 if (Allcoupons.isEmpty())
-/* */			 throw new DoesNotExistException("we dont have any coupon with this end date "+Date);
+			 throw new DoesNotExistException("we dont have any coupon with this end date "+Date);
 	return Allcoupons;
  	}
-		  	
+	
+	//getCouponsByStartDate
+	public Collection <Coupon> getCouponsByStartDate(LocalDate Date) 
+			throws CompanyFacadeException,DoesNotExistException
+	{
+		  	Collection <Coupon> Allcoupons = new HashSet<>();
+		 try
+			{
+		  		for (Coupon coupon : CouponSystem.getInstance().getCompDAO().getCoupons(company.getId())) 
+		  			{
+		  				if (/*coupon.getStartDate().isBefore(Date) || */coupon.getStartDate().equals(Date))  
+		  				{
+						Allcoupons.add(coupon);
+		  				}
+		  			}
+			}
+		catch (SQLException e)
+			{
+				throw new CompanyFacadeException("CompanyFacade -  getCouponsByEndDate"+ e.getMessage());
+			}
+		 if (Allcoupons.isEmpty())
+			 throw new DoesNotExistException("we dont have any coupon with this end date "+Date);
+	return Allcoupons;
+ 	}
+	
+	//getCouponsByPrice
 	public Collection <Coupon> getCouponsByPrice(double price) 
 				  throws CompanyFacadeException, DoesNotExistException
 	{

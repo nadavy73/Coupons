@@ -73,7 +73,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		catch (SQLException e) 
 			{
 			throw new SQLException
-			("Error in connection to DATA BASE", e);
+			("Error in connection to DATA BASE", e.getMessage());
 			}
 		}
 	
