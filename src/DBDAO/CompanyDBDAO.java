@@ -55,8 +55,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 }
 	
-	
-	
+	//V
 	//********************************************************
 	//This function gets Company Object and and remove 
 	//from DB
