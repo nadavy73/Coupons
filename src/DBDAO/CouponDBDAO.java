@@ -64,22 +64,19 @@ public class CouponDBDAO implements CouponDAO
 	public void removeCoupon(Coupon coupon) 
 			throws DoesNotExistException, SQLException
 	{
-		Connection con= null;
-		
-		if (!Checks.isCouponExistByName(coupon.getTitle()))
+		if (!Checks.isCouponExistById(coupon.getId()))
 				{
 				throw new DoesNotExistException
 				("Coupon Does Not Exist");
 				}
 			
-//		try(Connection con=ConnectionPool.getInstance().getConnection())
-		try	
+		try(Connection con=ConnectionPool.getInstance().getConnection())
+		
 			{
-			con=ConnectionPool.getInstance().getConnection();
 			String sql = 
-						"DELETE FROM COUPON WHERE TITLE = ?";
+						"DELETE FROM COUPON WHERE ID = ?";
 				PreparedStatement stat = con.prepareStatement(sql);
-				stat.setString(1, coupon.getTitle());
+				stat.setLong(1, coupon.getId());
 				stat.executeUpdate();			
 			
 			} 
@@ -88,11 +85,6 @@ public class CouponDBDAO implements CouponDAO
 			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}	
-	
-		finally
-		{
-			ConnectionPool.getInstance().free(con);
-		}
 	}
 	
 	

@@ -29,6 +29,9 @@ public class AdminFacade
 			
 	}
 
+	//
+	//Create Company
+	//
 	public int createCompany(Company company) 
 			throws AdminFacadeException, AlreadyExistException 
 	{
@@ -50,6 +53,27 @@ public class AdminFacade
 					+ "createCompany()");
 		}
 	}
+	
+	//
+	// Update Company
+	//
+	public void UpdateCompany(Company company) 
+			throws AdminFacadeException 
+	{
+		try {
+			CouponSystem.getInstance().getCompDAO().updateCompany(company);
+			} 
+		catch (DoesNotExistException | SQLException  e) 
+			{
+				throw new AdminFacadeException("AdminFacadeException - " 
+					+ "updateCompany()");
+			} 
+	}
+	
+	
+	//
+	// Remove Company
+	//
 	public void removeCompany(Company company) 
 			throws AdminFacadeException
 	{
@@ -80,8 +104,9 @@ public class AdminFacade
 	}
 	
 	
-	
-	
+	//
+	// Get Company
+	//
 	public Company GetCompany (long compId)  
 			throws AdminFacadeException, DoesNotExistException
 	{
@@ -94,6 +119,9 @@ public class AdminFacade
 			}
 	}
 	
+	//
+	//Get Company By Name
+	//
 	public Company GetCompanyByName (String compName)
 			throws AdminFacadeException, DoesNotExistException
 	{
@@ -107,6 +135,9 @@ public class AdminFacade
 			}
 	}
 	
+	//
+	//Get All Companies
+	//
 	public Collection<Company> getAllCompanies() 
 			throws AdminFacadeException, DoesNotExistException
 	{
@@ -120,6 +151,9 @@ public class AdminFacade
 			}
 	}
 	
+	//
+	//Create Customer
+	//
 	public void createCustomer(Customer customer) 
 			throws AdminFacadeException,AlreadyExistException 
 	{
@@ -133,6 +167,11 @@ public class AdminFacade
 			}
 
 	}
+	
+	
+	//
+	// Remove Customer
+	//
 	public void RemoveCustomer (Customer customer) 
 			throws AdminFacadeException, DoesNotExistException
 	{
@@ -154,15 +193,9 @@ public class AdminFacade
 			}
 	}
 	
-	
-
-	
-	
-	
-	
-	
-	
-	
+	//
+	// Update Customer
+	//
 	public void UpdateCustomer (Customer customer) 
 			throws AdminFacadeException, DoesNotExistException
 	{
@@ -176,19 +209,10 @@ public class AdminFacade
 			}
 	}
 	
-	public void UpdateCompany(Company company) 
-			throws AdminFacadeException 
-	{
-		try {
-			CouponSystem.getInstance().getCompDAO().updateCompany(company);
-			} 
-		catch (DoesNotExistException | SQLException  e) 
-			{
-				throw new AdminFacadeException("AdminFacadeException - " 
-					+ "updateCompany()");
-			} 
-	}
 	
+	//
+	// Get Customer By Id
+	//
 	public Customer GetCustomer (long custId) 
 			throws AdminFacadeException, DoesNotExistException
 	{
@@ -202,6 +226,10 @@ public class AdminFacade
 			}
 	}
 	
+	
+	//
+	// Get All Customers
+	//
 	public Collection<Customer> getAllCustomers() 
 			throws AdminFacadeException, DoesNotExistException 
 	{
