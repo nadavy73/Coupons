@@ -21,7 +21,7 @@ public class CustomerDBDAO implements CustomerDAO
 	//This function gets Customer Object and insert to DB
 	//***************************************************
 	@Override
-	public void createCustomer (Customer customer) 
+	public long createCustomer (Customer customer) 
 			throws  AlreadyExistException, SQLException
 	{
 		if (Checks.isCustomerExistByName(customer.getCustName()))
@@ -39,6 +39,16 @@ public class CustomerDBDAO implements CustomerDAO
 				stat.setString(1, customer.getCustName());
 				stat.setString(2, customer.getPassWord());
 				stat.executeUpdate();
+				
+				long generatedId = -1;
+				ResultSet rs = stat.getGeneratedKeys();
+				if (rs.next()) {
+					generatedId = rs.getLong(1);
+				} else {
+				    // Error...
+				}
+				return generatedId;
+				
 			} 
 		catch (SQLException e) 
 			{

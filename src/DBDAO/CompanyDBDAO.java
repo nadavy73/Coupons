@@ -19,7 +19,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	//**************************************************
 	//This function gets Company Object and insert to DB
 	//**************************************************
-	public int createCompany(Company company) 
+	public long createCompany(Company company) 
 			throws AlreadyExistException, SQLException
 		{
 			if (Checks.isCompanyExistByName(company.getCompName()))
@@ -39,10 +39,10 @@ public class CompanyDBDAO implements CompanyDAO {
 				stat.setString(3, company.getEmail());
 				stat.executeUpdate();
 				
-				int generatedId = -1;
+				long generatedId = -1;
 				ResultSet rs = stat.getGeneratedKeys();
 				if (rs.next()) {
-					generatedId = rs.getInt(1);
+					generatedId = rs.getLong(1);
 				} else {
 				    // Error...
 				}

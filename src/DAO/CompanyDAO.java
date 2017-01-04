@@ -9,7 +9,7 @@ import JavaBeans.*;
 
 public interface CompanyDAO
 {
-	public int createCompany (Company company) 
+	public long createCompany (Company company) 
 			throws AlreadyExistException, SQLException;
 	
 	public void removeCompanyById(Company company) 

@@ -16,7 +16,7 @@ public class Customer {
 	
 	@XmlElement private long id;
 	@XmlElement private String custName;
-	@XmlElement private String password;
+	@XmlElement private String custPassword;
 	@XmlElement private Collection <Coupon> coupons;
 	
 	
@@ -49,7 +49,7 @@ public class Customer {
 		super();
 		this.id = id;
 		this.custName = custName;
-		this.password = password;
+		this.custPassword = password;
 		this.coupons = coupons;
 	}
 	
@@ -57,7 +57,7 @@ public class Customer {
 	{
 		super();
 		this.custName = custName;
-		this.password= password;
+		this.custPassword= password;
 	}
 	
 	public Customer(long id, String custName, String password)
@@ -65,7 +65,7 @@ public class Customer {
 		super();
 		this.id = id;
 		this.custName = custName;
-		this.password = password;
+		this.custPassword = password;
 	}
 	//
 	//Getters & Setters
@@ -88,11 +88,11 @@ public class Customer {
 	}
 
 	public String getPassWord() {
-		return password;
+		return custPassword;
 	}
 	
 	public void setpassword(String password) {
-		this.password = password;
+		this.custPassword = password;
 	}
 
 	public Collection<Coupon> getCoupons() {
@@ -110,7 +110,7 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "\nCustomer: \nCustomer ID= " + id + " \nCustomer Name= " +
-				custName + " \nCustomer password= " + password + 
+				custName + " \nCustomer password= " + custPassword + 
 				" \nCustomer coupons= " + coupons + "\n*************";
 		
 	}
@@ -123,7 +123,7 @@ public class Customer {
 		result = prime * result + ((coupons == null) ? 0 : coupons.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((custName == null) ? 0 : custName.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((custPassword == null) ? 0 : custPassword.hashCode());
 		return result;
 	}
 
@@ -148,10 +148,10 @@ public class Customer {
 				return false;
 		} else if (!custName.equals(other.custName))
 			return false;
-		if (password == null) {
-			if (other.password != null)
+		if (custPassword == null) {
+			if (other.custPassword != null)
 				return false;
-		} else if (!password.equals(other.password))
+		} else if (!custPassword.equals(other.custPassword))
 			return false;
 		return true;
 	}

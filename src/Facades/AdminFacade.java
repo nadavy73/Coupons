@@ -29,27 +29,7 @@ public class AdminFacade
 			
 	}
 
-	public int createCompany(Company company) 
-			throws AdminFacadeException, AlreadyExistException 
-	{
-		try {
-			int companyId = -1;
-			// Call the createCompany method from CompanyDBDAO
-			try {
-				companyId =  CouponSystem.getInstance().getCompDAO().createCompany(company);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			return companyId;
-			// If candidate already exist
-		} 
-		catch (AlreadyExistException e) 
-		{
-			throw new AlreadyExistException("AlreadyExist - " 
-					+ "createCompany()");
-		}
-	}
+	
 	public void removeCompany(Company company) 
 			throws AdminFacadeException
 	{
@@ -120,19 +100,54 @@ public class AdminFacade
 			}
 	}
 	
-	public void createCustomer(Customer customer) 
+	public long createCompany(Company company) 
+			throws AdminFacadeException, AlreadyExistException 
+	{
+		try {
+			long companyId = -1;
+			// Call the createCompany method from CompanyDBDAO
+			try {
+				companyId =  CouponSystem.getInstance().getCompDAO().createCompany(company);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			return companyId;
+			// If candidate already exist
+		} 
+		catch (AlreadyExistException e) 
+		{
+			throw new AlreadyExistException("AlreadyExist - " 
+					+ "createCompany()");
+		}
+	};
+	
+	
+	public long createCustomer(Customer customer) 
 			throws AdminFacadeException,AlreadyExistException 
 	{
 		try {
-			CouponSystem.getInstance().getCustDAO().createCustomer(customer);
-			} 
-		catch (SQLException e) 
-			{
-				throw new AdminFacadeException("AdminFacadeException - " 
-					+ "createCustomer()");
+			long customerId = -1;
+			// Call the createCustomer method from CustomerDBDAO
+			try {
+				customerId =  CouponSystem.getInstance().getCustDAO().createCustomer(customer);
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 
-	}
+			return customerId;
+			// If candidate already exist
+		} 
+		catch (AlreadyExistException e) 
+		{
+			throw new AlreadyExistException("AlreadyExist - " 
+					+ "createCustomer()");
+		}
+	};
+	
+	
+	
+	
 	public void RemoveCustomer (Customer customer) 
 			throws AdminFacadeException, DoesNotExistException
 	{
