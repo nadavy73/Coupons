@@ -358,7 +358,9 @@ public class CompanyDBDAO implements CompanyDAO {
 
 		finally 
 			{
-			rs.close();
+			if(rs!=null)
+					
+					rs.close();
 			}
 
 	return companies;
