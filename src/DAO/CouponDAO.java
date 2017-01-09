@@ -8,7 +8,7 @@ import JavaBeans.*;
 public interface CouponDAO
 {
 
-	public void createCoupon(Coupon coupon)
+	public long createCoupon(Coupon coupon)
 			throws AlreadyExistException,SQLException;
 
 	public void removeCoupon(Coupon coupon)

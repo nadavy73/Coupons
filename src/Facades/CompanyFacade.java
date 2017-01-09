@@ -58,36 +58,36 @@ public class CompanyFacade implements CouponClientFacade
  	//V
  	//Company Facade - create Coupon
  	//Ofer
- 	public void createCoupon(Coupon coupon) 
+ 	public long createCoupon(Coupon coupon) 
  			throws CompanyFacadeException, AlreadyExistException
  		{
- 			//Create coupon
- 			try {
- 				CouponSystem.getInstance().getCouponDAO().createCoupon(coupon);
- 				} 
- 			catch (SQLException e) 
- 				{
- 				e.printStackTrace();
- 				}
+ 		
+ 		long couponId = -1;
+ 		
+ 		//Create coupon
+ 		try {
+			couponId = CouponSystem.getInstance().getCouponDAO().createCoupon(coupon);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+ 		
  		//Get the Coupon's Id from Coupon Table
  		try {
-			coupon = CouponSystem.getInstance().getCouponDAO().getCouponByTitle(coupon.getTitle());
- 		} 
- 		catch (DoesNotExistException | SQLException e) 
- 		{
- 			e.printStackTrace();
+			coupon = CouponSystem.getInstance().getCouponDAO().getCoupon(coupon.getId());
+		} catch (DoesNotExistException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
  		
  		//Add This coupon to the Company
  		try {
 			CouponSystem.getInstance().getCompDAO().addCompanyCoupon(company, coupon);
- 		} 
- 		catch (DoesNotExistException | SQLException e) 
- 		{
- 			throw new CompanyFacadeException
-				("CompanyFacade - createCoupon"+ e.getMessage());
-		} 
- 	}	
+		} catch (DoesNotExistException | SQLException e) {
+			e.printStackTrace();
+		}
+ 		
+ 		return couponId;
+ 		}
 		
  	
  	public void removeCoupon(Coupon coupon) 

@@ -9,7 +9,7 @@ import JavaBeans.*;
 
 public interface CustomerDAO 
 {
-	public void createCustomer (Customer customer)
+	public long createCustomer (Customer customer)
 			throws AlreadyExistException, SQLException;
 	
 	public void removeCustomer (Customer customer)

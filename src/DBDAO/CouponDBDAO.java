@@ -17,7 +17,7 @@ public class CouponDBDAO implements CouponDAO
 	//This function gets Coupon Object and INSERT to DB
 	//*************************************************
 	@Override
-	public void createCoupon(Coupon coupon) 
+	public long createCoupon(Coupon coupon) 
 				throws AlreadyExistException, SQLException 
 	{
 		Connection con= null;	
@@ -38,11 +38,20 @@ public class CouponDBDAO implements CouponDAO
 				stat.setDate(2, Date.valueOf(coupon.getStartDate()));
 				stat.setDate(3, Date.valueOf(coupon.getEndDate()));
 				stat.setInt(4, coupon.getAmount());
-				stat.setString(5, coupon.getType().toString());
+				stat.setString(5, coupon.getType().name());
 				stat.setString(6, coupon.getMessage());
 				stat.setDouble(7, coupon.getPrice());
 				stat.setString(8, coupon.getImage());
 				stat.executeUpdate();
+				
+				long generatedId = -1;
+				ResultSet rs = stat.getGeneratedKeys();
+				if (rs.next()) {
+					generatedId = rs.getLong(1);
+				} else {
+				    // Error...
+				}
+				return generatedId;
 				
 				} 
 		catch (SQLException e) 
@@ -111,7 +120,7 @@ public class CouponDBDAO implements CouponDAO
 				stat.setDate(2, Date.valueOf(coupon.getStartDate()));
 				stat.setDate(3, Date.valueOf(coupon.getEndDate()));
 				stat.setInt(4, coupon.getAmount());
-				stat.setString(5, coupon.getType().toString());
+				stat.setString(5, coupon.getType().name());
 				stat.setString(6, coupon.getMessage());
 				stat.setDouble(7, coupon.getPrice());
 				stat.setString(8, coupon.getImage());
@@ -271,7 +280,7 @@ public class CouponDBDAO implements CouponDAO
 					e.printStackTrace();
 					}
 				}	
-	return coupon;
+			return coupon;
 		
 	}
 	

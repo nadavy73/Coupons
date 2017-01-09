@@ -13,12 +13,12 @@ public class CompanyTest {
 
 		public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
-//V			createCompanyTest();
+			createCompanyTest();
 //V			removeCompanyTest ();
 //V			removeCompanyByNameTest();
 //V			updateCompanyByNameTest();
-	updateCompanyTest ();
-//		getCompanyByIdTest();
+//			updateCompanyTest ();
+//			getCompanyByIdTest();
 //V			getCompanyByNameTest();
 //V 		getAllCompaniesTest();
 //V 		getCouponsTest();
@@ -36,7 +36,7 @@ public class CompanyTest {
 			
 //			Company comp1 = new Company("Nadav1", "Nadav123", "Nadavy1@gmail.com");
 //			Company comp2 = new Company("Nadav2", "Nadav123", "Nadavy2@gmail.com");
-			Company comp3 = new Company("Nadav3", "Nadav123", "Nadavy3@gmail.com");
+			Company comp3 = new Company("Test1", "Test1", "Nadavy3@gmail.com");
 			
 //			compDao.createCompany(comp1);
 //			compDao.createCompany(comp2);
