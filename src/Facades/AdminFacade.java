@@ -125,6 +125,7 @@ public class AdminFacade
 				throw new AdminFacadeException("AdminFacadeException - " 
 					+ "GetCompanyByName()");
 			}
+
 	}
 	
 

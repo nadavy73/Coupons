@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+
 import Checks.Checks;
 import DAO.CustomerDAO;
 import Exceptions.*;
@@ -259,36 +261,46 @@ public class CustomerDBDAO implements CustomerDAO
 	public Collection<Customer> getAllCustomers() 
 			throws SQLException,DoesNotExistException 
 	{
-		Collection <Customer> customers = new  ArrayList<>();
-		String password;
-		String custName;
+		Collection <Customer> customers = new  HashSet<>();
+		Customer customer= null;
 		Collection <Coupon> coupons= null;
+		ResultSet rs = null;
+		String password=null;
+		String custName=null;
+		Long ID = null;
+		
 		
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{
 				String sql = 
 						"SELECT * FROM Customer";
 					PreparedStatement stat = con.prepareStatement(sql);
-					ResultSet rs = stat.executeQuery();
+					rs = stat.executeQuery();
 				
 				while(rs.next()) 
 					{
-					long custId = rs.getLong(1);
-					custName = rs.getString(2);
-					password = rs.getString(3);
-					coupons= getCoupons(custId);
-					Customer customer = new Customer(custId, custName,password, coupons);
+					ID = rs.getLong("ID");
+					custName = rs.getString("CUST_NAME");
+					password = rs.getString("PASSWORD");
+					coupons= getCoupons(ID);
+					customer = new Customer(ID, custName,password, coupons);
 					customers.add(customer);
 					} 
-			} 
-		catch (SQLException e) 
-			{
-			throw new SQLException
-			("Error in connection to Data Base", e);
-			}
-	
-		return customers;
-	}
+			} catch (SQLException e) 
+		{
+		throw new SQLException
+		("Error in connection to DATA BASE", e);
+		}
+
+	finally 
+		{
+		if(rs!=null)
+				
+				rs.close();
+		}
+
+return customers;
+}
 	
 	
 	//V
