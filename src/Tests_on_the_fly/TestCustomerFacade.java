@@ -47,7 +47,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
-			Coupon coup1= Coup.getCoupon(41);
+			Coupon coup1= Coup.getCouponById(41);
 			custFacade.purchaseCoupon(coup1.getId());
 			
 			} catch (FacadeException e) 

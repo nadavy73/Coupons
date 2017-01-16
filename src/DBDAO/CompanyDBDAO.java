@@ -170,19 +170,18 @@ public class CompanyDBDAO implements CompanyDAO {
 	//Company details
 	//****************************************************************
 	public void updateCompany(Company company) 
-			throws DoesNotExistException, SQLException 
+			throws DoesNotExistException
 	{
 		if (!Checks.isCompanyExistById(company.getId()))
 		{
 			throw new DoesNotExistException
 			("Company Does Not Exist");
-			
 		}
 		
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{
 			String sql = 
-					"UPDATE Company SET COMP_NAME=?, PASSWORD=?, EMAIL=? WHERE ID=?";
+					"UPDATE Company SET COMP_NAME=?, PASSWORD=?, EMAIL=? WHERE ID=?;";
 				
 				PreparedStatement stmt = con.prepareStatement(sql);
 				stmt.setString(1, company.getCompName());
@@ -194,14 +193,11 @@ public class CompanyDBDAO implements CompanyDAO {
 			} 
 		catch (SQLException e) 
 			{
-			throw new SQLException
+			new SQLException
 			("Error in connection to DATA BASE", e);
 			} 
 			
 	}
-	
-	
-	
 	
 	//********************************************************************
 	//This function gets Company ID and return 
@@ -401,7 +397,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			
 			while (rs.next())
 				{
-				coupons.add(couponDB.getCoupon(rs.getLong("COUPON_ID")));
+				coupons.add(couponDB.getCouponById(rs.getLong("COUPON_ID")));
 				}
 			} 
 		catch (SQLException e) 

@@ -326,7 +326,7 @@ public class CustomerDBDAO implements CustomerDAO
 				while(rs.next())
 					{	
 					// Generating Coupon
-					coupons.add(couponDB.getCoupon(rs.getLong("CouponId")));
+					coupons.add(couponDB.getCouponById(rs.getLong("CouponId")));
 					}
 			} 
 		catch (SQLException e) 

@@ -9,13 +9,13 @@ public interface CouponDAO
 {
 
 	public long createCoupon(Coupon coupon)
-			throws AlreadyExistException,SQLException;
+			throws AlreadyExistException,SQLException, CouponException;
 
 	public void removeCoupon(Coupon coupon)
 			throws DoesNotExistException, SQLException;
 	
 	public void updateCoupon(Coupon coupon)
-			throws DoesNotExistException, SQLException;
+			throws DoesNotExistException;
 	
 	public void updateAmountOfCoupon(long couponId) 
 			throws DoesNotExistException, SQLException; 
@@ -23,7 +23,7 @@ public interface CouponDAO
 	public Coupon getCouponByTitle (String TITLE) 
 			throws DoesNotExistException, SQLException;
 	
-	public Coupon getCoupon (long id)
+	public Coupon getCouponById (long id)
 			throws DoesNotExistException, SQLException;
 	
 	public Collection<Coupon> getAllCoupons ()
@@ -34,5 +34,6 @@ public interface CouponDAO
 
 	public Collection<Customer> getCustomersWhoHaveCoupon(long couponId) 
 			throws DoesNotExistException, SQLException;
+
 
 }

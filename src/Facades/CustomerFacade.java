@@ -52,7 +52,7 @@ public class CustomerFacade implements CouponClientFacade
 	public Coupon purchaseCoupon(long Couponid) 
 			throws CustomerFacadeException, CouponException, DoesNotExistException, SQLException, AlreadyExistException
 	{
-		Coupon coupon = CouponSystem.getInstance().getCouponDAO().getCoupon(Couponid);
+		Coupon coupon = CouponSystem.getInstance().getCouponDAO().getCouponById(Couponid);
 			try {
 				
 			} catch (Exception e) {

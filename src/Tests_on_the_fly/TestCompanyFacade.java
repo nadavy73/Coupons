@@ -24,7 +24,7 @@ public class TestCompanyFacade {
 	TestLoginCompany();
 //		TestCreateCoupon();
 //	V	TestRemoveCoupon();
-//	V	TestUpdateCoupon();
+		TestUpdateCoupon();
 //	V	TestGetCoupon();
 //	V	TestGetAllCoupon();
 //	V	TestGetCouponByType();
@@ -36,13 +36,13 @@ public class TestCompanyFacade {
 	public static void TestLoginCompany() 
 			throws LoginException
 		{
-			Company company= new Company("Alto", "Alto12345");
+			Company company= new Company("Test1","Test1");
 				
 				compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
 			// company logged in successfully
 		}
 	
-	public static void TestCreateCoupon() throws LoginException, CompanyFacadeException, AlreadyExistException, DoesNotExistException, SQLException
+	public static void TestCreateCoupon() throws LoginException, CompanyFacadeException, AlreadyExistException, DoesNotExistException, SQLException, CouponException
 			
 			{
 				Company company= new Company("Alto", "Alto12345");
@@ -74,20 +74,21 @@ public class TestCompanyFacade {
 	public static void TestUpdateCoupon() throws FacadeException, LoginException, CouponException, DoesNotExistException, SQLException, AlreadyExistException 
 			
 	{
-		Company company= new Company("Alto", "Alto12345");
-		compFacade.login(company.getCompName(), company.getPassword(), ClientType.COMPANY) ;
+//		Company company= new Company("Alto", "Alto12345");
+		compFacade.login("Test1", "Test1", ClientType.COMPANY) ;
 		// company logged in successfully
 		
 		CouponDAO coupDAO= new CouponDBDAO();
 
-		Coupon coup= coupDAO.getCouponByTitle("BBB");
+		Coupon coup= coupDAO.getCouponByTitle("Agadir2");
 		System.out.println(coup);
-		coup.setPrice(50);
+		coup.setPrice(23);
+		coup.setMessage("HEY");
+		coup.setTitle("Agafir");
 		compFacade.updateCoupon(coup);
 		
-		coup= coupDAO.getCouponByTitle("BBB");
-
 		System.out.println(coup);
+
 	}
 	
 	public static void TestGetCoupon() 

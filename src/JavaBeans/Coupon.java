@@ -15,8 +15,8 @@ public class Coupon {
 	
 	@XmlElement private long id;
 	@XmlElement private String title;
-	@XmlElement @XmlJavaTypeAdapter(LocalDateAdapter.class) private LocalDate startDate;
-	@XmlElement @XmlJavaTypeAdapter(LocalDateAdapter.class) private LocalDate endDate;
+	@XmlElement @XmlJavaTypeAdapter(value = LocalDateAdapter.class) private LocalDate startDate;
+	@XmlElement @XmlJavaTypeAdapter(value = LocalDateAdapter.class) private LocalDate endDate;
 	@XmlElement private int amount;
 	@XmlElement private CouponType type;
 	@XmlElement private String message;
@@ -43,8 +43,8 @@ public class Coupon {
 		this.title=title;
 	}
 	
-	public Coupon(long id, String title, LocalDate startDate, LocalDate endDate, int amount, CouponType type, String message,
-			Double price, String image) {
+	public Coupon(long id, String title, LocalDate startDate, LocalDate endDate, int amount, CouponType type, 
+			String message, double price, String image) {
 		this.id = id;
 		this.title = title;
 		this.startDate = startDate;

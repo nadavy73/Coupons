@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 
+import Checks.Checks;
 import DAO.*;
 import DBDAO.*;
 import Exceptions.*;
@@ -17,9 +18,9 @@ public class CouponsTest {
 	public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
 		
-		CreateCouponsTest();
+//V		CreateCouponsTest();
 //V		RemoveCouponsTest();
-//V		UpdateCouponsTest();
+		UpdateCouponsTest();
 //V		updateAmountOfCouponTest();
 //V		getCouponByTitleTest();
 //V		getCouponTest();
@@ -64,13 +65,23 @@ public class CouponsTest {
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			
-			Coupon coup1 = new Coupon("BBB", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 50.99, "blabka");
-			Coupon coup2 = new Coupon("Agadir", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 50.99, "blabka");
-			Coupon coup3 = new Coupon("Mosges", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 50.99, "blabka");
+//			Coupon coup1 = new Coupon("BBB", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 50.99, "blabka");
+//			Coupon coup2 = new Coupon("Agadir", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 50.99, "blabka");
+//			Coupon coup3 = new Coupon("Mosges", LocalDate.now(),LocalDate.of(2016, Month.AUGUST, 27), 50, CouponType.Restaurants, "The Burger", 50.99, "blabka");
 			
-			coupDao.updateCoupon(coup1);
-			coupDao.updateCoupon(coup2);
-			coupDao.updateCoupon(coup3);
+			Coupon c1 = coupDao.getCouponByTitle("BBB");
+			System.out.println(c1);
+			
+			boolean ck1 = !Checks.isCouponExistByName(c1.getTitle());
+//			boolean ck = !Checks.isCouponExistByName("RR");
+			System.out.println("*****" + ck1);
+			
+			c1.setTitle("BBB123");
+			coupDao.updateCoupon(c1);
+			System.out.println(c1);
+			
+//			coupDao.updateCoupon(coup2);
+//			coupDao.updateCoupon(coup3);
 		}
 		
 		public static void updateAmountOfCouponTest() 
@@ -96,7 +107,7 @@ public class CouponsTest {
 				throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 		{
 			CouponDAO coupDao = new CouponDBDAO();
-			System.out.println(coupDao.getCoupon(20));
+			System.out.println(coupDao.getCouponById(20));
 		}
 		
 		public static void getAllCouponsTest() 

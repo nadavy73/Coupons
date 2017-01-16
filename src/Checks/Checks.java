@@ -111,13 +111,11 @@ public class Checks {
 
 }
 	
-	public static boolean isCompanyExistById(long compId) throws SQLException
+	public static boolean isCompanyExistById(long compId) 
 	{
 		ResultSet rs=null;
 		Connection con= null;	
 		
-//		try(Connection con=ConnectionPool.getInstance().getConnection())
-//			{
 			try
 			{
 			con=ConnectionPool.getInstance().getConnection();
@@ -138,26 +136,23 @@ public class Checks {
 		
 		finally 
 			{
-				try {
-					rs.close();
-					ConnectionPool.getInstance().free(con);
+					try {
+						rs.close();
+						ConnectionPool.getInstance().free(con);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					} 
-				catch (SQLException e) 
-				{
-				e.printStackTrace();
-				}
-			}
+				
 	return false;
 
 }
 	
-	public static boolean isCouponExistById(long couponId) throws SQLException 
+	public static boolean isCouponExistById(long couponId) 
 	{
 		ResultSet rs=null;
 		Connection con= null;	
 		
-//		try(Connection con=ConnectionPool.getInstance().getConnection())
-//			{
 		try
 		{
 		con=ConnectionPool.getInstance().getConnection();
@@ -187,16 +182,18 @@ public class Checks {
 	return false;
 
 }
-	public static boolean isCouponExistByName(String TITLE)
+	
+	public static boolean isCouponExistByName(String couponTitle)
 	{
 		ResultSet rs=null;
-		try(Connection con=ConnectionPool.getInstance().getConnection())
-			{
-			String sql = 
-				"SELECT * FROM Coupon WHERE TITLE= ?;"; 
-			
+		Connection con= null;
+		
+		try {
+			con=ConnectionPool.getInstance().getConnection();
+			String sql = "SELECT * FROM Coupon WHERE TITLE= ?;"; 
+					
 			PreparedStatement stat = con.prepareStatement(sql);
-			stat.setString(1, TITLE);			
+			stat.setString(1, couponTitle);			
 			rs = stat.executeQuery();
 			
 			return (rs.next());
@@ -209,6 +206,7 @@ public class Checks {
 		finally {
 				try {
 					rs.close();
+					ConnectionPool.getInstance().free(con);
 					} 
 				catch (SQLException e) 
 					{
@@ -218,6 +216,7 @@ public class Checks {
 	return false;
 
 }
+	
 	public static boolean isPurchased(long custId, long couponId) 
 			
 	{
@@ -252,6 +251,7 @@ public class Checks {
 	return false;
 
 }
+	
 	public static boolean isPurchased(Customer customer, Coupon coupon) 
 			throws AlreadyExistException
 	{
