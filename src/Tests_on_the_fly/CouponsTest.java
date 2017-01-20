@@ -73,7 +73,6 @@ public class CouponsTest {
 			System.out.println(c1);
 			
 			boolean ck1 = !Checks.isCouponExistByName(c1.getTitle());
-//			boolean ck = !Checks.isCouponExistByName("RR");
 			System.out.println("*****" + ck1);
 			
 			c1.setTitle("BBB123");
@@ -122,7 +121,7 @@ public class CouponsTest {
 		{
 			CouponDAO coupDao = new CouponDBDAO();
 			try {
-				System.out.println(coupDao.getCouponByType(CouponType.Camping_and_Travelling));
+				System.out.println(coupDao.getCouponByType(CouponType.Camping));
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
