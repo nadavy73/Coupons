@@ -363,9 +363,9 @@ public class CompanyDBDAO implements CompanyDAO {
 	}
 	
 	
-	//*********************************************
-	//This function return ALL Companies in our DB.
-	//*********************************************
+	//*************************************************
+	//This function return ALL Coupon for company by ID
+	//*************************************************
 	@Override
 	public Collection<Coupon> getCoupons(long compID) 
 			throws DoesNotExistException, SQLException

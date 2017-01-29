@@ -6,6 +6,7 @@ import DBDAO.CouponDBDAO;
 import Exceptions.AlreadyExistException;
 import Exceptions.CouponException;
 import Exceptions.CustomerException;
+import Exceptions.CustomerFacadeException;
 import Exceptions.DoesNotExistException;
 import Exceptions.FacadeException;
 import Exceptions.LoginException;
@@ -21,13 +22,14 @@ public class TestCustomerFacade {
 	
 	private static CustomerFacade custFacade = new CustomerFacade();
 
-public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException 
+public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException, CustomerFacadeException 
 {
 //	TestLoginCustomer();
 //	TestAddCoupon();
 //	TestGetAllPurchasedCoupons();
-	TestgetAllPurchasedCouponsByType();
+//	TestgetAllPurchasedCouponsByType();
 //	TestgetAllPurchasedCouponsByPrice();
+	TestgetAllCouponsThatCanPurches();
 }
 	public static void TestLoginCustomer() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException
 	{
@@ -109,5 +111,9 @@ try {
 		
 	}
 
+	public static void TestgetAllCouponsThatCanPurches() throws CustomerFacadeException
+	{
+		System.out.println(custFacade.getAllCouponsThatCanPurches());
+	}
 
 }

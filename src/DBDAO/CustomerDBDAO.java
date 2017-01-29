@@ -6,11 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import DBDAO.CouponDBDAO;
 
 import Checks.Checks;
+import DAO.CouponDAO;
 import DAO.CustomerDAO;
 import Exceptions.*;
 import JavaBeans.*;
@@ -522,8 +525,15 @@ return customers;
 		System.out.println("Coupon no." + couponId+ "  was removed from All Customers");
 		
 	}
-
 	
+
+
+	public Collection<Coupon> getAllCouponsThatCanPurches() throws DoesNotExistException, SQLException
+	{
+		
+		Collection<Coupon> canPurches = new CouponDBDAO().getAllCoupons();
+		return canPurches;
+	}
 	
 	
 	

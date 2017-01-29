@@ -149,6 +149,22 @@ public class CustomerFacade implements CouponClientFacade
 			throw new DoesNotExistException("This customer does not have any coupon in price range: 0 to "+price);
 		return couponsByPrice;
 	}
+	
+	
+	public Collection<Coupon> getAllCouponsThatCanPurches() 
+			throws CustomerFacadeException
+		{
+			
+			try {
+				return CouponSystem.getInstance().getCouponDAO().getAllCoupons();
+				
+			} catch (SQLException| DoesNotExistException e) {
+				
+				throw new CustomerFacadeException("CustomerFacade - getAllPurchasedCoupons"+ e.getMessage());
+				
+			}
+			
+		}
 
 	@Override
 	public String toString() {

@@ -45,5 +45,7 @@ public interface CustomerDAO
 	public void removeCustomerCouponsByCouponId(long couponId)
 			throws DoesNotExistException, SQLException;
 
+	public Collection<Coupon> getAllCouponsThatCanPurches() throws DoesNotExistException,
+	SQLException;
 }
 
