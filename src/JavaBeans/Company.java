@@ -13,7 +13,7 @@ public class Company {
 	//Attributes
 	//
 	@XmlElement private long id;
-	@XmlElement private String compName;
+	@XmlElement private String name;
 	@XmlElement private String password;
 	@XmlElement private String email;
 	@XmlElement private Collection <Coupon> coupons= new HashSet<>();
@@ -28,35 +28,35 @@ public class Company {
 		
 	}
 	
-	public Company(String compName,String password,String email, Collection <Coupon> coupons)
+	public Company(String name,String password,String email, Collection <Coupon> coupons)
 	{
 		
-		this.compName=compName;
+		this.name=name;
 		this.password=password;
 		this.email=email;
 		this.coupons=coupons;
 	}
-	public Company(String compName,String password,String email)
+	public Company(String name,String password,String email)
 	{
 		
-		this.compName=compName;
+		this.name=name;
 		this.password=password;
 		this.email=email;
 	}
 	
 	
-	public Company(long id,String compName,String password,String email)
+	public Company(long id,String name,String password,String email)
 	{
 		
 		this.id=id;
-		this.compName=compName;
+		this.name=name;
 		this.password=password;
 		this.email=email;
 	}
-	public Company(long id, String compName,String password,String email, Collection <Coupon> coupons) {
+	public Company(long id, String name,String password,String email, Collection <Coupon> coupons) {
 		
 		this.id=id;
-		this.compName=compName;
+		this.name=name;
 		this.password=password;
 		this.email=email;
 		this.coupons=coupons;
@@ -64,8 +64,8 @@ public class Company {
 	}
 
 
-	public Company(String compName, String password) {
-		this.compName = compName;
+	public Company(String name, String password) {
+		this.name = name;
 		this.password = password;
 	}
 	//
@@ -82,12 +82,12 @@ public class Company {
 		id = Id;
 	}
 	
-	public String getCompName() {
-		return compName;
+	public String getName() {
+		return name;
 	}
 	
-	public void setCompName(String compName) {
-		this.compName = compName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public String getPassword() {
@@ -122,7 +122,7 @@ public class Company {
 	@Override
 
 	public String toString() {
-		return "\nCompany: \nCompany ID=" + id + "\nCompany Name=" + compName + "\nPassword=" + password 
+		return "\nCompany: \nCompany ID=" + id + "\nCompany Name=" + name + "\nPassword=" + password 
 				+ "\nEmail=" + email + "\nCoupons=" + coupons+ "\n***********" ;
 	}
 
@@ -131,7 +131,7 @@ public class Company {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((compName == null) ? 0 : compName.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((coupons == null) ? 0 : coupons.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -149,10 +149,10 @@ public class Company {
 		Company other = (Company) obj;
 		if (id != other.id)
 			return false;
-		if (compName == null) {
-			if (other.compName != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!compName.equals(other.compName))
+		} else if (!name.equals(other.name))
 			return false;
 		if (coupons == null) {
 			if (other.coupons != null)
@@ -173,11 +173,6 @@ public class Company {
 	}
 
 
-	
-
-	
-	
-	
-	
+		
 	
 }

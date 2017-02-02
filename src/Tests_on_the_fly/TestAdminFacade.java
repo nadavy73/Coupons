@@ -39,7 +39,7 @@ public class TestAdminFacade
 //		TestRemoveCustomer();
 //		TestUpdateCustomer();
 //	V	TestGetCustomer();
-//	V	TestGetAllCustomers();
+		TestGetAllCustomers();
 		
 		
 		
@@ -107,7 +107,7 @@ public class TestAdminFacade
 			CompanyDAO compDAO= new CompanyDBDAO();
 			Company comp= compDAO.getCompanyByName("company 124");
 			System.out.println(comp);
-			comp.setCompName("Altozachen");
+			comp.setName("Altozachen");
 			comp.setPassword("123456");
 			comp.setEmail("Alto@gmail.comm");
 			System.out.println(comp+ "******");

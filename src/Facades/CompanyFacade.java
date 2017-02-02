@@ -26,12 +26,12 @@ public class CompanyFacade implements CouponClientFacade
  		
  	//Company Facade - Login
 	//Ofer//
- 	public CompanyFacade login(String compName, String password, ClientType clientType) 
+ 	public CompanyFacade login(String name, String password, ClientType clientType) 
  			throws LoginException
  	{
  		boolean LoginAsCompany= false;
  	try 	{
- 			LoginAsCompany=CouponSystem.getInstance().getCompDAO().login(compName, password);
+ 			LoginAsCompany=CouponSystem.getInstance().getCompDAO().login(name, password);
  			} 
  	catch (Exception e) 
  			{
@@ -42,17 +42,17 @@ public class CompanyFacade implements CouponClientFacade
  				{
  				System.out.println("Successful Company Login");
  				try {
-					company= CouponSystem.getInstance().getCompDAO().getCompanyByName(compName);
+					company= CouponSystem.getInstance().getCompDAO().getCompanyByName(name);
  					} 
  				catch (SQLException | DoesNotExistException e) 
  					{
-					throw new LoginException("Company "+compName+" does not exist in DB");
+					throw new LoginException("Company "+name+" does not exist in DB");
  					}
  				return this;
  				} 
  		else 
  				{
- 				throw new LoginException("Company "+compName+" does not exist in our DB");
+ 				throw new LoginException("Company "+name+" does not exist in our DB");
  				}
  	}
  	//V

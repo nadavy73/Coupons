@@ -56,17 +56,17 @@ import Exceptions.CouponException;
  		return instance;
 }
 	
- 	public CompanyFacade CompanyLogin(String compName, String password) throws FacadeException, LoginException, CouponException 
+ 	public CompanyFacade CompanyLogin(String name, String password) throws FacadeException, LoginException, CouponException 
  	{
  
  		
- 		return CouponSystem.getInstance().CompanyLogin(compName, password);
+ 		return CouponSystem.getInstance().CompanyLogin(name, password);
  			
  }
 
- 	public CustomerFacade CustomerLogin(String custName, String password) throws FacadeException, LoginException, CouponException, CustomerException 
+ 	public CustomerFacade CustomerLogin(String name, String password) throws FacadeException, LoginException, CouponException, CustomerException 
  	{
- 			return CouponSystem.getInstance().CustomerLogin(custName, password);
+ 			return CouponSystem.getInstance().CustomerLogin(name, password);
  			
 }
 	

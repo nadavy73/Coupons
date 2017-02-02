@@ -27,7 +27,7 @@ public class AdminFacade
 			throw new LoginException("Admin Login Failed");
 		}
 			
-	}
+	};
 
 
 	//
@@ -44,7 +44,7 @@ public class AdminFacade
 				throw new AdminFacadeException("AdminFacadeException - " 
 					+ "updateCompany()");
 			} 
-	}
+	};
 	
 	
 	//
@@ -77,7 +77,7 @@ public class AdminFacade
 			{
 			e.printStackTrace();
 			} 
-	}
+	};
 	
 	
 	//
@@ -93,23 +93,23 @@ public class AdminFacade
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "GetCompany()");
 			}
-	}
+	};
 	
 	//
 	//Get Company By Name
 	//
-	public Company GetCompanyByName (String compName)
+	public Company GetCompanyByName (String name)
 			throws AdminFacadeException, DoesNotExistException
 	{
 		try {
-			return CouponSystem.getInstance().getCompDAO().getCompanyByName(compName);
+			return CouponSystem.getInstance().getCompDAO().getCompanyByName(name);
 			} 
 		catch (SQLException e) 
 			{
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "GetCompanyByName()");
 			}
-	}
+	};
 	
 	//
 	//Get All Companies
@@ -126,7 +126,7 @@ public class AdminFacade
 					+ "GetCompanyByName()");
 			}
 
-	}
+	};
 	
 
 	
@@ -190,7 +190,6 @@ public class AdminFacade
 	public void RemoveCustomer (Customer customer) 
 			throws AdminFacadeException, DoesNotExistException
 	{
-
 		try 
 			{
 			for (Coupon coupon : CouponSystem.getInstance().getCustDAO().getCoupons(customer.getId())) 
@@ -198,7 +197,7 @@ public class AdminFacade
 
 				CouponSystem.getInstance().getCustDAO().removeCustomerCouponsByCouponId(coupon.getId());
 				}
-			CouponSystem.getInstance().getCustDAO().removeCustomer(customer);
+			CouponSystem.getInstance().getCustDAO().removeCustomerById(customer);
 
 			}
 		catch (SQLException e) 
@@ -206,7 +205,7 @@ public class AdminFacade
 				throw new AdminFacadeException("AdminFacadeException - " 
 					+ "RemoveCustomer()");
 			}
-	}
+	};
 	
 	//
 	// Update Customer
@@ -222,7 +221,7 @@ public class AdminFacade
 				throw new AdminFacadeException("AdminFacadeException - " 
 					+ "UpdateCustomer()");
 			}
-	}
+	};
 	
 	
 	//
@@ -239,8 +238,23 @@ public class AdminFacade
 				throw new AdminFacadeException("AdminFacadeException - " 
 					+ "GetCustomer()");
 			}
-	}
+	};
 	
+	//
+	//Get Customer By Name
+	//
+	public Customer GetCustomerByName (String name)
+			throws AdminFacadeException, DoesNotExistException
+	{
+		try {
+			return CouponSystem.getInstance().getCustDAO().getCustomerByName(name);
+			} 
+		catch (SQLException e) 
+			{
+			throw new AdminFacadeException("AdminFacadeException - " 
+					+ "GetCompanyByName()");
+			}
+	};
 	
 	//
 	// Get All Customers
@@ -257,8 +271,9 @@ public class AdminFacade
 				throw new AdminFacadeException("AdminFacadeException - " 
 					+ "getAllCustomers()");
 			}
-	}
+	};
 
+	
 	
 	
 }

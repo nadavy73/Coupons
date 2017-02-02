@@ -17,12 +17,12 @@ public class CustomerFacade implements CouponClientFacade
 	public CustomerFacade() {}
 	
 	@Override
-	public CustomerFacade login(String custName, String password, ClientType clientType) 
+	public CustomerFacade login(String name, String password, ClientType clientType) 
 			throws LoginException
 	{
 			boolean LoginAsCustomer= false;
 		try {
-			 LoginAsCustomer= CouponSystem.getInstance().getCustDAO().login(custName, password);
+			 LoginAsCustomer= CouponSystem.getInstance().getCustDAO().login(name, password);
 			} 
 		catch (Exception e) 
 			{
@@ -34,18 +34,18 @@ public class CustomerFacade implements CouponClientFacade
 					System.out.println("Successful Customer Login");
 					try 
 						{
-						customer= CouponSystem.getInstance().getCustDAO().getCustomerByName(custName);
+						customer= CouponSystem.getInstance().getCustDAO().getCustomerByName(name);
 						} 
 					catch (SQLException | DoesNotExistException e) 
 						{
-						throw new LoginException("Customer "+custName+" does not exist in our DB");
+						throw new LoginException("Customer "+name+" does not exist in our DB");
 						}
 					return this;
 					}
 				
 			else 
 				{
- 				throw new LoginException("one or more from your details are incorect User: " +custName+" Password: "+password+" or Client type: "+clientType);
+ 				throw new LoginException("one or more from your details are incorect User: " +name+" Password: "+password+" or Client type: "+clientType);
 				}
 		}	
 	

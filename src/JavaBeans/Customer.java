@@ -15,7 +15,7 @@ public class Customer {
 	//
 	
 	@XmlElement private long id;
-	@XmlElement private String custName;
+	@XmlElement private String name;
 	@XmlElement private String custPassword;
 	@XmlElement private Collection <Coupon> coupons;
 	
@@ -40,43 +40,43 @@ public class Customer {
 		this.id = id;
 		this.coupons = coupons;
 	}
-	public Customer(String custName)
+	public Customer(String name)
 	{
-		this.custName = custName;
+		this.name = name;
 	}
-	public Customer(long id, String custName, String password, Collection<Coupon> coupons) 
+	public Customer(long id, String name, String password, Collection<Coupon> coupons) 
 	{
 		super();
 		this.id = id;
-		this.custName = custName;
+		this.name = name;
 		this.custPassword = password;
 		this.coupons = coupons;
 	}
 	
-	public Customer(String custName, String password) 
+	public Customer(String name, String password) 
 	{
 		super();
-		this.custName = custName;
+		this.name = name;
 		this.custPassword= password;
 	}
 	
-	public Customer(long id, String custName, String password)
+	public Customer(long id, String name, String password)
 	{
 		super();
 		this.id = id;
-		this.custName = custName;
+		this.name = name;
 		this.custPassword = password;
 	}
 	//
 	//Getters & Setters
 	//
 	
-	public String getCustName() {
-		return custName;
+	public String getName() {
+		return name;
 	}
 
-	public void setCustName(String custName) {
-		this.custName = custName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setId(long id) {
@@ -110,7 +110,7 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "\nCustomer: \nCustomer ID= " + id + " \nCustomer Name= " +
-				custName + " \nCustomer password= " + custPassword + 
+				name + " \nCustomer password= " + custPassword + 
 				" \nCustomer coupons= " + coupons + "\n*************";
 		
 	}
@@ -122,7 +122,7 @@ public class Customer {
 		int result = 1;
 		result = prime * result + ((coupons == null) ? 0 : coupons.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((custName == null) ? 0 : custName.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((custPassword == null) ? 0 : custPassword.hashCode());
 		return result;
 	}
@@ -143,10 +143,10 @@ public class Customer {
 			return false;
 		if (id != other.id)
 			return false;
-		if (custName == null) {
-			if (other.custName != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!custName.equals(other.custName))
+		} else if (!name.equals(other.name))
 			return false;
 		if (custPassword == null) {
 			if (other.custPassword != null)

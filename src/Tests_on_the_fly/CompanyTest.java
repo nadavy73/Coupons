@@ -13,14 +13,14 @@ public class CompanyTest {
 
 		public static void main(String[] args) throws CouponException, AlreadyExistException, DoesNotExistException, SQLException 
 	{
-			createCompanyTest();
+//			createCompanyTest();
 //V			removeCompanyTest ();
 //V			removeCompanyByNameTest();
 //V			updateCompanyByNameTest();
 //			updateCompanyTest ();
 //			getCompanyByIdTest();
 //V			getCompanyByNameTest();
-//V 		getAllCompaniesTest();
+			getAllCompaniesTest();
 //V 		getCouponsTest();
 //V			loginTest ();
 //V			addCompanyCouponByIdTest();

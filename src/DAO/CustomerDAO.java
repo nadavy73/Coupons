@@ -12,19 +12,22 @@ public interface CustomerDAO
 	public long createCustomer (Customer customer)
 			throws AlreadyExistException, SQLException;
 	
-	public void removeCustomer (Customer customer)
+	public void removeCustomerById (Customer customer)
 			throws DoesNotExistException, SQLException;
 	
-	public void updateCustomerByName (String OldName, String NewName)
+	public void removeCustomerByName(String name) 
 			throws DoesNotExistException, SQLException;
-	
+			
+//	public void updateCustomerByName (String OldName, String NewName)
+//			throws DoesNotExistException, SQLException;
+//	
 	public void updateCustomer (Customer customer) 
 			throws DoesNotExistException, SQLException;
 	
 	public Customer getCustomerById (long custId)
 			throws DoesNotExistException, SQLException;
 	
-	public Customer getCustomerByName(String custName) 
+	public Customer getCustomerByName(String name) 
 			throws DoesNotExistException, SQLException;
 
 	public Collection<Customer> getAllCustomers ()
@@ -39,6 +42,9 @@ public interface CustomerDAO
 	public void AddCustomerCouponById(long custId, long couponId) 
 			throws AlreadyExistException, DoesNotExistException, SQLException;
 	
+	public void addCustomerCoupon(Customer customer, Coupon coupon)
+			throws DoesNotExistException, AlreadyExistException, SQLException;
+	
 	public void removeCustomerCouponsById(long custId, long couponId) 
 			throws DoesNotExistException, SQLException;
 	
@@ -47,5 +53,7 @@ public interface CustomerDAO
 
 	public Collection<Coupon> getAllCouponsThatCanPurches() throws DoesNotExistException,
 	SQLException;
+
+	
 }
 

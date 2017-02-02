@@ -9,7 +9,7 @@ import JavaBeans.*;
 public class Checks {
 
 	
-	public static boolean isCustomerExistByName(String custName) 
+	public static boolean isCustomerExistByName(String name) 
 	{
 		ResultSet rs=null;
 		
@@ -18,7 +18,7 @@ public class Checks {
 			String sql = "SELECT * FROM Customer WHERE CUST_NAME=?;"; 
 			
 			PreparedStatement stat = con.prepareStatement(sql);
-			stat.setString(1, custName);			
+			stat.setString(1, name);			
 			rs = stat.executeQuery();
 			
 			// If there is even one line in the response - it means the customer exists
@@ -41,7 +41,7 @@ public class Checks {
 
 	}
 	
-	public static boolean isCompanyExistByName(String compName)
+	public static boolean isCompanyExistByName(String name)
 	{
 
 		ResultSet rs=null;
@@ -50,7 +50,7 @@ public class Checks {
 			String sql = "SELECT * FROM Company WHERE COMP_NAME=?;"; 
 			
 			PreparedStatement stat = con.prepareStatement(sql);
-			stat.setString(1, compName);			
+			stat.setString(1, name);			
 			rs = stat.executeQuery();
 			
 			// If there is even one line in the response - it means the company exists
@@ -224,7 +224,7 @@ public class Checks {
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{
 				String sql =
-						"SELECT * FROM Customer_Coupon WHERE CustId= ? and CouponId=?;"; 
+						"SELECT * FROM Customer_Coupon WHERE CUST_ID= ? and COUPON_ID=?;"; 
 				PreparedStatement stat = con.prepareStatement(sql);
 					stat.setLong(1, custId);
 					stat.setLong(2, couponId);

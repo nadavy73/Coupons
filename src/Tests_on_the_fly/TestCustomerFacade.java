@@ -34,7 +34,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 	public static void TestLoginCustomer() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException
 	{
 		Customer customer= new Customer("Customer1020", "Custi9876");
-		custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
+		custFacade.login(customer.getName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 		// customer logged in successfully
 		
 	}
@@ -46,7 +46,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 		try {
 			CouponDAO Coup = new CouponDBDAO();
 			Customer customer= new Customer("Michael_Jordan", "Nautica");
-			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
+			custFacade.login(customer.getName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
 			Coupon coup1= Coup.getCouponById(41);
@@ -64,7 +64,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 		try {
 			
 			Customer customer= new Customer("Customer99", "BLA");
-			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
+			custFacade.login(customer.getName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
 			System.out.println(customer.toString()+ "\n"+ custFacade.getAllPurchasedCoupons());
@@ -80,7 +80,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 		try {
 			
 			Customer customer= new Customer("Customer23", "Custielel");
-			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
+			custFacade.login(customer.getName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
 			System.out.println(custFacade.getAllPurchasedCouponsByType(CouponType.Clothes));
@@ -97,7 +97,7 @@ public static void main(String[] args) throws LoginException, CustomerException,
 try {
 			
 			Customer customer= new Customer("Customer23", "Custielel");
-			custFacade.login(customer.getCustName(), customer.getPassWord(), ClientType.CUSTOMER) ;
+			custFacade.login(customer.getName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
 			System.out.println(custFacade.getAllPurchasedCouponsByMaxPrice(90));

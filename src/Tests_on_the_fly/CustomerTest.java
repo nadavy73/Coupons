@@ -19,11 +19,11 @@ public class CustomerTest {
 //	V	updateCustomerByNameTest();
 //	V	getCustomerByIdTest();
 //	V	getCustomerByNameTest();
-//		getAllCustomerTest();
+		getAllCustomerTest();
 //		getCouponsTest();
 //	V	LoginTest();
 //	V	AddCustomerCouponByIdTest();
-		RemoveCustomerCouponByIdTest();
+//		RemoveCustomerCouponByIdTest();
 		}
 		public static void CreateCustomerTest() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException
 		{
@@ -55,8 +55,8 @@ public class CustomerTest {
 			Customer cust= custDAO.getCustomerById(25);
 			try 
 				{
-				custDAO.removeCustomer(cust);
-				System.out.println("Customer " + cust.getCustName() + " was removed");
+				custDAO.removeCustomerById(cust);
+				System.out.println("Customer " + cust.getName() + " was removed");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -69,7 +69,7 @@ public class CustomerTest {
 			try 
 				{
 				custDAO.updateCustomer(cust1);
-				System.out.println("Customer " + "'"+cust1.getCustName()+"'" + " was Update");
+				System.out.println("Customer " + "'"+cust1.getName()+"'" + " was Update");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -82,8 +82,12 @@ public class CustomerTest {
 			Customer cust2= new Customer("Customer77", "Custi9876");
 			try 
 				{
-				custDAO.updateCustomerByName("Customer77","Customer1020");
-				System.out.println("Customer " + cust2.getCustName() + " was Updated");
+				System.out.println(cust2.getName());
+				cust2.setName("Customer88");
+				custDAO.updateCustomer(cust2);
+				System.out.println(cust2.getName());
+
+				System.out.println("Customer " + cust2.getName() + " was Updated");
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -92,7 +96,7 @@ public class CustomerTest {
 		
 		public static void getCustomerByIdTest() throws CouponException, AlreadyExistException, DoesNotExistException
 		{
-			CustomerDAO custDAO= new CustomerDBDAO();
+			CustomerDAO custDAO = new CustomerDBDAO();
 //			Customer cust1= new Customer("Custi", "Custi1234");
 //			Customer cust2= new Customer("Cutomer2", "Custi9876");
 			try 

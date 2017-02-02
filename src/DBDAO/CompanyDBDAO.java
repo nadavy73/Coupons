@@ -22,7 +22,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	public long createCompany(Company company) 
 			throws AlreadyExistException, SQLException
 		{
-			if (Checks.isCompanyExistByName(company.getCompName()))
+			if (Checks.isCompanyExistByName(company.getName()))
 				{
 				throw new AlreadyExistException
 				("Company Already Exist");
@@ -34,7 +34,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			String sql = 
 					"INSERT INTO Company(COMP_NAME,PASSWORD,EMAIL) VALUES (?,?,?)";
 				PreparedStatement stat = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				stat.setString(1, company.getCompName());
+				stat.setString(1, company.getName());
 				stat.setString(2, company.getPassword());
 				stat.setString(3, company.getEmail());
 				stat.executeUpdate();
@@ -90,16 +90,16 @@ public class CompanyDBDAO implements CompanyDAO {
 	//******************************************************
 	//This function gets Company Name and remove from DB
 	//******************************************************
-	public void removeCompanyByName(String compName) 
+	public void removeCompanyByName(String name) 
 			throws DoesNotExistException, SQLException 
 	
 	{
 		Connection con=null;
 		
-		if (!Checks.isCompanyExistByName(compName))
+		if (!Checks.isCompanyExistByName(name))
 		{
 			throw new DoesNotExistException
-			("Customer Does Not Exist");
+			("Company Does Not Exist");
 		}
 		
 		
@@ -112,7 +112,7 @@ public class CompanyDBDAO implements CompanyDAO {
 					"DELETE FROM COMPANY WHERE COMP_NAME = ?";
 				PreparedStatement stat= con.prepareStatement(sql);
 				stat = con.prepareStatement(sql);
-				stat.setString(1, compName);
+				stat.setString(1, name);
 				stat.executeUpdate();
 			
 			}
@@ -184,7 +184,7 @@ public class CompanyDBDAO implements CompanyDAO {
 					"UPDATE Company SET COMP_NAME=?, PASSWORD=?, EMAIL=? WHERE ID=?;";
 				
 				PreparedStatement stmt = con.prepareStatement(sql);
-				stmt.setString(1, company.getCompName());
+				stmt.setString(1, company.getName());
 				stmt.setString(2, company.getPassword());
 				stmt.setString(3, company.getEmail());
 				stmt.setLong(4, company.getId());
@@ -214,7 +214,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 		
 		Company company=null;
-		String compName, eMail,Password;
+		String name, email,password;
 		Collection<Coupon> coupons = null;
 		ResultSet rs=null;
 		
@@ -229,11 +229,11 @@ public class CompanyDBDAO implements CompanyDAO {
 			
 			rs.next();
 						
-			compName = rs.getString("COMP_NAME");
-			Password = rs.getString("PASSWORD");
-			eMail = rs.getString("EMAIL");
+			name = rs.getString("COMP_NAME");
+			password = rs.getString("PASSWORD");
+			email = rs.getString("EMAIL");
 			coupons = getCoupons(ID);
-			company = new Company(ID, compName, Password, eMail, coupons);
+			company = new Company(ID, name, password, email, coupons);
 			} 
 		catch (SQLException e) 
 			{
@@ -256,19 +256,18 @@ public class CompanyDBDAO implements CompanyDAO {
 	//Company all company details
 	//*******************************************************************************
 	@Override
-	public Company getCompanyByName(String compName) 
+	public Company getCompanyByName(String name) 
 			throws DoesNotExistException, SQLException
 	{
-		if (!Checks.isCompanyExistByName(compName))
+		if (!Checks.isCompanyExistByName(name))
 			{
 			throw new DoesNotExistException
 			("The company does not exist in db");
 			}
-		
-		String eMail,Password;
+		Company company=null;
+		String email,password;
 		long Id;
 		Collection <Coupon> coupons = null;
-		Company company=null;
 		Connection con= null;	
 		ResultSet rs=null;
 	
@@ -279,18 +278,18 @@ public class CompanyDBDAO implements CompanyDAO {
 		con=ConnectionPool.getInstance().getConnection();
 						
 		String sql = 
-						"SELECT * FROM Company WHERE COMP_NAME=?";
+						"SELECT * FROM COMPANY WHERE COMP_NAME=?";
 					PreparedStatement stat = con.prepareStatement(sql);
-					stat.setString(1, compName);
+					stat.setString(1, name);
 					rs = stat.executeQuery();
 		
 			rs.next();
 			Id = rs.getLong(1);
-			compName = rs.getString(2);
-			Password = rs.getString(3);
-			eMail = rs.getString(4);
+			name = rs.getString(2);
+			password = rs.getString(3);
+			email = rs.getString(4);
 			coupons = getCoupons(Id);
-			company = new Company(Id, compName, Password, eMail, coupons);
+			company = new Company(Id, name, password, email, coupons);
 		
 			}
 		catch (SQLException e) 
@@ -323,26 +322,26 @@ public class CompanyDBDAO implements CompanyDAO {
 	{
 		Collection<Company> companies = new HashSet<>();
 		Company company= null;
-		Collection <Coupon> coupons= null;
+		Collection<Coupon> coupons= null;
 		ResultSet rs = null;
-		String compName = null, eMail = null, password = null;
-		Long ID = null;
+		String name = null, email = null, password = null;
+		long ID;
 		
 		try (Connection con= ConnectionPool.getInstance().getConnection()) 
 			{
 			String sql = 
-					"SELECT * FROM company";
+					"SELECT * FROM COMPANY";
 				PreparedStatement stat = con.prepareStatement(sql);
 				rs = stat.executeQuery();
 
 			while (rs.next()) 
 				{
 				ID = rs.getLong("ID");
-				compName = rs.getString("COMP_NAME");
+				name = rs.getString("COMP_NAME");
 				password = rs.getString("PASSWORD");
-				eMail = rs.getString("EMAIL");
+				email = rs.getString("EMAIL");
 				coupons= getCoupons(ID);
-				company = new Company(ID, compName, password, eMail, coupons);
+				company = new Company(ID, name, password, email, coupons);
 				companies.add(company);
 				}
 			} 
@@ -397,6 +396,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			
 			while (rs.next())
 				{
+				// Generating Coupon
 				coupons.add(couponDB.getCouponById(rs.getLong("COUPON_ID")));
 				}
 			} 
@@ -419,7 +419,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	//Login function 
 	//****************************************
 	@Override
-	public boolean login(String compName, String password) 
+	public boolean login(String name, String password) 
 			throws SQLException {
 
 		ResultSet rs = null;
@@ -428,7 +428,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		try(Connection con=ConnectionPool.getInstance().getConnection())
 			{	
 				String sql = 
-					"SELECT Comp_name, password FROM company WHERE " + "Comp_name= '" + compName + "'" + " AND "
+					"SELECT Comp_name, password FROM company WHERE " + "Comp_name= '" + name + "'" + " AND "
 					+ "password= '" + password + "'";
 
 				PreparedStatement loginStat = con.prepareStatement(sql);
@@ -550,7 +550,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			throw new SQLException
 			("Error in connection to DATA BASE", e);
 			}
-	System.out.println("Coupon " + '"' + coupon.getTitle()+ '"' + "("+coupon.getId()+") was added to Company "+ company.getCompName()+ "("+ company.getId()+ ").");
+	System.out.println("Coupon " + '"' + coupon.getTitle()+ '"' + "("+coupon.getId()+") was added to Company "+ company.getName()+ "("+ company.getId()+ ").");
 
 	}
 	

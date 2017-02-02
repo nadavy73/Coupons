@@ -15,7 +15,7 @@ public interface CompanyDAO
 	public void removeCompanyById(Company company) 
 			throws DoesNotExistException, SQLException;
 	
-	public void removeCompanyByName (String compName)
+	public void removeCompanyByName (String name)
 			throws DoesNotExistException, SQLException;
 	
 //	public void updateCompanyByName(String OldName, String NewName)
@@ -27,7 +27,7 @@ public interface CompanyDAO
 	public Company getCompanyById(long ID) 
 			throws DoesNotExistException, SQLException;
 	
-	public Company getCompanyByName(String compName) 
+	public Company getCompanyByName(String name) 
 			throws DoesNotExistException, SQLException;
 
 	public Collection <Company> getAllCompanies() 
@@ -36,7 +36,7 @@ public interface CompanyDAO
 	public Collection<Coupon> getCoupons(long compID) 
 			throws DoesNotExistException, SQLException;
 	
-	public boolean login (String compName ,String password)
+	public boolean login (String name ,String password)
 			throws SQLException;
 	
 	public void addCompanyCouponById(long compId, long couponId) 
