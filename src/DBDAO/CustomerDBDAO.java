@@ -308,7 +308,7 @@ public class CustomerDBDAO implements CustomerDAO
 		Customer customer= null;
 		Collection<Coupon> coupons= null;
 		ResultSet rs = null;
-		String password = null, name = null;
+		String name = null, password=null;
 		long ID;
 		
 		
