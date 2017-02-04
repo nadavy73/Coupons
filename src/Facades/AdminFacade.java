@@ -111,22 +111,7 @@ public class AdminFacade
 			}
 	};
 	
-	//
-	//Get All Companies
-	//
-	public Collection<Company> getAllCompanies() 
-			throws AdminFacadeException, DoesNotExistException
-	{
-		try {
-			return CouponSystem.getInstance().getCompDAO().getAllCompanies();
-			} 
-		catch (SQLException e) 
-			{
-				throw new AdminFacadeException("AdminFacadeException - " 
-					+ "GetCompanyByName()");
-			}
-
-	};
+	
 	
 
 	
@@ -269,9 +254,28 @@ public class AdminFacade
 		catch (SQLException e) 
 			{
 				throw new AdminFacadeException("AdminFacadeException - " 
-					+ "getAllCustomers()");
+					+ "getAllCustomers");
 			}
 	};
+	
+	//
+	//Get All Companies
+	//
+	public Collection<Company> getAllCompanies() 
+			throws AdminFacadeException, DoesNotExistException
+	{
+		try {
+			return CouponSystem.getInstance().getCompDAO().getAllCompanies();
+			} 
+		catch (SQLException e) 
+			{
+				throw new AdminFacadeException("AdminFacadeException - " 
+					+ "getAllCompanies()");
+			}
+
+	};
+	
+	
 
 	
 	
