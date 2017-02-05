@@ -25,11 +25,11 @@ public class TestCustomerFacade {
 public static void main(String[] args) throws LoginException, CustomerException, CouponException, SQLException, DoesNotExistException, AlreadyExistException, CustomerFacadeException 
 {
 //	TestLoginCustomer();
-//	TestAddCoupon();
+	TestAddCoupon();
 //	TestGetAllPurchasedCoupons();
 //	TestgetAllPurchasedCouponsByType();
 //	TestgetAllPurchasedCouponsByPrice();
-	TestgetAllCouponsThatCanPurches();
+//	TestgetAllCouponsThatCanPurches();
 }
 	public static void TestLoginCustomer() throws CouponException, AlreadyExistException, DoesNotExistException, SQLException, LoginException, FacadeException
 	{
@@ -45,11 +45,11 @@ public static void main(String[] args) throws LoginException, CustomerException,
 		
 		try {
 			CouponDAO Coup = new CouponDBDAO();
-			Customer customer= new Customer("Michael_Jordan", "Nautica");
+			Customer customer= new Customer("d", "Aa1234");
 			custFacade.login(customer.getName(), customer.getPassWord(), ClientType.CUSTOMER) ;
 			// customer logged in successfully
 			
-			Coupon coup1= Coup.getCouponById(41);
+			Coupon coup1= Coup.getCouponById(1);
 			custFacade.purchaseCoupon(coup1.getId());
 			
 			} catch (FacadeException e) 

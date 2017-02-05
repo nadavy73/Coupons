@@ -49,10 +49,10 @@ public class CustomerFacade implements CouponClientFacade
 				}
 		}	
 	
-	public Coupon purchaseCoupon(long Couponid) 
+	public Coupon purchaseCoupon(long couponid) 
 			throws CustomerFacadeException, CouponException, DoesNotExistException, SQLException, AlreadyExistException
 	{
-		Coupon coupon = CouponSystem.getInstance().getCouponDAO().getCouponById(Couponid);
+		Coupon coupon = CouponSystem.getInstance().getCouponDAO().getCouponById(couponid);
 			try {
 				
 			} catch (Exception e) {
